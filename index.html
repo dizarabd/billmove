@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BillMove - Dashboard & Bill Management</title>
+    <title>BillMove - Complete Offline Suite</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
@@ -18,257 +18,363 @@
         .nav-item.active { color: var(--pink); font-weight: bold; }
         .nav-item i { font-size: 18px; display: block; margin-bottom: 2px; }
         
+        /* Screens & Sections */
+        .auth-screen { display: none; min-height: 100vh; background: #fff; padding-top: 40px; }
         .app-section { display: none; padding-top: 70px; }
-        .app-section.active { display: block; }
+        .active-block { display: block !important; }
         
         /* Header */
         .header-pink { background: linear-gradient(135deg, var(--pink), var(--dark-pink)); color: white; padding: 15px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 0 0 20px 20px; }
         
-        /* Dashboard UI */
+        /* UI Cards */
         .profile-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-top: 15px; }
-        .profile-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); box-shadow: 0 4px 10px rgba(226,19,110,0.2); }
+        .profile-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); box-shadow: 0 4px 10px rgba(226,19,110,0.2); }
         .stat-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); height: 100%; border-left: 4px solid var(--pink); }
-        
-        /* General Cards */
         .custom-card { border-radius: 15px; border: none; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 15px; margin-bottom: 15px; }
+        
+        /* Badges */
         .status-badge { font-size: 10px; padding: 4px 12px; border-radius: 50px; font-weight: 700; text-transform: uppercase; }
         .available { background: #e8f5e9; color: #2e7d32; }
         .used { background: #f5f5f5; color: #757575; }
         .expired { background: #ffebee; color: #c62828; }
-        
-        /* Form & Utilities */
-        .form-control, .form-select { border-radius: 10px; padding: 8px 12px; font-size: 14px; }
-        .btn-pink { background: var(--pink); color: white; border-radius: 50px; font-weight: bold; border: none; transition: 0.2s; }
-        .btn-pink:hover { background: var(--dark-pink); color: white; }
         .km-badge { background: #fff5f8; color: var(--pink); padding: 8px 15px; border-radius: 12px; border: 1px dashed var(--pink); font-weight: bold; display: inline-block; }
         
-        @media print { .no-print { display: none !important; } body { padding: 0; background: white; } .app-section.active { display: block; padding-top: 0; } .custom-card { box-shadow: none; border: 1px solid #eee; } }
+        /* Inputs & Buttons */
+        .form-control, .form-select { border-radius: 10px; padding: 10px 12px; font-size: 14px; border: 1px solid #e0e0e0; }
+        .form-control:focus, .form-select:focus { border-color: var(--pink); box-shadow: 0 0 0 0.25rem rgba(226,19,110,0.1); }
+        .btn-pink { background: var(--pink); color: white; border-radius: 50px; font-weight: bold; border: none; transition: 0.2s; padding: 12px; }
+        .btn-pink:hover { background: var(--dark-pink); color: white; }
+        
+        @media print { .no-print { display: none !important; } body { padding: 0; background: white; } .app-section.active-block { display: block; padding-top: 0; } .custom-card { box-shadow: none; border: 1px solid #eee; } }
     </style>
 </head>
 <body>
 
-    <div class="bottom-nav no-print">
-        <div class="nav-item active" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
-        <div class="nav-item" onclick="switchTab('add-bill')"><i class="fa fa-plus-circle"></i>বিল এন্ট্রি</div>
-        <div class="nav-item" onclick="switchTab('view-bills')"><i class="fa fa-file-invoice"></i>রিপোর্ট</div>
-        <div class="nav-item" onclick="switchTab('register')"><i class="fa fa-book"></i>খাতা ভিউ</div>
-        <div class="nav-item" onclick="switchTab('leaves')"><i class="fa fa-calendar-check"></i>ছুটি</div>
-        <div class="nav-item" onclick="switchTab('download')"><i class="fa fa-download"></i>ডাউনলোড</div>
+    <!-- ================= ১. রেজিস্ট্রেশন স্ক্রিন ================= -->
+    <div id="register-screen" class="auth-screen">
+        <div class="container px-4">
+            <div class="text-center mb-4">
+                <i class="fa fa-user-plus fa-3x text-danger mb-2"></i>
+                <h4 class="fw-bold">প্রোফাইল রেজিস্ট্রেশন</h4>
+                <p class="text-muted small">আপনার এই তথ্যের ওপর ভিত্তি করে সকল বিল ও রিপোর্ট তৈরি হবে</p>
+            </div>
+            <form id="regForm" onsubmit="handleRegistration(event)">
+                <div class="row g-2 mb-2">
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">পূর্ণ নাম</label>
+                        <input type="text" id="reg_name" class="form-control" placeholder="আব্দুল জব্বার" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">এমপ্লয়ী আইডি</label>
+                        <input type="text" id="reg_emp_id" class="form-control" placeholder="BM-2026" required>
+                    </div>
+                </div>
+                <div class="row g-2 mb-2">
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">পদবী</label>
+                        <input type="text" id="reg_desig" class="form-control" placeholder="সফটওয়্যার ইঞ্জিনিয়ার" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">মোবাইল নম্বর</label>
+                        <input type="tel" id="reg_phone" class="form-control" placeholder="01700000000" required>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="small fw-bold text-muted">কোম্পানির নাম</label>
+                    <input type="text" id="reg_company" class="form-control" placeholder="BillMove Technology Ltd." required>
+                </div>
+                <div class="row g-2 mb-2">
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">শাখার নাম</label>
+                        <input type="text" id="reg_branch" class="form-control" placeholder="খুলনা শাখা" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">এরিয়া/লাইন</label>
+                        <input type="text" id="reg_area" class="form-control" placeholder="Khulna Zone" required>
+                    </div>
+                </div>
+                <div class="row g-2 mb-2">
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">গাড়ির নম্বর</label>
+                        <input type="text" id="reg_veh_no" class="form-control" placeholder="KHULNA-12-3456" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="small fw-bold text-muted">লাইসেন্স নম্বর</label>
+                        <input type="text" id="reg_lic_no" class="form-control" placeholder="XYZ789654" required>
+                    </div>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-4">
+                        <label class="small fw-bold text-muted">প্রতি কিমি রেট</label>
+                        <input type="number" step="0.1" id="reg_km_rate" class="form-control" value="4.5" required>
+                    </div>
+                    <div class="col-4">
+                        <label class="small fw-bold text-muted">ডিএ (DA) রেট</label>
+                        <input type="number" id="reg_da_rate" class="form-control" value="150" required>
+                    </div>
+                    <div class="col-4">
+                        <label class="small fw-bold text-muted">বাইক এলাউন্স</label>
+                        <input type="number" id="reg_bike_allw" class="form-control" value="1100" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-pink w-100">প্রোফাইল তৈরি করুন</button>
+            </form>
+        </div>
     </div>
 
-    <div id="dashboard" class="app-section active">
-        <div class="header-pink d-flex align-items-center justify-content-between">
-            <h6 class="mb-0 fw-bold"><i class="fa fa-rocket me-2"></i>BillMove ড্যাশবোর্ড</h6>
-            <i class="fa fa-power-off fs-5" style="cursor:pointer;" onclick="logout()"></i>
-        </div>
-        <div class="container px-3">
-            <div class="profile-card">
-                <img id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
-                <h5 class="fw-bold mb-0" id="profile-name">আব্দুল জব্বার</h5>
-                <p class="text-muted small mb-0" id="profile-desig">সফটওয়্যার ইঞ্জিনিয়ার</p>
-                <span class="badge bg-dark mt-2" id="profile-id">ID: 202601</span>
-            </div>
+    <!-- ================= ২. লগইন স্ক্রিন ================= -->
+    <div id="login-screen" class="auth-screen">
+        <div class="container px-4 text-center" style="padding-top: 80px;">
+            <i class="fa fa-shield-alt fa-4x text-danger mb-3"></i>
+            <h3 class="fw-bold">BillMove লগইন</h3>
+            <p class="text-muted small mb-4">আপনার সিস্টেমে প্রবেশ করতে এমপ্লয়ী আইডি দিন</p>
             
-            <div class="row g-2 mt-2">
-                <div class="col-6">
-                    <div class="stat-card">
-                        <i class="fa fa-road text-muted mb-1"></i>
-                        <h4 class="fw-bold text-dark mb-0" id="dash-total-km">0</h4>
-                        <small class="text-muted small" style="font-size: 10px;">চলতি মাসের কি.মি.</small>
+            <div class="custom-card text-start shadow-sm">
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted mb-1">এমপ্লয়ী আইডি (ID)</label>
+                        <input type="text" id="login_id" class="form-control" placeholder="যেমন: BM-2026" required>
                     </div>
-                </div>
-                <div class="col-6">
-                    <div class="stat-card" style="border-left-color: #2e7d32;">
-                        <i class="fa fa-star text-muted mb-1"></i>
-                        <h4 class="fw-bold text-success mb-0" id="dash-active-leaves">0</h4>
-                        <small class="text-muted small" style="font-size: 10px;">অ্যাভেলেবল ছুটি</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="add-bill" class="app-section">
-        <div class="header-pink"><h6 class="mb-0 fw-bold">নতুন বিল যুক্ত করুন</h6></div>
-        <div class="container px-3 mt-3">
-            <div class="custom-card">
-                <form id="billForm" onsubmit="saveBill(event)">
-                    <div class="mb-2">
-                        <label class="small fw-bold text-muted mb-1">তারিখ</label>
-                        <input type="date" id="bill_date" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="row g-2 mb-2">
-                        <div class="col-6">
-                            <label class="small fw-bold text-muted mb-1">আউট টাইম</label>
-                            <input type="time" id="out_time" class="form-control form-control-sm" value="09:00">
-                        </div>
-                        <div class="col-6">
-                            <label class="small fw-bold text-muted mb-1">ইন টাইম</label>
-                            <input type="time" id="in_time" class="form-control form-control-sm" value="18:00">
-                        </div>
-                    </div>
-                    <div class="row g-2 mb-2">
-                        <div class="col-6">
-                            <label class="small fw-bold text-muted mb-1">শুরু KM</label>
-                            <input type="number" id="out_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
-                        </div>
-                        <div class="col-6">
-                            <label class="small fw-bold text-muted mb-1">শেষ KM</label>
-                            <input type="number" id="in_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <label class="small fw-bold text-muted mb-1">মোট কিলোমিটার</label>
-                        <input type="number" id="total_km" class="form-control form-control-sm readonly" readonly value="0">
-                    </div>
-                    <div class="mb-2">
-                        <label class="small fw-bold text-muted mb-1">পরিদর্শন এলাকা</label>
-                        <input type="text" id="visited_area" class="form-control form-control-sm" required placeholder="যেমন: খুলনা সিটি">
-                    </div>
-                    <div class="row g-2 mb-3">
-                        <div class="col-4">
-                            <label class="small text-muted" style="font-size:10px;">Breakfast</label>
-                            <input type="number" id="breakfast" class="form-control form-control-sm" value="0">
-                        </div>
-                        <div class="col-4">
-                            <label class="small text-muted" style="font-size:10px;">Lunch</label>
-                            <input type="number" id="lunch" class="form-control form-control-sm" value="0">
-                        </div>
-                        <div class="col-4">
-                            <label class="small text-muted" style="font-size:10px;">Dinner</label>
-                            <input type="number" id="dinner" class="form-control form-control-sm" value="0">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-pink w-100 py-2">সাবমিট করুন</button>
+                    <button type="submit" class="btn btn-pink w-100">লগইন করুন</button>
                 </form>
             </div>
+            <p class="small text-muted mt-3">ডিভাইস পরিবর্তন বা ডাটা রিসেট করতে চাইলে নতুন রেজিস্ট্রেশন করুন।</p>
         </div>
     </div>
 
-    <div id="view-bills" class="app-section">
-        <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট ও ফিল্টার</h6></div>
-        <div class="container px-3 mt-2">
-            <div class="custom-card py-2">
-                <div class="row g-2 align-items-end">
-                    <div class="col-5">
-                        <label class="text-muted small fw-bold">From:</label>
-                        <input type="date" id="filter_from" class="form-control form-control-sm" onchange="renderBillList()">
+
+    <!-- ================= ৩. মূল অ্যাপ্লিকেশন লেআউট (লগইন এর পর দেখাবে) ================= -->
+    <div id="app-layout" style="display: none;">
+        <!-- নিচে ফিক্সড নেভিগেশন বার (ট্যাব সিস্টেম) -->
+        <div class="bottom-nav no-print">
+            <div class="nav-item active" id="tab-dashboard" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
+            <div class="nav-item" id="tab-add-bill" onclick="switchTab('add-bill')"><i class="fa fa-plus-circle"></i>বিল এন্ট্রি</div>
+            <div class="nav-item" id="tab-view-bills" onclick="switchTab('view-bills')"><i class="fa fa-file-invoice"></i>রিপোর্ট</div>
+            <div class="nav-item" id="tab-register" onclick="switchTab('register')"><i class="fa fa-book"></i>খাতা ভিউ</div>
+            <div class="nav-item" id="tab-leaves" onclick="switchTab('leaves')"><i class="fa fa-calendar-check"></i>ছুটি</div>
+            <div class="nav-item" id="tab-download" onclick="switchTab('download')"><i class="fa fa-download"></i>ডাউনলোড</div>
+        </div>
+
+        <!-- ড্যাশবোর্ড ট্যাব -->
+        <div id="dashboard" class="app-section active-block">
+            <div class="header-pink d-flex align-items-center justify-content-between">
+                <h6 class="mb-0 fw-bold"><i class="fa fa-rocket me-2"></i>BillMove ড্যাশবোর্ড</h6>
+                <i class="fa fa-power-off fs-5" style="cursor:pointer;" onclick="logout()"></i>
+            </div>
+            <div class="container px-3">
+                <div class="profile-card">
+                    <img id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
+                    <h5 class="fw-bold mb-0" id="profile-name">---</h5>
+                    <p class="text-muted small mb-0" id="profile-desig">---</p>
+                    <span class="badge bg-dark mt-2" id="profile-id">ID: ---</span>
+                </div>
+                
+                <div class="row g-2 mt-2">
+                    <div class="col-6">
+                        <div class="stat-card">
+                            <i class="fa fa-road text-muted mb-1"></i>
+                            <h4 class="fw-bold text-dark mb-0" id="dash-total-km">0</h4>
+                            <small class="text-muted small" style="font-size: 10px;">চলতি মাসের কি.মি.</small>
+                        </div>
                     </div>
-                    <div class="col-5">
-                        <label class="text-muted small fw-bold">To:</label>
-                        <input type="date" id="filter_to" class="form-control form-control-sm" onchange="renderBillList()">
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-sm btn-pink w-100" onclick="renderBillList()"><i class="fa fa-sync"></i></button>
+                    <div class="col-6">
+                        <div class="stat-card" style="border-left-color: #2e7d32;">
+                            <i class="fa fa-star text-muted mb-1"></i>
+                            <h4 class="fw-bold text-success mb-0" id="dash-active-leaves">0</h4>
+                            <small class="text-muted small" style="font-size: 10px;">অ্যাভেলেবল ছুটি</small>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="text-center mb-3">
-                <div class="km-badge shadow-sm">
-                    <i class="fa fa-road me-1"></i> দূরত্ব: <span id="report-grand-km">0</span> KM
+        </div>
+
+        <!-- বিল এন্ট্রি ট্যাব -->
+        <div id="add-bill" class="app-section">
+            <div class="header-pink"><h6 class="mb-0 fw-bold">নতুন বিল যুক্ত করুন</h6></div>
+            <div class="container px-3 mt-3">
+                <div class="custom-card">
+                    <form id="billForm" onsubmit="saveBill(event)">
+                        <div class="mb-2">
+                            <label class="small fw-bold text-muted mb-1">তারিখ</label>
+                            <input type="date" id="bill_date" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">আউট টাইম</label>
+                                <input type="time" id="out_time" class="form-control form-control-sm" value="09:00">
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">ইন টাইম</label>
+                                <input type="time" id="in_time" class="form-control form-control-sm" value="18:00">
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">শুরু KM</label>
+                                <input type="number" id="out_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">শেষ KM</label>
+                                <input type="number" id="in_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="small fw-bold text-muted mb-1">মোট কিলোমিটার</label>
+                            <input type="number" id="total_km" class="form-control form-control-sm" readonly value="0">
+                        </div>
+                        <div class="mb-2">
+                            <label class="small fw-bold text-muted mb-1">পরিদর্শন এলাকা</label>
+                            <input type="text" id="visited_area" class="form-control form-control-sm" required placeholder="যেমন: খুলনা সিটি">
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <label class="small text-muted" style="font-size:10px;">Breakfast</label>
+                                <input type="number" id="breakfast" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="col-4">
+                                <label class="small text-muted" style="font-size:10px;">Lunch</label>
+                                <input type="number" id="lunch" class="form-control form-control-sm" value="0">
+                            </div>
+                            <div class="col-4">
+                                <label class="small text-muted" style="font-size:10px;">Dinner</label>
+                                <input type="number" id="dinner" class="form-control form-control-sm" value="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-pink w-100 py-2">সাবমিট করুন</button>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="fw-bold text-muted mb-0 small">আপনার ডাটা সমূহ</h6>
-                <button class="btn btn-xs btn-danger btn-sm rounded-pill" onclick="deleteSelectedBills()"><i class="fa fa-trash"></i> ডিলিট</button>
+        <!-- বিল রিপোর্ট ট্যাব -->
+        <div id="view-bills" class="app-section">
+            <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট ও ফিল্টার</h6></div>
+            <div class="container px-3 mt-2">
+                <div class="custom-card py-2">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-5">
+                            <label class="text-muted small fw-bold">From:</label>
+                            <input type="date" id="filter_from" class="form-control form-control-sm" onchange="renderBillList()">
+                        </div>
+                        <div class="col-5">
+                            <label class="text-muted small fw-bold">To:</label>
+                            <input type="date" id="filter_to" class="form-control form-control-sm" onchange="renderBillList()">
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-sm btn-pink w-100" onclick="renderBillList()"><i class="fa fa-sync"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mb-3">
+                    <div class="km-badge shadow-sm">
+                        <i class="fa fa-road me-1"></i> দূরত্ব: <span id="report-grand-km">0</span> KM
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="fw-bold text-muted mb-0 small">আপনার ডাটা সমূহ</h6>
+                    <button class="btn btn-xs btn-danger btn-sm rounded-pill" onclick="deleteSelectedBills()"><i class="fa fa-trash"></i> ডিলিট</button>
+                </div>
+
+                <div class="custom-card p-0 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle" style="font-size: 12px;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="10%"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
+                                    <th width="25%">তারিখ</th>
+                                    <th width="45%">এলাকা</th>
+                                    <th width="20%">কি.米.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bill-list-table"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="custom-card p-0 overflow-hidden">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0 align-middle" style="font-size: 12px;">
-                        <thead class="table-light">
+        <!-- রেজিস্টার ভিউ ট্যাব -->
+        <div id="register" class="app-section">
+            <div class="header-pink d-flex align-items-center justify-content-between">
+                <h6 class="mb-0 fw-bold">রেজিস্টার ভিউ (খাতা)</h6>
+                <button onclick="window.print()" class="btn btn-link text-white p-0 no-print"><i class="fa fa-print fs-5"></i></button>
+            </div>
+            <div class="container px-2 mt-2">
+                <div class="custom-card no-print py-2 mb-2">
+                    <label class="small fw-bold text-muted mb-1">মাস সিলেক্ট করুন</label>
+                    <input type="month" id="register_month" class="form-control form-control-sm" onchange="renderRegisterView()">
+                </div>
+                <div class="custom-card p-0 overflow-hidden">
+                    <table class="table mb-0 text-center" style="font-size:12px;">
+                        <thead style="background: #fce8f1; color: var(--pink);">
                             <tr>
-                                <th width="10%"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
-                                <th width="25%">তারিখ</th>
-                                <th width="45%">এলাকা</th>
-                                <th width="20%">কি.মি.</th>
+                                <th>তারিখ</th><th>শুরু KM</th><th>শেষ KM</th><th>মোট</th><th>এরিয়া</th>
                             </tr>
                         </thead>
-                        <tbody id="bill-list-table"></tbody>
+                        <tbody id="register-table-body"></tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="register" class="app-section">
-        <div class="header-pink d-flex align-items-center justify-content-between">
-            <h6 class="mb-0 fw-bold">রেজিস্টার ভিউ (খাতা)</h6>
-            <button onclick="window.print()" class="btn btn-link text-white p-0 no-print"><i class="fa fa-print fs-5"></i></button>
-        </div>
-        <div class="container px-2 mt-2">
-            <div class="custom-card no-print py-2 mb-2">
-                <label class="small fw-bold text-muted mb-1">মাস সিলেক্ট করুন</label>
-                <input type="month" id="register_month" class="form-control form-control-sm" onchange="renderRegisterView()">
-            </div>
-            <div class="custom-card p-0 overflow-hidden">
-                <table class="table mb-0 text-center" style="font-size:12px;">
-                    <thead style="background: #fce8f1; color: var(--pink);">
-                        <tr>
-                            <th>তারিখ</th><th>শুরু KM</th><th>শেষ KM</th><th>মোট</th><th>এরিয়া</th>
-                        </tr>
-                    </thead>
-                    <tbody id="register-table-body"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="leaves" class="app-section">
-        <div class="header-pink"><h6 class="mb-0 fw-bold">রিপ্লেস ছুটি ম্যানেজমেন্ট</h6></div>
-        <div class="container px-3 mt-2">
-            <div class="custom-card py-3 mb-2">
-                <form onsubmit="addManualLeave(event)" class="row g-2 align-items-end">
-                    <div class="col-8">
-                        <label class="small fw-bold text-muted mb-1">ম্যানুয়াল ছুটি যোগ করুন</label>
-                        <input type="date" id="manual_leave_date" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-sm btn-dark w-100 rounded-pill py-2">যোগ করুন</button>
-                    </div>
-                </form>
-            </div>
-            <div class="custom-card py-2 mb-2">
-                <label class="small fw-bold text-muted mb-1">মাস অনুযায়ী সার্চ</label>
-                <input type="month" id="leave_filter_month" class="form-control form-control-sm" onchange="renderLeavesList()">
-            </div>
-            <div class="custom-card p-0 overflow-hidden">
-                <table class="table mb-0 align-middle" style="font-size:12px;">
-                    <thead class="table-light">
-                        <tr>
-                            <th>ডিউটি তারিখ</th><th>স্ট্যাটাস</th><th class="text-end">অ্যাকশন</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaves-table-body"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="download" class="app-section">
-        <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট জেনারেট</h6></div>
-        <div class="container px-3 mt-3">
-            <div class="custom-card text-center py-4">
-                <i class="fa fa-file-pdf fa-4x text-danger mb-3"></i>
-                <h6 class="fw-bold">অফলাইন রিপোর্ট প্রিন্ট করুন</h6>
-                <p class="text-muted small">গিটহাব পেজেস থেকে সরাসরি ব্রাউজারের প্রিন্ট লেআউটে ডাটা জেনারেট হবে</p>
-                
-                <div class="text-start mb-3">
-                    <label class="form-label small fw-bold text-muted">মাস নির্বাচন করুন</label>
-                    <input type="month" id="download_month" class="form-control" value="2026-06">
+        <!-- ছুটি ম্যানেজমেন্ট ট্যাব -->
+        <div id="leaves" class="app-section">
+            <div class="header-pink"><h6 class="mb-0 fw-bold">রিপ্লেস ছুটি ম্যানেজমেন্ট</h6></div>
+            <div class="container px-3 mt-2">
+                <div class="custom-card py-3 mb-2">
+                    <form onsubmit="addManualLeave(event)" class="row g-2 align-items-end">
+                        <div class="col-8">
+                            <label class="small fw-bold text-muted mb-1">ম্যানুয়াল ছুটি যোগ করুন</label>
+                            <input type="date" id="manual_leave_date" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-sm btn-dark w-100 rounded-pill py-2">যোগ করুন</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="text-start mb-4">
-                    <label class="form-label small fw-bold text-muted">রিপোর্টের ধরন</label>
-                    <select id="download_report_type" class="form-select">
-                        <option value="log_sheet">Motor Bike Log Sheet</option>
-                        <option value="tada_bill">TA / DA Bill</option>
-                    </select>
+                <div class="custom-card py-2 mb-2">
+                    <label class="small fw-bold text-muted mb-1">মাস অনুযায়ী সার্চ</label>
+                    <input type="month" id="leave_filter_month" class="form-control form-control-sm" onchange="renderLeavesList()">
                 </div>
-                <button class="btn btn-pink w-100 py-3" onclick="triggerReportPrint()">
-                    <i class="fa fa-print me-2"></i> রিপোর্ট ভিউ ও প্রিন্ট করুন
-                </button>
+                <div class="custom-card p-0 overflow-hidden">
+                    <table class="table mb-0 align-middle" style="font-size:12px;">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ডিউটি তারিখ</th><th>স্ট্যাটাস</th><th class="text-end">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaves-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ডাউনলোড ট্যাব -->
+        <div id="download" class="app-section">
+            <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট জেনারেট</h6></div>
+            <div class="container px-3 mt-3">
+                <div class="custom-card text-center py-4">
+                    <i class="fa fa-file-pdf fa-4x text-danger mb-3"></i>
+                    <h6 class="fw-bold">অফলাইন রিপোর্ট প্রিন্ট করুন</h6>
+                    <p class="text-muted small">গিটহাব পেজেস থেকে সরাসরি কাস্টম রেটে পিডিএফ ও প্রিন্ট লেআউট তৈরি করুন</p>
+                    
+                    <div class="text-start mb-3">
+                        <label class="form-label small fw-bold text-muted">মাস নির্বাচন করুন</label>
+                        <input type="month" id="download_month" class="form-control">
+                    </div>
+                    <div class="text-start mb-4">
+                        <label class="form-label small fw-bold text-muted">রিপোর্টের ধরন</label>
+                        <select id="download_report_type" class="form-select">
+                            <option value="log_sheet">Motor Bike Log Sheet</option>
+                            <option value="tada_bill">TA / DA Bill</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-pink w-100 py-3" onclick="triggerReportPrint()">
+                        <i class="fa fa-print me-2"></i> রিপোর্ট ভিউ ও প্রিন্ট করুন
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -277,57 +383,101 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // আপনার ছবিকে কোডের মধ্যে সরাসরি স্থায়ী রাখার জন্য Base64 স্ট্র্রিং ট্রিক ব্যবহার করা হয়েছে
-        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAQAAwADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAf/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAfbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//2Q==";
+        // owner.jpg ইমেজ রেফারেন্স ট্রিক
+        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAQAAwADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAf/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAfbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//2Q==";
 
-        // ১. ডিফল্ট ডাটাবেজ ইনিশিয়ালাইজেশন (লোকাল স্টোরেজ)
+        // লোকাল মেমোরি চেক
         if(!localStorage.getItem('bills')) localStorage.setItem('bills', JSON.stringify([]));
         if(!localStorage.getItem('leaves')) localStorage.setItem('leaves', JSON.stringify([]));
-        
-        // ডিফল্ট ইউজার প্রোফাইল রেট কনফিগ
-        const defaultUser = {
-            id: "202601",
-            full_name: "আব্দুল জব্বার",
-            designation: "সফটওয়্যার ইঞ্জিনিয়ার",
-            company_name: "BillMove Technology Ltd.",
-            branch_name: "খুলনা শাখা",
-            vehicle_no: "KHULNA-Metro-12-3456",
-            license_no: "XYZ789654",
-            area_line: "Khulna Zone",
-            phone_no: "01700000000",
-            employee_id: "BM-2026",
-            da_rate: 150,      // Default DA Rate
-            per_km_rate: 4.5,  // Per KM Rate
-            bike_allowance: 1100
-        };
 
-        // পেজ লোড হওয়া মাত্রই চালু হবে
         window.onload = function() {
             document.getElementById('user-avatar').src = ownerImageBase64;
-            
-            // ডিফল্ট কারেন্ট ডেট সেট করা
-            const today = new Date();
-            const yearMonth = today.toISOString().substring(0, 7);
-            document.getElementById('bill_date').value = today.toISOString().substring(0, 10);
-            document.getElementById('filter_from').value = yearMonth + "-01";
-            document.getElementById('filter_to').value = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().substring(0, 10);
-            document.getElementById('register_month').value = yearMonth;
-            document.getElementById('leave_filter_month').value = yearMonth;
-            document.getElementById('download_month').value = yearMonth;
-
-            // অটো রান প্রসেসসমূহ
-            syncFridayLeaves();
-            autoExpireLeaves();
-            updateDashboardStats();
+            initDates();
+            checkAuthFlow();
         };
 
-        // ট্যাব সুইচিং মেকানিজম
+        // সেশন ও অথেন্টিকেশন গেটওয়ে
+        function checkAuthFlow() {
+            const user = JSON.parse(localStorage.getItem('user_profile'));
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+
+            // সব স্ক্রিন আগে হাইড করি
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app-layout').style.display = 'none';
+
+            if(!user) {
+                // ইউজার না থাকলে প্রথমবার রেজিস্ট্রেশন ফর্ম
+                document.getElementById('register-screen').classList.add('active-block');
+            } else if(!isLoggedIn) {
+                // রেজিস্টার্ড কিন্তু লগইন করা নাই
+                document.getElementById('login-screen').classList.add('active-block');
+            } else {
+                // সব কমপ্লিট থাকলে অ্যাপ মেইন ড্যাশবোর্ড ওপেন
+                document.getElementById('app-layout').style.display = 'block';
+                loadUserProfileData(user);
+                syncFridayLeaves();
+                autoExpireLeaves();
+                updateDashboardStats();
+            }
+        }
+
+        // রেজিস্ট্রেশন সাবমিট হ্যান্ডলার
+        function handleRegistration(e) {
+            e.preventDefault();
+            const profile = {
+                full_name: document.getElementById('reg_name').value,
+                employee_id: document.getElementById('reg_emp_id').value,
+                designation: document.getElementById('reg_desig').value,
+                phone_no: document.getElementById('reg_phone').value,
+                company_name: document.getElementById('reg_company').value,
+                branch_name: document.getElementById('reg_branch').value,
+                area_line: document.getElementById('reg_area').value,
+                vehicle_no: document.getElementById('reg_veh_no').value,
+                license_no: document.getElementById('reg_lic_no').value,
+                per_km_rate: parseFloat(document.getElementById('reg_km_rate').value) || 4.5,
+                da_rate: parseFloat(document.getElementById('reg_da_rate').value) || 150,
+                bike_allowance: parseFloat(document.getElementById('reg_bike_allw').value) || 1100
+            };
+
+            localStorage.setItem('user_profile', JSON.stringify(profile));
+            sessionStorage.setItem('isLoggedIn', 'true');
+            
+            Swal.fire('রেজিস্ট্রেশন সফল', 'আপনার তথ্যের প্রোফাইল সাকসেসফুলি তৈরি হয়েছে!', 'success').then(() => {
+                checkAuthFlow();
+            });
+        }
+
+        // লগইন সাবমিট হ্যান্ডলার
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = JSON.parse(localStorage.getItem('user_profile'));
+            const inputId = document.getElementById('login_id').value;
+
+            if(user && user.employee_id === inputId) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                Swal.fire('স্বাগতম', 'লগইন সফল হয়েছে!', 'success').then(() => {
+                    checkAuthFlow();
+                });
+            } else {
+                Swal.fire('ভুল আইডি', 'প্রদত্ত এমপ্লয়ী আইডিটি ম্যাচ করেনি!', 'error');
+            }
+        }
+
+        // ইউজারের প্রোফাইল ডাটা ড্যাশবোর্ডে সেট করা
+        function loadUserProfileData(user) {
+            document.getElementById('profile-name').innerText = user.full_name;
+            document.getElementById('profile-desig').innerText = user.designation;
+            document.getElementById('profile-id').innerText = `ID: ${user.employee_id}`;
+        }
+
+        // ট্যাব ম্যানেজমেন্ট লজিক
         function switchTab(tabId) {
-            document.querySelectorAll('.app-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.app-section').forEach(sec => sec.classList.remove('active-block'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active-block');
+            document.getElementById('tab-' + tabId).classList.add('active');
 
             if(tabId === 'dashboard') updateDashboardStats();
             if(tabId === 'view-bills') renderBillList();
@@ -335,15 +485,14 @@
             if(tabId === 'leaves') renderLeavesList();
         }
 
-        // ২. কিলোমিটার ক্যালকুলেশন লজিক
+        // বিল ক্যালকুলেশন
         function calcKm() {
             const outKm = parseFloat(document.getElementById('out_km').value) || 0;
             const inKm = parseFloat(document.getElementById('in_km').value) || 0;
-            const total = inKm >= outKm ? inKm - outKm : 0;
-            document.getElementById('total_km').value = total;
+            document.getElementById('total_km').value = inKm >= outKm ? inKm - outKm : 0;
         }
 
-        // ৩. নতুন বিল সেভ করার মেকানিজম
+        // বিল সেভ
         function saveBill(e) {
             e.preventDefault();
             let bills = JSON.parse(localStorage.getItem('bills'));
@@ -359,35 +508,30 @@
                 visited_area: document.getElementById('visited_area').value,
                 breakfast: parseFloat(document.getElementById('breakfast').value) || 0,
                 lunch: parseFloat(document.getElementById('lunch').value) || 0,
-                dinner: parseFloat(document.getElementById('dinner').value) || 0,
-                remarks: "Ok"
+                dinner: parseFloat(document.getElementById('dinner').value) || 0
             };
 
-            // ইউনিক ডেট চেক করা
             if(bills.some(b => b.bill_date === newBill.bill_date)) {
-                Swal.fire('সতর্কবার্তা', 'এই তারিখের বিল অলরেডি যুক্ত আছে!', 'warning');
+                Swal.fire('দুঃখিত', 'এই তারিখের বিল ইতিমধ্যে এন্ট্রি করা আছে!', 'warning');
                 return;
             }
 
             bills.push(newBill);
             localStorage.setItem('bills', JSON.stringify(bills));
-            
-            // অটো সিঙ্ক ট্রিগার
             syncFridayLeaves();
             
-            Swal.fire('সফল!', 'বিলটি সফলভাবে অফলাইনে যোগ হয়েছে!', 'success').then(() => {
+            Swal.fire('সফল', 'বিল রেকর্ড সেভ হয়েছে!', 'success').then(() => {
                 document.getElementById('billForm').reset();
                 switchTab('view-bills');
             });
         }
 
-        // ৪. বিল রিপোর্ট রেন্ডারিং ও সামেশন লজিক
+        // রিপোর্ট মেকার লিস্ট
         function renderBillList() {
             const fromDate = document.getElementById('filter_from').value;
             const toDate = document.getElementById('filter_to').value;
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             
-            // ফিল্টারিং
             let filtered = bills.filter(b => b.bill_date >= fromDate && b.bill_date <= toDate);
             filtered.sort((a,b) => new Date(b.bill_date) - new Date(a.bill_date));
 
@@ -400,284 +544,210 @@
                     <tr>
                         <td><input type="checkbox" name="bill_ids" value="${b.id}" class="form-check-input"></td>
                         <td><strong>${b.bill_date}</strong></td>
-                        <td><span class="text-wrap">${b.visited_area}</span></td>
+                        <td>${b.visited_area}</td>
                         <td class="fw-bold text-primary">${b.total_km}</td>
                     </tr>
                 `;
             });
 
-            if(filtered.length === 0) {
-                html = `<tr><td colspan="4" class="text-center py-4 text-muted">কোনো বিল ডাটা পাওয়া যায়নি।</td></tr>`;
-            }
-
-            document.getElementById('bill-list-table').innerHTML = html;
+            document.getElementById('bill-list-table').innerHTML = html || `<tr><td colspan="4" class="text-center py-3 text-muted">কোনো বিল পাওয়া যায়নি</td></tr>`;
             document.getElementById('report-grand-km').innerText = totalKm.toFixed(1);
         }
 
-        // ৫. মাল্টিপল ডিলিট মেকানিজম
         function toggleSelectAll(master) {
             document.getElementsByName('bill_ids').forEach(cb => cb.checked = master.checked);
         }
 
         function deleteSelectedBills() {
             let checkedBoxes = document.querySelectorAll('input[name="bill_ids"]:checked');
-            if(checkedBoxes.length === 0) {
-                Swal.fire('দুঃখিত', 'দয়া করে অন্তত একটি বিল সিলেক্ট করুন।', 'info');
-                return;
-            }
+            if(checkedBoxes.length === 0) return;
 
             Swal.fire({
-                title: 'আপনি কি নিশ্চিত?',
-                text: `${checkedBoxes.length}টি বিল স্থায়ীভাবে মুছে ফেলা হবে!`,
+                title: 'ডিলিট করতে চান?',
+                text: "নির্বাচিত বিলগুলো স্থায়ীভাবে মুছে যাবে!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#e2136e',
-                confirmButtonText: 'হ্যাঁ, ডিলিট করুন'
+                confirmButtonText: 'হ্যাঁ'
             }).then((res) => {
                 if(res.isConfirmed) {
                     let bills = JSON.parse(localStorage.getItem('bills'));
-                    let idsToDelete = Array.from(checkedBoxes).map(cb => parseFloat(cb.value));
-                    
-                    bills = bills.filter(b => !idsToDelete.includes(b.id));
+                    let ids = Array.from(checkedBoxes).map(cb => parseFloat(cb.value));
+                    bills = bills.filter(b => !ids.includes(b.id));
                     localStorage.setItem('bills', JSON.stringify(bills));
-                    
-                    Swal.fire('মুছে ফেলা হয়েছে!', 'বিল সফলভাবে ডিলিট হয়েছে।', 'success');
                     renderBillList();
                 }
             });
         }
 
-        // ৬. রেজিস্টার ভিউ (খাতা জেনারেটর)
+        // খাতা জেনারেটর
         function renderRegisterView() {
             const month = document.getElementById('register_month').value;
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            
-            let filtered = bills.filter(b => b.bill_date.startsWith(month));
-            filtered.sort((a,b) => new Date(a.bill_date) - new Date(b.bill_date));
+            let filtered = bills.filter(b => b.bill_date.startsWith(month)).sort((a,b) => new Date(a.bill_date) - new Date(b.bill_date));
 
             let html = "";
             filtered.forEach(b => {
-                html += `
-                    <tr>
-                        <td><strong>${b.bill_date}</strong></td>
-                        <td><span class="km-badge">${b.out_km || '-'}</span></td>
-                        <td><span class="km-badge">${b.in_km || '-'}</span></td>
-                        <td class="total-km text-danger fw-bold">${b.total_km}</td>
-                        <td><span class="area-name">${b.visited_area}</span></td>
-                    </tr>
-                `;
+                html += `<tr><td>${b.bill_date}</td><td>${b.out_km}</td><td>${b.in_km}</td><td class="text-danger fw-bold">${b.total_km}</td><td>${b.visited_area}</td></tr>`;
             });
-
-            if(filtered.length === 0) {
-                html = `<tr><td colspan="5" class="text-center py-4 text-muted">এই মাসে কোনো রেকর্ড নেই।</td></tr>`;
-            }
-            document.getElementById('register-table-body').innerHTML = html;
+            document.getElementById('register-table-body').innerHTML = html || `<tr><td colspan="5" class="py-3 text-muted">কোনো রেকর্ড নেই</td></tr>`;
         }
 
-        // ৭. শুক্রবারের ছুটির অটো-সিঙ্ক (Auto-Sync from bills)
+        // ছুটি সিঙ্ক
         function syncFridayLeaves() {
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
 
             bills.forEach(b => {
-                let day = new Date(b.bill_date).getDay();
-                // ৫ মানে শুক্রবার (Sunday = 0, Friday = 5)
-                if(day === 5) {
-                    // যদি ইতিমধ্যে ছুটি লিস্টে এই ডেট না থাকে
-                    if(!leaves.some(l => l.duty_date === b.bill_date)) {
-                        let exp = new Date(b.bill_date);
-                        exp.setMonth(exp.getMonth() + 3); // ৩ মাসের মেয়াদ
-                        
-                        leaves.push({
-                            id: Date.now() + Math.random(),
-                            duty_date: b.bill_date,
-                            expiry_date: exp.toISOString().substring(0, 10),
-                            status: 'Available',
-                            used_date: ''
-                        });
-                    }
+                if(new Date(b.bill_date).getDay() === 5 && !leaves.some(l => l.duty_date === b.bill_date)) {
+                    let exp = new Date(b.bill_date);
+                    exp.setMonth(exp.getMonth() + 3);
+                    leaves.push({ id: Date.now() + Math.random(), duty_date: b.bill_date, expiry_date: exp.toISOString().substring(0, 10), status: 'Available', used_date: '' });
                 }
             });
             localStorage.setItem('leaves', JSON.stringify(leaves));
         }
 
-        // ৮. ৩ মাস অতিক্রান্ত ছুটির অটো-এক্সপায়ারি লজিক
         function autoExpireLeaves() {
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            const todayStr = new Date().toISOString().substring(0, 10);
-
-            leaves.forEach(l => {
-                if(l.status === 'Available' && l.expiry_date < todayStr) {
-                    l.status = 'Expired';
-                }
-            });
+            const today = new Date().toISOString().substring(0, 10);
+            leaves.forEach(l => { if(l.status === 'Available' && l.expiry_date < today) l.status = 'Expired'; });
             localStorage.setItem('leaves', JSON.stringify(leaves));
         }
 
-        // ম্যানুয়াল ছুটি যোগ করার লজিক
         function addManualLeave(e) {
             e.preventDefault();
-            const dutyDate = document.getElementById('manual_leave_date').value;
+            const date = document.getElementById('manual_leave_date').value;
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            if(leaves.some(l => l.duty_date === date)) return;
 
-            if(leaves.some(l => l.duty_date === dutyDate)) {
-                Swal.fire('সতর্কতা', 'এই তারিখের ছুটি ইতিমধ্যে যুক্ত আছে!', 'warning');
-                return;
-            }
-
-            let exp = new Date(dutyDate);
+            let exp = new Date(date);
             exp.setMonth(exp.getMonth() + 3);
-
-            leaves.push({
-                id: Date.now(),
-                duty_date: dutyDate,
-                expiry_date: exp.toISOString().substring(0, 10),
-                status: 'Available',
-                used_date: ''
-            });
-
+            leaves.push({ id: Date.now(), duty_date: date, expiry_date: exp.toISOString().substring(0, 10), status: 'Available', used_date: '' });
             localStorage.setItem('leaves', JSON.stringify(leaves));
-            Swal.fire('সফল!', 'ম্যানুয়াল ছুটি যোগ হয়েছে!', 'success');
             renderLeavesList();
         }
 
-        // ছুটি কাটানো এবং লিস্ট প্রদর্শন
         function renderLeavesList() {
-            const filterMonth = document.getElementById('leave_filter_month').value;
+            const m = document.getElementById('leave_filter_month').value;
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            
-            let filtered = leaves.filter(l => l.duty_date.startsWith(filterMonth));
-            filtered.sort((a,b) => new Date(b.duty_date) - new Date(a.duty_date));
+            let filtered = leaves.filter(l => l.duty_date.startsWith(m)).sort((a,b) => new Date(b.duty_date) - new Date(a.duty_date));
 
             let html = "";
             filtered.forEach(l => {
-                let actionBtn = l.status === 'Available' ? 
-                    `<button class="btn btn-xs btn-outline-success btn-sm rounded-pill" onclick="useLeave(${l.id})">কাটান</button>` : 
-                    `<small class="text-muted">${l.used_date ? 'কাটানো: ' + l.used_date : '-'}</small>`;
-                
-                html += `
-                    <tr>
-                        <td>
-                            <strong>${l.duty_date}</strong><br>
-                            <small class="text-muted">মেয়াদ: ${l.expiry_date}</small>
-                        </td>
-                        <td><span class="status-badge ${l.status.toLowerCase()}">${l.status}</span></td>
-                        <td class="text-end">${actionBtn}</td>
-                    </tr>
-                `;
+                let btn = l.status === 'Available' ? `<button class="btn btn-xs btn-outline-success btn-sm" onclick="useLeave(${l.id})">কাটান</button>` : `<small>${l.used_date || '-'}</small>`;
+                html += `<tr><td><strong>${l.duty_date}</strong><br><small class="text-muted">Expiry: ${l.expiry_date}</small></td><td><span class="status-badge ${l.status.toLowerCase()}">${l.status}</span></td><td class="text-end">${btn}</td></tr>`;
             });
-
-            if(filtered.length === 0) {
-                html = `<tr><td colspan="3" class="text-center py-4 text-muted">কোনো ছুটির রেকর্ড পাওয়া যায়নি।</td></tr>`;
-            }
-            document.getElementById('leaves-table-body').innerHTML = html;
+            document.getElementById('leaves-table-body').innerHTML = html || `<tr><td colspan="3" class="text-center py-3">কোনো ছুটির ডাটা নেই</td></tr>`;
         }
 
         function useLeave(id) {
-            Swal.fire({
-                title: 'ছুটি কাটাতে চান?',
-                text: "আপনি কি নিশ্চিত যে এই রিপ্লেসমেন্ট ছুটিটি ব্যবহার করবেন?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#2e7d32',
-                confirmButtonText: 'হ্যাঁ, কাটান!'
-            }).then(res => {
-                if(res.isConfirmed) {
-                    let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-                    let leave = leaves.find(l => l.id === id);
-                    if(leave) {
-                        leave.status = 'Used';
-                        leave.used_date = new Date().toISOString().substring(0, 10);
-                    }
-                    localStorage.setItem('leaves', JSON.stringify(leaves));
-                    Swal.fire('সফল!', 'ছুটি সফলভাবে কাটানো হয়েছে!', 'success');
-                    renderLeavesList();
-                }
-            });
+            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            let leave = leaves.find(l => l.id === id);
+            if(leave) { leave.status = 'Used'; leave.used_date = new Date().toISOString().substring(0, 10); }
+            localStorage.setItem('leaves', JSON.stringify(leaves));
+            renderLeavesList();
         }
 
-        // ৯. ড্যাশবোর্ড স্ট্যাটাস রিয়েল-টাইম আপডেট
+        // ড্যাশবোর্ড আপডেট
         function updateDashboardStats() {
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            
-            const currentMonthStr = new Date().toISOString().substring(0, 7);
+            const currentMonth = new Date().toISOString().substring(0, 7);
 
-            // চলতি মাসের মোট কিমি
-            let monthKm = bills.filter(b => b.bill_date.startsWith(currentMonthStr)).reduce((sum, b) => sum + b.total_km, 0);
-            document.getElementById('dash-total-km').innerText = monthKm.toFixed(1);
-
-            // মোট অ্যাভেলেবল ছুটি
-            let activeLeaves = leaves.filter(l => l.status === 'Available').length;
-            document.getElementById('dash-active-leaves').innerText = activeLeaves;
+            let km = bills.filter(b => b.bill_date.startsWith(currentMonth)).reduce((s, b) => s + b.total_km, 0);
+            document.getElementById('dash-total-km').innerText = km.toFixed(1);
+            document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
         }
 
-        // ১০. অফলাইন প্রিন্ট এবং PDF মেকানিজম ট্রিক (গিটহাব ফ্রেন্ডলি)
+        // ক্লায়েন্ট সাইড কাস্টম প্রিন্ট রিপোর্ট গেটওয়ে
         function triggerReportPrint() {
+            const user = JSON.parse(localStorage.getItem('user_profile'));
             const m = document.getElementById('download_month').value;
             const type = document.getElementById('download_report_type').value;
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            
-            let filtered = bills.filter(b => b.bill_date.startsWith(m));
-            
+            let filtered = bills.filter(b => b.bill_date.startsWith(m)).sort((a,b) => new Date(a.bill_date) - new Date(b.bill_date));
+
             if(filtered.length === 0) {
-                Swal.fire('দুঃখিত', 'এই মাসে প্রিন্ট করার মতো কোনো বিল ডাটা নেই!', 'info');
+                Swal.fire('দুঃখিত', 'এই মাসে কোনো বিল পাওয়া যায়নি!', 'info');
                 return;
             }
 
-            // ব্রাউজার প্রিন্ট উইন্ডো ট্রিগার লজিক
-            let printWindow = window.open('', '_blank');
-            let content = `
+            let pWin = window.open('', '_blank');
+            let totalBikeTa = 0;
+            let totalDa = 0;
+            let totalMeals = 0;
+
+            let rowsHtml = "";
+            filtered.forEach(b => {
+                let bikeTa = b.total_km * user.per_km_rate;
+                let daVal = (b.total_km > 0 || b.visited_area) ? user.da_rate : 0;
+                let mealVal = (b.breakfast || 0) + (b.lunch || 0) + (b.dinner || 0);
+
+                totalBikeTa += bikeTa;
+                totalDa += daVal;
+                totalMeals += mealVal;
+
+                rowsHtml += `
+                    <tr>
+                        <td>${b.bill_date}</td>
+                        <td>${b.visited_area}</td>
+                        <td>${b.total_km} KM</td>
+                        <td>${type === 'log_sheet' ? (b.out_time + ' - ' + b.in_time) : (bikeTa.toFixed(0) + ' TK')}</td>
+                        ${type === 'tada_bill' ? `<td>${daVal}</td><td>${mealVal}</td>` : ''}
+                    </tr>`;
+            });
+
+            let netPayable = totalBikeTa + totalDa + totalMeals + (type === 'tada_bill' ? user.bike_allowance : 0);
+
+            let printContent = `
                 <html>
                 <head>
                     <title>Report_${m}</title>
                     <style>
-                        body { font-family: Arial, sans-serif; font-size: 11px; padding: 20px; }
-                        .company { font-size: 16px; font-weight: bold; text-align: center; }
-                        .title { font-size: 12px; font-weight: bold; text-align: center; text-decoration: underline; margin-bottom: 20px; }
-                        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                        th, td { border: 1px solid black; padding: 5px; text-align: center; }
-                        th { background-color: #f2f2f2; }
+                        body { font-family: sans-serif; font-size:12px; padding:20px; }
+                        .text-center { text-align: center; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+                        th, td { border: 1px solid #000; padding: 6px; text-align: center; }
+                        th { background: #f2f2f2; }
                     </style>
                 </head>
                 <body>
-                    <div class="company">${defaultUser.company_name}</div>
-                    <div class="title">${type.toUpperCase() === 'LOG_SHEET' ? 'MOTOR BIKE LOG SHEET' : 'TA/DA BILL REPORT'} (${m})</div>
-                    <p><strong>Employee:</strong> ${defaultUser.full_name} | <strong>Designation:</strong> ${defaultUser.designation}</p>
+                    <div class="text-center">
+                        <h2>${user.company_name}</h2>
+                        <h3>${user.branch_name}</h3>
+                        <u><h4>${type === 'log_sheet' ? 'MOTOR BIKE LOG SHEET' : 'TA/DA BILL REPORT'} (${m})</h4></u>
+                    </div>
+                    <p><strong>নাম:</strong> ${user.full_name} | <strong>আইডি:</strong> ${user.employee_id} | <strong>পদবী:</strong> ${user.designation}</p>
+                    <p><strong>গাড়ির নং:</strong> ${user.vehicle_no} | <strong>রুট/লাইন:</strong> ${user.area_line}</p>
                     <table>
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Visited Area</th>
-                                <th>Total KM</th>
-                                <th>Remarks</th>
+                                <th>তারিখ</th>
+                                <th>পরিদর্শন এলাকা</th>
+                                <th>মোট কিমি</th>
+                                <th>${type === 'log_sheet' ? 'সময় (আউট - ইন)' : 'বাইক বিল (TA)'}</th>
+                                ${type === 'tada_bill' ? '<th>ডিএ (DA)</th><th>খাবার (Meals)</th>' : ''}
                             </tr>
                         </thead>
                         <tbody>
-            `;
-
-            let grandKm = 0;
-            filtered.forEach(b => {
-                grandKm += b.total_km;
-                content += `
-                    <tr>
-                        <td>${b.bill_date}</td>
-                        <td>${b.visited_area}</td>
-                        <td>${b.total_km}</td>
-                        <td>${b.remarks || 'Ok'}</td>
-                    </tr>
-                `;
-            });
-
-            content += `
-                        <tr>
-                            <td colspan="2" style="text-align:right; font-weight:bold;">Total:</td>
-                            <td style="font-weight:bold;">${grandKm.toFixed(1)} KM</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
+                            ${rowsHtml}
+                            <tr style="font-weight:bold; background:#fafafa;">
+                                <td colspan="2" style="text-align:right;">সর্বমোট:</td>
+                                <td>${filtered.reduce((s,b)=>s+b.total_km, 0)} KM</td>
+                                <td>${type === 'tada_bill' ? totalBikeTa.toFixed(2) + ' TK' : '-'}</td>
+                                ${type === 'tada_bill' ? `<td>${totalDa} TK</td><td>${totalMeals} TK</td>` : ''}
+                            </tr>
+                        </tbody>
                     </table>
-                    <br><br><br>
+                    ${type === 'tada_bill' ? `
+                    <div style="margin-top:15px; width:300px;">
+                        <table style="border:1px solid #000;">
+                            <tr><td>ফিক্সড বাইক এলাউন্স:</td><td>${user.bike_allowance.toFixed(2)} TK</td></tr>
+                            <tr style="font-weight:bold; background:#eee;"><td>মোট প্রদেয় (Net):</td><td>${netPayable.toFixed(2)} TK</td></tr>
+                        </table>
+                    </div>` : ''}
+                    <br><br><br><br>
                     <table style="border:none; width:100%;">
                         <tr style="border:none;">
                             <td style="border:none; text-align:left;">Prepared By</td>
@@ -687,15 +757,28 @@
                     </table>
                     <script>window.print();<\/script>
                 </body>
-                </html>
-            `;
-            
-            printWindow.document.write(content);
-            printWindow.document.close();
+                </html>`;
+
+            pWin.document.write(printContent);
+            pWin.document.close();
+        }
+
+        function initDates() {
+            const today = new Date();
+            const ym = today.toISOString().substring(0, 7);
+            document.getElementById('bill_date').value = today.toISOString().substring(0, 10);
+            document.getElementById('filter_from').value = ym + "-01";
+            document.getElementById('filter_to').value = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().substring(0, 10);
+            document.getElementById('register_month').value = ym;
+            document.getElementById('leave_filter_month').value = ym;
+            document.getElementById('download_month').value = ym;
         }
 
         function logout() {
-            Swal.fire('লগআউট', 'সফলভাবে অফলাইন সেশন রিসেট হয়েছে!', 'success');
+            sessionStorage.removeItem('isLoggedIn');
+            Swal.fire('লগআউট', 'আপনার অফলাইন সেশনটি নিরাপদে বন্ধ করা হয়েছে!', 'success').then(() => {
+                checkAuthFlow();
+            });
         }
     </script>
 </body>
