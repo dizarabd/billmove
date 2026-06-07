@@ -52,7 +52,7 @@
 </head>
 <body>
 
-    <!-- ================= ১. প্রথম স্বাগত স্ক্রিন (লগইন / রেজিস্ট্রেশন চয়েস) ================= -->
+    <!-- ================= ১. প্রথম স্বাগত স্ক্রিন ================= -->
     <div id="welcome-screen" class="auth-screen">
         <div class="container px-4 text-center" style="padding-top: 100px;">
             <div class="mb-4">
@@ -86,55 +86,55 @@
                 <div class="row g-2 mb-2">
                     <div class="col-6">
                         <label class="small fw-bold text-muted">পূর্ণ নাম</label>
-                        <input type="text" id="reg_name" class="form-control" placeholder="আব্দুল জব্বার" required>
+                        <input type="text" id="reg_name" class="form-control" placeholder="Abdul Zabbar" required>
                     </div>
                     <div class="col-6">
                         <label class="small fw-bold text-muted">এমপ্লয়ী আইডি</label>
-                        <input type="text" id="reg_emp_id" class="form-control" placeholder="BM-2026" required>
+                        <input type="text" id="reg_emp_id" class="form-control" placeholder="2309617" required>
                     </div>
                 </div>
                 <div class="row g-2 mb-2">
                     <div class="col-6">
                         <label class="small fw-bold text-muted">পদবী</label>
-                        <input type="text" id="reg_desig" class="form-control" placeholder="সফটওয়্যার ইঞ্জিনিয়ার" required>
+                        <input type="text" id="reg_desig" class="form-control" placeholder="Weaing Scale Assistant" required>
                     </div>
                     <div class="col-6">
                         <label class="small fw-bold text-muted">মোবাইল নম্বর</label>
-                        <input type="tel" id="reg_phone" class="form-control" placeholder="01700000000" required>
+                        <input type="tel" id="reg_phone" class="form-control" placeholder="01329743512" required>
                     </div>
                 </div>
                 <div class="mb-2">
                     <label class="small fw-bold text-muted">কোম্পানির নাম</label>
-                    <input type="text" id="reg_company" class="form-control" placeholder="BillMove Technology Ltd." required>
+                    <input type="text" id="reg_company" class="form-control" placeholder="KAZI FARMS GROUP" required>
                 </div>
                 <div class="row g-2 mb-2">
                     <div class="col-6">
                         <label class="small fw-bold text-muted">শাখার নাম</label>
-                        <input type="text" id="reg_branch" class="form-control" placeholder="খুলনা শাখা" required>
+                        <input type="text" id="reg_branch" class="form-control" placeholder="CBF-Jessore Branch" required>
                     </div>
                     <div class="col-6">
                         <label class="small fw-bold text-muted">এরিয়া/লাইন</label>
-                        <input type="text" id="reg_area" class="form-control" placeholder="Khulna Zone" required>
+                        <input type="text" id="reg_area" class="form-control" placeholder="All" required>
                     </div>
                 </div>
                 <div class="row g-2 mb-2">
                     <div class="col-6">
                         <label class="small fw-bold text-muted">গাড়ির নম্বর</label>
-                        <input type="text" id="reg_veh_no" class="form-control" placeholder="KHULNA-12-3456" required>
+                        <input type="text" id="reg_veh_no" class="form-control" placeholder="Dhaka METRO-HA-55-2362" required>
                     </div>
                     <div class="col-6">
                         <label class="small fw-bold text-muted">লাইসেন্স নম্বর</label>
-                        <input type="text" id="reg_lic_no" class="form-control" placeholder="XYZ789654" required>
+                        <input type="text" id="reg_lic_no" class="form-control" placeholder="DK11001875CL0001" required>
                     </div>
                 </div>
                 <div class="row g-2 mb-4">
                     <div class="col-4">
                         <label class="small fw-bold text-muted">প্রতি কিমি রেট</label>
-                        <input type="number" step="0.1" id="reg_km_rate" class="form-control" value="4.5" required>
+                        <input type="number" step="0.01" id="reg_km_rate" class="form-control" value="5.00" required>
                     </div>
                     <div class="col-4">
                         <label class="small fw-bold text-muted">ডিএ (DA) রেট</label>
-                        <input type="number" id="reg_da_rate" class="form-control" value="150" required>
+                        <input type="number" id="reg_da_rate" class="form-control" value="190" required>
                     </div>
                     <div class="col-4">
                         <label class="small fw-bold text-muted">বাইক এলাউন্স</label>
@@ -159,7 +159,7 @@
                 <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="mb-4">
                         <label class="small fw-bold text-muted mb-2">এমপ্লয়ী আইডি (Employee ID)</label>
-                        <input type="text" id="login_id" class="form-control" placeholder="যেমন: BM-2026" required>
+                        <input type="text" id="login_id" class="form-control" placeholder="যেমন: 2309617" required>
                     </div>
                     <button type="submit" class="btn btn-pink w-100 py-2">লগইন করুন</button>
                 </form>
@@ -170,7 +170,6 @@
 
     <!-- ================= ৪. মূল অ্যাপ্লিকেশন লেআউট ================= -->
     <div id="app-layout" style="display: none;">
-        <!-- ফিক্সড নেভিগেশন বার -->
         <div class="bottom-nav no-print">
             <div class="nav-item active" id="tab-dashboard" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
             <div class="nav-item" id="tab-add-bill" onclick="switchTab('add-bill')"><i class="fa fa-plus-circle"></i>বিল এন্ট্রি</div>
@@ -226,20 +225,20 @@
                         <div class="row g-2 mb-2">
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">আউট টাইম</label>
-                                <input type="time" id="out_time" class="form-control form-control-sm" value="09:00">
+                                <input type="text" id="out_time" class="form-control form-control-sm" value="04:30 pm" placeholder="যেমন: 4:30 pm">
                             </div>
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">ইন টাইম</label>
-                                <input type="time" id="in_time" class="form-control form-control-sm" value="18:00">
+                                <input type="text" id="in_time" class="form-control form-control-sm" value="11:30 pm" placeholder="যেমন: 11:30 pm">
                             </div>
                         </div>
                         <div class="row g-2 mb-2">
                             <div class="col-6">
-                                <label class="small fw-bold text-muted mb-1">শুরু KM</label>
+                                <label class="small fw-bold text-muted mb-1">শুরু KM (Mileage Out)</label>
                                 <input type="number" id="out_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
                             </div>
                             <div class="col-6">
-                                <label class="small fw-bold text-muted mb-1">শেষ KM</label>
+                                <label class="small fw-bold text-muted mb-1">শেষ KM (Mileage In)</label>
                                 <input type="number" id="in_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
                             </div>
                         </div>
@@ -248,8 +247,8 @@
                             <input type="number" id="total_km" class="form-control form-control-sm" readonly value="0">
                         </div>
                         <div class="mb-2">
-                            <label class="small fw-bold text-muted mb-1">পরিদর্শন এলাকা</label>
-                            <input type="text" id="visited_area" class="form-control form-control-sm" required placeholder="যেমন: খুলনা সিটি">
+                            <label class="small fw-bold text-muted mb-1">পরিদর্শন এলাকা (Visited Area)</label>
+                            <input type="text" id="visited_area" class="form-control form-control-sm" required placeholder="যেমন: Phultala, Beggerdanga">
                         </div>
                         <div class="row g-2 mb-3">
                             <div class="col-4">
@@ -309,7 +308,7 @@
                                 <tr>
                                     <th width="10%"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
                                     <th width="25%">তারিখ</th>
-                                    <th width="45%">এलाকা</th>
+                                    <th width="45%">এলাকা</th>
                                     <th width="20%">কি.মি.</th>
                                 </tr>
                             </thead>
@@ -383,7 +382,7 @@
                 <div class="custom-card text-center py-4">
                     <i class="fa fa-file-pdf fa-4x text-danger mb-3"></i>
                     <h6 class="fw-bold">অফলাইন রিপোর্ট প্রিন্ট করুন</h6>
-                    <p class="text-muted small">গিটহাব পেজেস থেকে সরাসরি কাস্টম রেটে পিডিএফ ও প্রিন্ট লেআউট তৈরি করুন</p>
+                    <p class="text-muted small">সরাসরি ডেমো কোম্পানির মতো কাস্টম ফরম্যাটে প্রিন্ট লেআউট তৈরি করুন</p>
                     
                     <div class="text-start mb-3">
                         <label class="form-label small fw-bold text-muted">মাস নির্বাচন করুন</label>
@@ -393,7 +392,7 @@
                         <label class="form-label small fw-bold text-muted">রিপোর্টের ধরন</label>
                         <select id="download_report_type" class="form-select">
                             <option value="log_sheet">Motor Bike Log Sheet</option>
-                            <option value="tada_bill">TA / DA Bill</option>
+                            <option value="tada_bill">TA / DA Bill Report</option>
                         </select>
                     </div>
                     <button class="btn btn-pink w-100 py-3" onclick="triggerReportPrint()">
@@ -419,35 +418,27 @@
             checkAuthFlow();
         };
 
-        // স্বাগত স্ক্রিন ও অথেনটিকেশন ফ্লো হ্যান্ডলার
         function checkAuthFlow() {
             const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-
-            // সব উইন্ডো হাইড করি
             document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
             document.getElementById('app-layout').style.display = 'none';
 
             if(isLoggedIn === 'true') {
-                // সফল লগইন থাকলে মূল অ্যাপ
                 document.getElementById('app-layout').style.display = 'block';
                 loadUserProfileData(JSON.parse(localStorage.getItem('user_profile')));
                 syncFridayLeaves();
                 autoExpireLeaves();
                 updateDashboardStats();
             } else {
-                // লগইন না থাকলে ওয়েলকাম স্ক্রিন ওপেন হবে
                 document.getElementById('welcome-screen').style.display = 'block';
             }
         }
 
-        // বাটন ক্লিকে পেজ পরিবর্তনের সাব-রুটিন
         function showAuthPage(pageType) {
             document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
-            
             if(pageType === 'welcome') {
                 document.getElementById('welcome-screen').style.display = 'block';
             } else if(pageType === 'login') {
-                // চেক করি প্রোফাইল বানানো আছে কি না
                 if(!localStorage.getItem('user_profile')) {
                     Swal.fire('কোনো প্রোফাইল নেই!', 'সিস্টেমে আগে একটি প্রোফাইল রেজিস্ট্রেশন করুন।', 'warning');
                     document.getElementById('register-screen').style.display = 'block';
@@ -459,7 +450,6 @@
             }
         }
 
-        // রেজিস্ট্রেশন সাবমিট হ্যান্ডলার
         function handleRegistration(e) {
             e.preventDefault();
             const profile = {
@@ -472,8 +462,8 @@
                 area_line: document.getElementById('reg_area').value,
                 vehicle_no: document.getElementById('reg_veh_no').value,
                 license_no: document.getElementById('reg_lic_no').value,
-                per_km_rate: parseFloat(document.getElementById('reg_km_rate').value) || 4.5,
-                da_rate: parseFloat(document.getElementById('reg_da_rate').value) || 150,
+                per_km_rate: parseFloat(document.getElementById('reg_km_rate').value) || 5.00,
+                da_rate: parseFloat(document.getElementById('reg_da_rate').value) || 190,
                 bike_allowance: parseFloat(document.getElementById('reg_bike_allw').value) || 1100
             };
 
@@ -485,7 +475,6 @@
             });
         }
 
-        // লগইন সাবমিট হ্যান্ডলার
         function handleLogin(e) {
             e.preventDefault();
             const user = JSON.parse(localStorage.getItem('user_profile'));
@@ -689,41 +678,264 @@
             document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
         }
 
+        // ================= ডাইনামিক এবং প্রফেশনাল রিপোর্ট প্রিন্ট জেনারেটর =================
         function triggerReportPrint() {
             const user = JSON.parse(localStorage.getItem('user_profile'));
-            const m = document.getElementById('download_month').value;
+            const selectMonth = document.getElementById('download_month').value; 
             const type = document.getElementById('download_report_type').value;
+            
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            let filtered = bills.filter(b => b.bill_date.startsWith(m)).sort((a,b) => new Date(a.bill_date) - new Date(b.bill_date));
+            
+            // সিলেক্টেড মাসের মোট দিনের হিসাব বের করা
+            const year = parseInt(selectMonth.split("-")[0]);
+            const monthIdx = parseInt(selectMonth.split("-")[1]) - 1;
+            const totalDaysInMonth = new Date(year, monthIdx + 1, 0).getDate();
+            
+            // মাসের নাম ফরম্যাট করা (যেমন: April-2026)
+            const dateObj = new Date(year, monthIdx, 1);
+            const monthName = dateObj.toLocaleString('en-US', { month: 'long' }) + "-" + year;
+            const shortMonthName = dateObj.toLocaleString('en-US', { month: 'short' });
 
-            if(filtered.length === 0) {
-                Swal.fire('দুঃখিত', 'এই মাসে কোনো বিল পাওয়া যায়নি!', 'info');
-                return;
-            }
-
-            let pWin = window.open('', '_blank');
+            // ৩টি প্রধান ভেরিয়েবল ইনিশিয়ালাইজ করা
+            let totalKmSum = 0;
             let totalBikeTa = 0;
             let totalDa = 0;
             let totalMeals = 0;
-
             let rowsHtml = "";
-            filtered.forEach(b => {
-                let bikeTa = b.total_km * user.per_km_rate;
-                let daVal = (b.total_km > 0 || b.visited_area) ? user.da_rate : 0;
-                let mealVal = (b.breakfast || 0) + (b.lunch || 0) + (b.dinner || 0);
 
-                totalBikeTa += bikeTa;
-                totalDa += daVal;
-                totalMeals += mealVal;
+            // ১ থেকে শুরু করে মাসের শেষ দিন পর্যন্ত লুপ চালিয়ে রিয়েল রিপোর্ট টেবিল জেনারেট করা
+            for (let day = 1; day <= totalDaysInMonth; day++) {
+                let dayStr = day < 10 ? '0' + day : day;
+                let currentLoopDate = `${selectMonth}-${dayStr}`;
+                
+                // এই তারিখের কি কোনো ডেটা এন্ট্রি আছে?
+                let matchedBill = bills.find(b => b.bill_date === currentLoopDate);
+                
+                // সপ্তাহের দিন বের করা
+                let currentDayName = new Date(currentLoopDate).toLocaleString('en-US', { weekday: 'short' });
+                
+                // তারিখ দেখানোর কাস্টম ফরম্যাট (যেমন: 01-Apr-26)
+                let displayDate = `${dayStr}-${shortMonthName}-${String(year).substring(2)}`;
 
-                rowsHtml += `<tr><td>${b.bill_date}</td><td>${b.visited_area}</td><td>${b.total_km} KM</td><td>${type === 'log_sheet' ? (b.out_time + ' - ' + b.in_time) : (bikeTa.toFixed(0) + ' TK')}</td>${type === 'tada_bill' ? `<td>${daVal}</td><td>${mealVal}</td>` : ''}</tr>`;
-            });
+                if (type === 'log_sheet') {
+                    if (matchedBill) {
+                        totalKmSum += matchedBill.total_km;
+                        rowsHtml += `
+                            <tr>
+                                <td>${displayDate}</td>
+                                <td>${matchedBill.out_time || ''}</td>
+                                <td>${matchedBill.in_time || ''}</td>
+                                <td>${matchedBill.out_km || ''}</td>
+                                <td>${matchedBill.in_km || ''}</td>
+                                <td style="font-weight: bold;">${matchedBill.total_km || ''}</td>
+                                <td style="text-align: left; padding-left: 8px;">${matchedBill.visited_area || ''}</td>
+                                <td></td>
+                            </tr>`;
+                    } else {
+                        rowsHtml += `<tr><td>${displayDate}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+                    }
+                } 
+                else if (type === 'tada_bill') {
+                    if (matchedBill) {
+                        let bikeCost = matchedBill.total_km * user.per_km_rate;
+                        let currentDa = (matchedBill.total_km > 0 || matchedBill.visited_area) ? user.da_rate : 0;
+                        let currentMeals = (matchedBill.breakfast || 0) + (matchedBill.lunch || 0) + (matchedBill.dinner || 0);
+                        let dayTotal = bikeCost + currentDa + currentMeals;
 
-            let netPayable = totalBikeTa + totalDa + totalMeals + (type === 'tada_bill' ? user.bike_allowance : 0);
+                        totalBikeTa += bikeCost;
+                        totalDa += currentDa;
+                        totalMeals += currentMeals;
 
-            let printContent = `<html><head><title>Report_${m}</title><style>body { font-family: sans-serif; font-size:12px; padding:20px; }.text-center { text-align: center; }table { width: 100%; border-collapse: collapse; margin-top: 15px; }th, td { border: 1px solid #000; padding: 6px; text-align: center; }th { background: #f2f2f2; }</style></head><body><div class="text-center"><h2>${user.company_name}</h2><h3>${user.branch_name}</h3><u><h4>${type === 'log_sheet' ? 'MOTOR BIKE LOG SHEET' : 'TA/DA BILL REPORT'} (${m})</h4></u></div><p><strong>নাম:</strong> ${user.full_name} | <strong>আইডি:</strong> ${user.employee_id} | <strong>পদবী:</strong> ${user.designation}</p><p><strong>গাড়ির নং:</strong> ${user.vehicle_no} | <strong>রুট/লাইন:</strong> ${user.area_line}</p><table><thead><tr><th>তারিখ</th><th>পরিদর্শন এলাকা</th><th>মোট কিমি</th><th>${type === 'log_sheet' ? 'সময় (আউট - ইন)' : 'বাইক বিল (TA)'}</th>${type === 'tada_bill' ? '<th>ডিএ (DA)</th><th>খাবার (Meals)</th>' : ''}</tr></thead><tbody>${rowsHtml}<tr style="font-weight:bold; background:#fafafa;"><td colspan="2" style="text-align:right;">সর্বমোট:</td><td>${filtered.reduce((s,b)=>s+b.total_km, 0)} KM</td><td>${type === 'tada_bill' ? totalBikeTa.toFixed(2) + ' TK' : '-'}</td>${type === 'tada_bill' ? `<td>${totalDa} TK</td><td>${totalMeals} TK</td>` : ''}</tr></tbody></table>${type === 'tada_bill' ? `<div style="margin-top:15px; width:300px;"><table style="border:1px solid #000;"><tr><td>ফিক্সড বাইক এলাউন্স:</td><td>${user.bike_allowance.toFixed(2)} TK</td></tr><tr style="font-weight:bold; background:#eee;"><td>মোট প্রদেয় (Net):</td><td>${netPayable.toFixed(2)} TK</td></tr></table></div>` : ''}<br><br><br><br><table style="border:none; width:100%;"><tr style="border:none;"><td style="border:none; text-align:left;">Prepared By</td><td style="border:none; text-align:center;">Checked By</td><td style="border:none; text-align:right;">Approved By</td></tr></table><script>window.print();<\/script></body></html>`;
+                        rowsHtml += `
+                            <tr>
+                                <td>${displayDate}</td>
+                                <td>${currentDayName}</td>
+                                <td>Office</td>
+                                <td style="text-align: left; padding-left: 5px;">${matchedBill.visited_area}</td>
+                                <td>${bikeCost.toFixed(0)}</td>
+                                <td>${currentDa}</td>
+                                <td>${currentMeals > 0 ? currentMeals : ''}</td>
+                                <td style="font-weight: bold;">${dayTotal.toFixed(0)}</td>
+                            </tr>`;
+                    } else {
+                        rowsHtml += `
+                            <tr>
+                                <td>${displayDate}</td>
+                                <td>${currentDayName}</td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>`;
+                    }
+                }
+            }
 
-            pWin.document.write(printContent);
+            // নতুন ট্যাব বা উইন্ডো ক্রিয়েট করা
+            let pWin = window.open('', '_blank');
+            
+            let headerTemplate = `
+                <div style="text-align: center; font-family: Arial, sans-serif;">
+                    <h2 style="margin: 2px 0; font-size: 20px; font-weight: bold; letter-spacing: 0.5px;">${user.company_name}</h2>
+                    <h3 style="margin: 2px 0; font-size: 15px; font-weight: normal;">${user.branch_name}</h3>
+                    <h4 style="margin: 8px 0 15px 0; font-size: 14px; font-weight: bold; text-decoration: underline;">
+                        ${type === 'log_sheet' ? 'MOTOR BIKE LOG SHEET' : `TA/DA BILL (${monthName})`}
+                    </h4>
+                </div>
+            `;
+
+            let metaTableTemplate = "";
+            if (type === 'log_sheet') {
+                metaTableTemplate = `
+                <table style="width:100%; font-family:Arial; font-size:12px; margin-bottom:10px; border:none;">
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; width:50%; padding: 2px 0;"><strong>Drived By:</strong> ${user.full_name}</td>
+                        <td style="border:none; text-align:left; width:50%; padding: 2px 0;"><strong>Designation:</strong> ${user.designation}</td>
+                    </tr>
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Vehicle No:</strong> ${user.vehicle_no}</td>
+                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Area/Line:</strong> ${user.area_line}</td>
+                    </tr>
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Dv Li:</strong> ${user.license_no}</td>
+                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Month:</strong> ${monthName}</td>
+                    </tr>
+                </table>`;
+            } else {
+                metaTableTemplate = `
+                <table style="width:100%; font-family:Arial; font-size:12px; margin-bottom:10px; border:none;">
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; width:60%; padding: 2px 0;"><strong>Name:</strong> ${user.full_name}</td>
+                        <td style="border:none; text-align:right; width:40%; padding: 2px 0;"><strong>Fixed Bike Allowance:</strong> ${user.bike_allowance} Tk</td>
+                    </tr>
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Designation:</strong> ${user.designation}</td>
+                        <td style="border:none; text-align:right; padding: 2px 0;"><strong>Phone:</strong> ${user.phone_no}</td>
+                    </tr>
+                </table>`;
+            }
+
+            let mainTableHtml = "";
+            if (type === 'log_sheet') {
+                mainTableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="12%">Date</th>
+                            <th colspan="2" width="18%">Time</th>
+                            <th colspan="3" width="25%">Mileage (KM)</th>
+                            <th rowspan="2" width="35%">Visited Area</th>
+                            <th rowspan="2" width="10%">Remarks</th>
+                        </tr>
+                        <tr>
+                            <th>Out</th>
+                            <th>In</th>
+                            <th>Out</th>
+                            <th>In</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                        <tr style="font-weight: bold; background-color: #f9f9f9;">
+                            <td colspan="3"></td>
+                            <td colspan="2" style="text-align: right; padding-right: 10px;">Total Mileage</td>
+                            <td>${totalKmSum}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>`;
+            } else {
+                let netPayableAmount = totalBikeTa + totalDa + totalMeals + user.bike_allowance;
+                mainTableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="12%">Date</th>
+                            <th rowspan="2" width="8%">Day</th>
+                            <th colspan="2" width="35%">Visited Area</th>
+                            <th rowspan="2" width="12%">Bike (TA)</th>
+                            <th rowspan="2" width="11%">Allowance (DA)</th>
+                            <th rowspan="2" width="11%">Meals</th>
+                            <th rowspan="2" width="11%">Total</th>
+                        </tr>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                        <tr style="font-weight: bold; background-color: #f2f2f2;">
+                            <td colspan="4" style="text-align: center;">Monthly Total</td>
+                            <td>${totalBikeTa.toLocaleString('en-IN')}</td>
+                            <td>${totalDa.toLocaleString('en-IN')}</td>
+                            <td>${totalMeals > 0 ? totalMeals.toLocaleString('en-IN') : '0'}</td>
+                            <td>${(totalBikeTa + totalDa + totalMeals).toLocaleString('en-IN')}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 20px; width: 320px; font-family: Arial; font-size: 12px; float: left;">
+                    <table style="border: 1px solid #000; width: 100%;">
+                        <tr>
+                            <td style="text-align: left; padding: 5px; border: 1px solid #000; width: 60%;">Total Motor Bike (TA):</td>
+                            <td style="text-align: right; padding: 5px; border: 1px solid #000; font-weight: bold;">${totalBikeTa.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; padding: 5px; border: 1px solid #000;">Total DA & Meals:</td>
+                            <td style="text-align: right; padding: 5px; border: 1px solid #000; font-weight: bold;">${(totalDa + totalMeals).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; padding: 5px; border: 1px solid #000;">Fixed Bike Allowance:</td>
+                            <td style="text-align: right; padding: 5px; border: 1px solid #000; font-weight: bold;">${user.bike_allowance.toFixed(2)}</td>
+                        </tr>
+                        <tr style="background-color: #e6e6e6; font-weight: bold;">
+                            <td style="text-align: left; padding: 5px; border: 1px solid #000;">Net Payable:</td>
+                            <td style="text-align: right; padding: 5px; border: 1px solid #000; color: #000;">${netPayableAmount.toFixed(2)} TK</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="clear: both;"></div>`;
+            }
+
+            let footerTemplate = `
+                <table style="width:100%; border:none; margin-top: 70px; font-family:Arial; font-size:12px;">
+                    <tr style="border:none;">
+                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 5px;">Prepared By</td>
+                        <td style="border:none; width: 17%;"></td>
+                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 5px;">Checked By</td>
+                        <td style="border:none; width: 17%;"></td>
+                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 5px;">Approved By</td>
+                    </tr>
+                </table>
+            `;
+
+            let fullLayout = `
+            <html>
+            <head>
+                <title>${type === 'log_sheet' ? 'Log_Sheet_' : 'TA_DA_Bill_'}${selectMonth}</title>
+                <style>
+                    body { padding: 10px 25px; background: #ffffff; color: #000; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 5px; font-family: Arial, sans-serif; font-size: 11px; }
+                    th, td { border: 1px solid #000; padding: 4px; text-align: center; }
+                    th { background-color: #ffffff; font-weight: bold; }
+                    @media print {
+                        body { padding: 0; }
+                        @page { size: A4; margin: 1.5cm 1cm; }
+                    }
+                </style>
+            </head>
+            <body>
+                ${headerTemplate}
+                ${metaTableTemplate}
+                ${mainTableHtml}
+                ${footerTemplate}
+                <script>
+                    window.onload = function() { window.print(); }
+                <\/script>
+            </body>
+            </html>`;
+
+            pWin.document.write(fullLayout);
             pWin.document.close();
         }
 
@@ -740,9 +952,7 @@
 
         function logout() {
             sessionStorage.removeItem('isLoggedIn');
-            Swal.fire('লগআউট', 'আপনার অফলাইন সেশনটি নিরাপদে বন্ধ করা হয়েছে!', 'success').then(() => {
-                checkAuthFlow();
-            });
+            Swal.fire('লগআউট', 'আপনার অফলাইন সেশনটি নিরাপদে বন্ধ করা হয়েছে!', 'success').then(() => { checkAuthFlow(); });
         }
     </script>
 </body>
