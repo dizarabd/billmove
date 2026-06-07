@@ -52,7 +52,6 @@
 </head>
 <body>
 
-    <!-- ================= ১. প্রথম স্বাগত স্ক্রিন ================= -->
     <div id="welcome-screen" class="auth-screen">
         <div class="container px-4 text-center" style="padding-top: 100px;">
             <div class="mb-4">
@@ -73,7 +72,6 @@
         </div>
     </div>
 
-    <!-- ================= ২. রেজিস্ট্রেশন স্ক্রিন ================= -->
     <div id="register-screen" class="auth-screen">
         <div class="container px-4">
             <div class="d-flex align-items-center mb-3">
@@ -146,7 +144,6 @@
         </div>
     </div>
 
-    <!-- ================= ৩. লগইন স্ক্রিন ================= -->
     <div id="login-screen" class="auth-screen">
         <div class="container px-4" style="padding-top: 60px;">
             <div class="d-flex align-items-center mb-4">
@@ -168,7 +165,6 @@
     </div>
 
 
-    <!-- ================= ৪. মূল অ্যাপ্লিকেশন লেআউট ================= -->
     <div id="app-layout" style="display: none;">
         <div class="bottom-nav no-print">
             <div class="nav-item active" id="tab-dashboard" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
@@ -179,7 +175,6 @@
             <div class="nav-item" id="tab-download" onclick="switchTab('download')"><i class="fa fa-download"></i>ডাউনলোড</div>
         </div>
 
-        <!-- ড্যাশবোর্ড ট্যাব -->
         <div id="dashboard" class="app-section active-block">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold"><i class="fa fa-rocket me-2"></i>BillMove ড্যাশবোর্ড</h6>
@@ -212,7 +207,6 @@
             </div>
         </div>
 
-        <!-- বিল এন্ট্রি ট্যাব -->
         <div id="add-bill" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">নতুন বিল যুক্ত করুন</h6></div>
             <div class="container px-3 mt-3">
@@ -270,7 +264,6 @@
             </div>
         </div>
 
-        <!-- বিল রিপোর্ট ট্যাব -->
         <div id="view-bills" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট ও ফিল্টার</h6></div>
             <div class="container px-3 mt-2">
@@ -319,7 +312,6 @@
             </div>
         </div>
 
-        <!-- রেজিস্টার ভিউ ট্যাব -->
         <div id="register" class="app-section">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold">রেজিস্টার ভিউ (খাতা)</h6>
@@ -343,7 +335,6 @@
             </div>
         </div>
 
-        <!-- ছুটি ম্যানেজমেন্ট ট্যাব -->
         <div id="leaves" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">রিপ্লেস ছুটি ম্যানেজমেন্ট</h6></div>
             <div class="container px-3 mt-2">
@@ -375,7 +366,6 @@
             </div>
         </div>
 
-        <!-- ডাউনলোড ট্যাব -->
         <div id="download" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট জেনারেট</h6></div>
             <div class="container px-3 mt-3">
@@ -395,565 +385,4 @@
                             <option value="tada_bill">TA / DA Bill Report</option>
                         </select>
                     </div>
-                    <button class="btn btn-pink w-100 py-3" onclick="triggerReportPrint()">
-                        <i class="fa fa-print me-2"></i> রিপোর্ট ভিউ ও প্রিন্ট করুন
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAQAAwADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAfbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//2Q==";
-
-        if(!localStorage.getItem('bills')) localStorage.setItem('bills', JSON.stringify([]));
-        if(!localStorage.getItem('leaves')) localStorage.setItem('leaves', JSON.stringify([]));
-
-        window.onload = function() {
-            document.getElementById('user-avatar').src = ownerImageBase64;
-            initDates();
-            checkAuthFlow();
-        };
-
-        function checkAuthFlow() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-            document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
-            document.getElementById('app-layout').style.display = 'none';
-
-            if(isLoggedIn === 'true') {
-                document.getElementById('app-layout').style.display = 'block';
-                loadUserProfileData(JSON.parse(localStorage.getItem('user_profile')));
-                syncFridayLeaves();
-                autoExpireLeaves();
-                updateDashboardStats();
-            } else {
-                document.getElementById('welcome-screen').style.display = 'block';
-            }
-        }
-
-        function showAuthPage(pageType) {
-            document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
-            if(pageType === 'welcome') {
-                document.getElementById('welcome-screen').style.display = 'block';
-            } else if(pageType === 'login') {
-                if(!localStorage.getItem('user_profile')) {
-                    Swal.fire('কোনো প্রোফাইল নেই!', 'সিস্টেমে আগে একটি প্রোফাইল রেজিস্ট্রেশন করুন।', 'warning');
-                    document.getElementById('register-screen').style.display = 'block';
-                } else {
-                    document.getElementById('login-screen').style.display = 'block';
-                }
-            } else if(pageType === 'register') {
-                document.getElementById('register-screen').style.display = 'block';
-            }
-        }
-
-        function handleRegistration(e) {
-            e.preventDefault();
-            const profile = {
-                full_name: document.getElementById('reg_name').value,
-                employee_id: document.getElementById('reg_emp_id').value,
-                designation: document.getElementById('reg_desig').value,
-                phone_no: document.getElementById('reg_phone').value,
-                company_name: document.getElementById('reg_company').value,
-                branch_name: document.getElementById('reg_branch').value,
-                area_line: document.getElementById('reg_area').value,
-                vehicle_no: document.getElementById('reg_veh_no').value,
-                license_no: document.getElementById('reg_lic_no').value,
-                per_km_rate: parseFloat(document.getElementById('reg_km_rate').value) || 5.00,
-                da_rate: parseFloat(document.getElementById('reg_da_rate').value) || 190,
-                bike_allowance: parseFloat(document.getElementById('reg_bike_allw').value) || 1100
-            };
-
-            localStorage.setItem('user_profile', JSON.stringify(profile));
-            sessionStorage.setItem('isLoggedIn', 'true');
-            
-            Swal.fire('রেজিস্ট্রেশন সফল', 'আপনার তথ্যের প্রোফাইল সাকসেসফুলি তৈরি হয়েছে!', 'success').then(() => {
-                checkAuthFlow();
-            });
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const user = JSON.parse(localStorage.getItem('user_profile'));
-            const inputId = document.getElementById('login_id').value;
-
-            if(user && user.employee_id === inputId) {
-                sessionStorage.setItem('isLoggedIn', 'true');
-                Swal.fire('স্বাগতম', 'লগইন সফল হয়েছে!', 'success').then(() => {
-                    checkAuthFlow();
-                });
-            } else {
-                Swal.fire('ভুল আইডি', 'প্রদত্ত এমপ্লয়ী আইডিটি ম্যাচ করেনি!', 'error');
-            }
-        }
-
-        function loadUserProfileData(user) {
-            document.getElementById('profile-name').innerText = user.full_name;
-            document.getElementById('profile-desig').innerText = user.designation;
-            document.getElementById('profile-id').innerText = `ID: ${user.employee_id}`;
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.app-section').forEach(sec => sec.classList.remove('active-block'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active-block');
-            document.getElementById('tab-' + tabId).classList.add('active');
-
-            if(tabId === 'dashboard') updateDashboardStats();
-            if(tabId === 'view-bills') renderBillList();
-            if(tabId === 'register') renderRegisterView();
-            if(tabId === 'leaves') renderLeavesList();
-        }
-
-        function calcKm() {
-            const outKm = parseFloat(document.getElementById('out_km').value) || 0;
-            const inKm = parseFloat(document.getElementById('in_km').value) || 0;
-            document.getElementById('total_km').value = inKm >= outKm ? inKm - outKm : 0;
-        }
-
-        function saveBill(e) {
-            e.preventDefault();
-            let bills = JSON.parse(localStorage.getItem('bills'));
-            
-            const newBill = {
-                id: Date.now(),
-                bill_date: document.getElementById('bill_date').value,
-                out_time: document.getElementById('out_time').value,
-                in_time: document.getElementById('in_time').value,
-                out_km: parseFloat(document.getElementById('out_km').value) || 0,
-                in_km: parseFloat(document.getElementById('in_km').value) || 0,
-                total_km: parseFloat(document.getElementById('total_km').value) || 0,
-                visited_area: document.getElementById('visited_area').value,
-                breakfast: parseFloat(document.getElementById('breakfast').value) || 0,
-                lunch: parseFloat(document.getElementById('lunch').value) || 0,
-                dinner: parseFloat(document.getElementById('dinner').value) || 0
-            };
-
-            if(bills.some(b => b.bill_date === newBill.bill_date)) {
-                Swal.fire('দুঃখিত', 'এই তারিখের বিল ইতিমধ্যে এন্ট্রি করা আছে!', 'warning');
-                return;
-            }
-
-            bills.push(newBill);
-            localStorage.setItem('bills', JSON.stringify(bills));
-            syncFridayLeaves();
-            
-            Swal.fire('সফল', 'বিল রেকর্ড সেভ হয়েছে!', 'success').then(() => {
-                document.getElementById('billForm').reset();
-                switchTab('view-bills');
-            });
-        }
-
-        function renderBillList() {
-            const fromDate = document.getElementById('filter_from').value;
-            const toDate = document.getElementById('filter_to').value;
-            let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            
-            let filtered = bills.filter(b => b.bill_date >= fromDate && b.bill_date <= toDate);
-            filtered.sort((a,b) => new Date(b.bill_date) - new Date(a.bill_date));
-
-            let totalKm = 0;
-            let html = "";
-            
-            filtered.forEach(b => {
-                totalKm += b.total_km;
-                html += `
-                    <tr>
-                        <td><input type="checkbox" name="bill_ids" value="${b.id}" class="form-check-input"></td>
-                        <td><strong>${b.bill_date}</strong></td>
-                        <td>${b.visited_area}</td>
-                        <td class="fw-bold text-primary">${b.total_km}</td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('bill-list-table').innerHTML = html || `<tr><td colspan="4" class="text-center py-3 text-muted">কোনো বিল পাওয়া যায়নি</td></tr>`;
-            document.getElementById('report-grand-km').innerText = totalKm.toFixed(1);
-        }
-
-        function toggleSelectAll(master) {
-            document.getElementsByName('bill_ids').forEach(cb => cb.checked = master.checked);
-        }
-
-        function deleteSelectedBills() {
-            let checkedBoxes = document.querySelectorAll('input[name="bill_ids"]:checked');
-            if(checkedBoxes.length === 0) return;
-
-            Swal.fire({
-                title: 'ডিলিট করতে চান?',
-                text: "নির্বাচিত বিলগুলো স্থায়ীভাবে মুছে যাবে!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#e2136e',
-                confirmButtonText: 'হ্যাঁ'
-            }).then((res) => {
-                if(res.isConfirmed) {
-                    let bills = JSON.parse(localStorage.getItem('bills'));
-                    let ids = Array.from(checkedBoxes).map(cb => parseFloat(cb.value));
-                    bills = bills.filter(b => !ids.includes(b.id));
-                    localStorage.setItem('bills', JSON.stringify(bills));
-                    renderBillList();
-                }
-            });
-        }
-
-        function renderRegisterView() {
-            const month = document.getElementById('register_month').value;
-            let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            let filtered = bills.filter(b => b.bill_date.startsWith(month)).sort((a,b) => new Date(a.bill_date) - new Date(b.bill_date));
-
-            let html = "";
-            filtered.forEach(b => {
-                html += `<tr><td>${b.bill_date}</td><td>${b.out_km}</td><td>${b.in_km}</td><td class="text-danger fw-bold">${b.total_km}</td><td>${b.visited_area}</td></tr>`;
-            });
-            document.getElementById('register-table-body').innerHTML = html || `<tr><td colspan="5" class="py-3 text-muted">কোনো রেকর্ড নেই</td></tr>`;
-        }
-
-        function syncFridayLeaves() {
-            let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-
-            bills.forEach(b => {
-                if(new Date(b.bill_date).getDay() === 5 && !leaves.some(l => l.duty_date === b.bill_date)) {
-                    let exp = new Date(b.bill_date);
-                    exp.setMonth(exp.getMonth() + 3);
-                    leaves.push({ id: Date.now() + Math.random(), duty_date: b.bill_date, expiry_date: exp.toISOString().substring(0, 10), status: 'Available', used_date: '' });
-                }
-            });
-            localStorage.setItem('leaves', JSON.stringify(leaves));
-        }
-
-        function autoExpireLeaves() {
-            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            const today = new Date().toISOString().substring(0, 10);
-            leaves.forEach(l => { if(l.status === 'Available' && l.expiry_date < today) l.status = 'Expired'; });
-            localStorage.setItem('leaves', JSON.stringify(leaves));
-        }
-
-        function addManualLeave(e) {
-            e.preventDefault();
-            const date = document.getElementById('manual_leave_date').value;
-            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            if(leaves.some(l => l.duty_date === date)) return;
-
-            let exp = new Date(date);
-            exp.setMonth(exp.getMonth() + 3);
-            leaves.push({ id: Date.now(), duty_date: date, expiry_date: exp.toISOString().substring(0, 10), status: 'Available', used_date: '' });
-            localStorage.setItem('leaves', JSON.stringify(leaves));
-            renderLeavesList();
-        }
-
-        function renderLeavesList() {
-            const m = document.getElementById('leave_filter_month').value;
-            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            let filtered = leaves.filter(l => l.duty_date.startsWith(m)).sort((a,b) => new Date(a.duty_date) - new Date(b.duty_date));
-
-            let html = "";
-            filtered.forEach(l => {
-                let btn = l.status === 'Available' ? `<button class="btn btn-xs btn-outline-success btn-sm" onclick="useLeave(${l.id})">কাটান</button>` : `<small>${l.used_date || '-'}</small>`;
-                html += `<tr><td><strong>${l.duty_date}</strong><br><small class="text-muted">Expiry: ${l.expiry_date}</small></td><td><span class="status-badge ${l.status.toLowerCase()}">${l.status}</span></td><td class="text-end">${btn}</td></tr>`;
-            });
-            document.getElementById('leaves-table-body').innerHTML = html || `<tr><td colspan="3" class="text-center py-3">কোনো ছুটির ডাটা নেই</td></tr>`;
-        }
-
-        function useLeave(id) {
-            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            let leave = leaves.find(l => l.id === id);
-            if(leave) { leave.status = 'Used'; leave.used_date = new Date().toISOString().substring(0, 10); }
-            localStorage.setItem('leaves', JSON.stringify(leaves));
-            renderLeavesList();
-        }
-
-        function updateDashboardStats() {
-            let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            const currentMonth = new Date().toISOString().substring(0, 7);
-
-            let km = bills.filter(b => b.bill_date.startsWith(currentMonth)).reduce((s, b) => s + b.total_km, 0);
-            document.getElementById('dash-total-km').innerText = km.toFixed(1);
-            document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
-        }
-
-        // ================= ডাইনামিক এবং প্রফেশনাল রিপোর্ট প্রিন্ট জেনারেটর =================
-        function triggerReportPrint() {
-            const user = JSON.parse(localStorage.getItem('user_profile'));
-            const selectMonth = document.getElementById('download_month').value; 
-            const type = document.getElementById('download_report_type').value;
-            
-            let bills = JSON.parse(localStorage.getItem('bills')) || [];
-            
-            // সিলেক্টেড মাসের মোট দিনের হিসাব বের করা
-            const year = parseInt(selectMonth.split("-")[0]);
-            const monthIdx = parseInt(selectMonth.split("-")[1]) - 1;
-            const totalDaysInMonth = new Date(year, monthIdx + 1, 0).getDate();
-            
-            // মাসের নাম ফরম্যাট করা (যেমন: April-2026)
-            const dateObj = new Date(year, monthIdx, 1);
-            const monthName = dateObj.toLocaleString('en-US', { month: 'long' }) + "-" + year;
-            const shortMonthName = dateObj.toLocaleString('en-US', { month: 'short' });
-
-            // ৩টি প্রধান ভেরিয়েবল ইনিশিয়ালাইজ করা
-            let totalKmSum = 0;
-            let totalBikeTa = 0;
-            let totalDa = 0;
-            let totalMeals = 0;
-            let rowsHtml = "";
-
-            // ১ থেকে শুরু করে মাসের শেষ দিন পর্যন্ত লুপ চালিয়ে রিয়েল রিপোর্ট টেবিল জেনারেট করা
-            for (let day = 1; day <= totalDaysInMonth; day++) {
-                let dayStr = day < 10 ? '0' + day : day;
-                let currentLoopDate = `${selectMonth}-${dayStr}`;
-                
-                // এই তারিখের কি কোনো ডেটা এন্ট্রি আছে?
-                let matchedBill = bills.find(b => b.bill_date === currentLoopDate);
-                
-                // সপ্তাহের দিন বের করা
-                let currentDayName = new Date(currentLoopDate).toLocaleString('en-US', { weekday: 'short' });
-                
-                // তারিখ দেখানোর কাস্টম ফরম্যাট (যেমন: 01-Apr-26)
-                let displayDate = `${dayStr}-${shortMonthName}-${String(year).substring(2)}`;
-
-                if (type === 'log_sheet') {
-                    if (matchedBill) {
-                        totalKmSum += matchedBill.total_km;
-                        rowsHtml += `
-                            <tr>
-                                <td>${displayDate}</td>
-                                <td>${matchedBill.out_time || ''}</td>
-                                <td>${matchedBill.in_time || ''}</td>
-                                <td>${matchedBill.out_km || ''}</td>
-                                <td>${matchedBill.in_km || ''}</td>
-                                <td style="font-weight: bold;">${matchedBill.total_km || ''}</td>
-                                <td style="text-align: left; padding-left: 8px;">${matchedBill.visited_area || ''}</td>
-                                <td></td>
-                            </tr>`;
-                    } else {
-                        rowsHtml += `<tr><td>${displayDate}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
-                    }
-                } 
-                else if (type === 'tada_bill') {
-                    if (matchedBill) {
-                        let bikeCost = matchedBill.total_km * user.per_km_rate;
-                        let currentDa = (matchedBill.total_km > 0 || matchedBill.visited_area) ? user.da_rate : 0;
-                        let currentMeals = (matchedBill.breakfast || 0) + (matchedBill.lunch || 0) + (matchedBill.dinner || 0);
-                        let dayTotal = bikeCost + currentDa + currentMeals;
-
-                        totalBikeTa += bikeCost;
-                        totalDa += currentDa;
-                        totalMeals += currentMeals;
-
-                        rowsHtml += `
-                            <tr>
-                                <td>${displayDate}</td>
-                                <td>${currentDayName}</td>
-                                <td>Office</td>
-                                <td style="text-align: left; padding-left: 5px;">${matchedBill.visited_area}</td>
-                                <td>${bikeCost.toFixed(0)}</td>
-                                <td>${currentDa}</td>
-                                <td>${currentMeals > 0 ? currentMeals : ''}</td>
-                                <td style="font-weight: bold;">${dayTotal.toFixed(0)}</td>
-                            </tr>`;
-                    } else {
-                        rowsHtml += `
-                            <tr>
-                                <td>${displayDate}</td>
-                                <td>${currentDayName}</td>
-                                <td></td><td></td><td></td><td></td><td></td><td></td>
-                            </tr>`;
-                    }
-                }
-            }
-
-            // নতুন ট্যাব বা উইন্ডো ক্রিয়েট করা
-            let pWin = window.open('', '_blank');
-            
-            let headerTemplate = `
-                <div style="text-align: center; font-family: Arial, sans-serif;">
-                    <h2 style="margin: 2px 0; font-size: 20px; font-weight: bold; letter-spacing: 0.5px;">${user.company_name}</h2>
-                    <h3 style="margin: 2px 0; font-size: 15px; font-weight: normal;">${user.branch_name}</h3>
-                    <h4 style="margin: 8px 0 15px 0; font-size: 14px; font-weight: bold; text-decoration: underline;">
-                        ${type === 'log_sheet' ? 'MOTOR BIKE LOG SHEET' : `TA/DA BILL (${monthName})`}
-                    </h4>
-                </div>
-            `;
-
-            let metaTableTemplate = "";
-            if (type === 'log_sheet') {
-                metaTableTemplate = `
-                <table style="width:100%; font-family:Arial; font-size:12px; margin-bottom:10px; border:none;">
-                    <tr style="border:none;">
-                        <td style="border:none; text-align:left; width:50%; padding: 2px 0;"><strong>Drived By:</strong> ${user.full_name}</td>
-                        <td style="border:none; text-align:left; width:50%; padding: 2px 0;"><strong>Designation:</strong> ${user.designation}</td>
-                    </tr>
-                    <tr style="border:none;">
-                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Vehicle No:</strong> ${user.vehicle_no}</td>
-                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Area/Line:</strong> ${user.area_line}</td>
-                    </tr>
-                    <tr style="border:none;">
-                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Dv Li:</strong> ${user.license_no}</td>
-                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Month:</strong> ${monthName}</td>
-                    </tr>
-                </table>`;
-            } else {
-                metaTableTemplate = `
-                <table style="width:100%; font-family:Arial; font-size:12px; margin-bottom:10px; border:none;">
-                    <tr style="border:none;">
-                        <td style="border:none; text-align:left; width:60%; padding: 2px 0;"><strong>Name:</strong> ${user.full_name}</td>
-                        <td style="border:none; text-align:right; width:40%; padding: 2px 0;"><strong>Fixed Bike Allowance:</strong> ${user.bike_allowance} Tk</td>
-                    </tr>
-                    <tr style="border:none;">
-                        <td style="border:none; text-align:left; padding: 2px 0;"><strong>Designation:</strong> ${user.designation}</td>
-                        <td style="border:none; text-align:right; padding: 2px 0;"><strong>Phone:</strong> ${user.phone_no}</td>
-                    </tr>
-                </table>`;
-            }
-
-            let mainTableHtml = "";
-            if (type === 'log_sheet') {
-                mainTableHtml = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th rowspan="2" width="12%">Date</th>
-                            <th colspan="2" width="18%">Time</th>
-                            <th colspan="3" width="25%">Mileage (KM)</th>
-                            <th rowspan="2" width="35%">Visited Area</th>
-                            <th rowspan="2" width="10%">Remarks</th>
-                        </tr>
-                        <tr>
-                            <th>Out</th>
-                            <th>In</th>
-                            <th>Out</th>
-                            <th>In</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${rowsHtml}
-                        <tr style="font-weight: bold; background-color: #f9f9f9;">
-                            <td colspan="3"></td>
-                            <td colspan="2" style="text-align: right; padding-right: 10px;">Total Mileage</td>
-                            <td>${totalKmSum}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>`;
-            } else {
-                let netPayableAmount = totalBikeTa + totalDa + totalMeals + user.bike_allowance;
-                mainTableHtml = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th rowspan="2" width="12%">Date</th>
-                            <th rowspan="2" width="8%">Day</th>
-                            <th colspan="2" width="35%">Visited Area</th>
-                            <th rowspan="2" width="12%">Bike (TA)</th>
-                            <th rowspan="2" width="11%">Allowance (DA)</th>
-                            <th rowspan="2" width="11%">Meals</th>
-                            <th rowspan="2" width="11%">Total</th>
-                        </tr>
-                        <tr>
-                            <th>From</th>
-                            <th>To</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${rowsHtml}
-                        <tr style="font-weight: bold; background-color: #f2f2f2;">
-                            <td colspan="4" style="text-align: center;">Monthly Total</td>
-                            <td>${totalBikeTa.toLocaleString('en-IN')}</td>
-                            <td>${totalDa.toLocaleString('en-IN')}</td>
-                            <td>${totalMeals > 0 ? totalMeals.toLocaleString('en-IN') : '0'}</td>
-                            <td>${(totalBikeTa + totalDa + totalMeals).toLocaleString('en-IN')}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div style="margin-top: 20px; width: 320px; font-family: Arial; font-size: 12px; float: left;">
-                    <table style="border: 1px solid #000; width: 100%;">
-                        <tr>
-                            <td style="text-align: left; padding: 5px; border: 1px solid #000; width: 60%;">Total Motor Bike (TA):</td>
-                            <td style="text-align: right; padding: 5px; border: 1px solid #000; font-weight: bold;">${totalBikeTa.toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; padding: 5px; border: 1px solid #000;">Total DA & Meals:</td>
-                            <td style="text-align: right; padding: 5px; border: 1px solid #000; font-weight: bold;">${(totalDa + totalMeals).toFixed(2)}</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; padding: 5px; border: 1px solid #000;">Fixed Bike Allowance:</td>
-                            <td style="text-align: right; padding: 5px; border: 1px solid #000; font-weight: bold;">${user.bike_allowance.toFixed(2)}</td>
-                        </tr>
-                        <tr style="background-color: #e6e6e6; font-weight: bold;">
-                            <td style="text-align: left; padding: 5px; border: 1px solid #000;">Net Payable:</td>
-                            <td style="text-align: right; padding: 5px; border: 1px solid #000; color: #000;">${netPayableAmount.toFixed(2)} TK</td>
-                        </tr>
-                    </table>
-                </div>
-                <div style="clear: both;"></div>`;
-            }
-
-            let footerTemplate = `
-                <table style="width:100%; border:none; margin-top: 70px; font-family:Arial; font-size:12px;">
-                    <tr style="border:none;">
-                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 5px;">Prepared By</td>
-                        <td style="border:none; width: 17%;"></td>
-                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 5px;">Checked By</td>
-                        <td style="border:none; width: 17%;"></td>
-                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 5px;">Approved By</td>
-                    </tr>
-                </table>
-            `;
-
-            let fullLayout = `
-            <html>
-            <head>
-                <title>${type === 'log_sheet' ? 'Log_Sheet_' : 'TA_DA_Bill_'}${selectMonth}</title>
-                <style>
-                    body { padding: 10px 25px; background: #ffffff; color: #000; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 5px; font-family: Arial, sans-serif; font-size: 11px; }
-                    th, td { border: 1px solid #000; padding: 4px; text-align: center; }
-                    th { background-color: #ffffff; font-weight: bold; }
-                    @media print {
-                        body { padding: 0; }
-                        @page { size: A4; margin: 1.5cm 1cm; }
-                    }
-                </style>
-            </head>
-            <body>
-                ${headerTemplate}
-                ${metaTableTemplate}
-                ${mainTableHtml}
-                ${footerTemplate}
-                <script>
-                    window.onload = function() { window.print(); }
-                <\/script>
-            </body>
-            </html>`;
-
-            pWin.document.write(fullLayout);
-            pWin.document.close();
-        }
-
-        function initDates() {
-            const today = new Date();
-            const ym = today.toISOString().substring(0, 7);
-            document.getElementById('bill_date').value = today.toISOString().substring(0, 10);
-            document.getElementById('filter_from').value = ym + "-01";
-            document.getElementById('filter_to').value = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().substring(0, 10);
-            document.getElementById('register_month').value = ym;
-            document.getElementById('leave_filter_month').value = ym;
-            document.getElementById('download_month').value = ym;
-        }
-
-        function logout() {
-            sessionStorage.removeItem('isLoggedIn');
-            Swal.fire('লগআউট', 'আপনার অফলাইন সেশনটি নিরাপদে বন্ধ করা হয়েছে!', 'success').then(() => { checkAuthFlow(); });
-        }
-    </script>
-</body>
-</html>
+                    <button class="btn btn-
