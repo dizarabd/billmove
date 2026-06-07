@@ -44,20 +44,44 @@
         .form-control:focus, .form-select:focus { border-color: var(--pink); box-shadow: 0 0 0 0.25rem rgba(226,19,110,0.1); }
         .btn-pink { background: var(--pink); color: white; border-radius: 50px; font-weight: bold; border: none; transition: 0.2s; padding: 12px; }
         .btn-pink:hover { background: var(--dark-pink); color: white; }
+        .btn-outline-pink { border: 2px solid var(--pink); color: var(--pink); border-radius: 50px; font-weight: bold; background: transparent; transition: 0.2s; padding: 12px; }
+        .btn-outline-pink:hover { background: var(--pink); color: white; }
         
         @media print { .no-print { display: none !important; } body { padding: 0; background: white; } .app-section.active-block { display: block; padding-top: 0; } .custom-card { box-shadow: none; border: 1px solid #eee; } }
     </style>
 </head>
 <body>
 
-    <!-- ================= ১. রেজিস্ট্রেশন স্ক্রিন ================= -->
+    <!-- ================= ১. প্রথম স্বাগত স্ক্রিন (লগইন / রেজিস্ট্রেশন চয়েস) ================= -->
+    <div id="welcome-screen" class="auth-screen">
+        <div class="container px-4 text-center" style="padding-top: 100px;">
+            <div class="mb-4">
+                <i class="fa fa-wallet fa-4x text-danger mb-3"></i>
+                <h2 class="fw-bold text-dark">BillMove Suite</h2>
+                <p class="text-muted small px-3">আপনার ব্যক্তিগত টিএ/ডিএ বিল এবং অফলাইন খাতা ম্যানেজমেন্টের সম্পূর্ণ ডিজিটাল সমাধান।</p>
+            </div>
+            
+            <div class="mt-5 d-grid gap-3 px-2">
+                <button onclick="showAuthPage('login')" class="btn btn-pink py-3 shadow-sm">
+                    <i class="fa fa-sign-in-alt me-2"></i> লগইন করুন
+                </button>
+                <button onclick="showAuthPage('register')" class="btn btn-outline-pink py-3">
+                    <i class="fa fa-user-plus me-2"></i> নতুন রেজিস্ট্রেশন
+                </button>
+            </div>
+            <p class="small text-muted mt-5">সিস্টেম ভার্সন ২.০.২৬ (সম্পূর্ণ অফলাইন ও নিরাপদ)</p>
+        </div>
+    </div>
+
+    <!-- ================= ২. রেজিস্ট্রেশন স্ক্রিন ================= -->
     <div id="register-screen" class="auth-screen">
         <div class="container px-4">
-            <div class="text-center mb-4">
-                <i class="fa fa-user-plus fa-3x text-danger mb-2"></i>
-                <h4 class="fw-bold">প্রোফাইল রেজিস্ট্রেশন</h4>
-                <p class="text-muted small">আপনার এই তথ্যের ওপর ভিত্তি করে সকল বিল ও রিপোর্ট তৈরি হবে</p>
+            <div class="d-flex align-items-center mb-3">
+                <button onclick="showAuthPage('welcome')" class="btn p-0 text-muted me-3"><i class="fa fa-arrow-left fs-5"></i></button>
+                <h4 class="fw-bold mb-0">প্রোফাইল রেজিস্ট্রেশন</h4>
             </div>
+            <p class="text-muted small mb-4">আপনার এই তথ্যের ওপর ভিত্তি করে সকল বিল ও রিপোর্ট তৈরি হবে।</p>
+            
             <form id="regForm" onsubmit="handleRegistration(event)">
                 <div class="row g-2 mb-2">
                     <div class="col-6">
@@ -103,7 +127,7 @@
                         <input type="text" id="reg_lic_no" class="form-control" placeholder="XYZ789654" required>
                     </div>
                 </div>
-                <div class="row g-2 mb-3">
+                <div class="row g-2 mb-4">
                     <div class="col-4">
                         <label class="small fw-bold text-muted">প্রতি কিমি রেট</label>
                         <input type="number" step="0.1" id="reg_km_rate" class="form-control" value="4.5" required>
@@ -122,30 +146,31 @@
         </div>
     </div>
 
-    <!-- ================= ২. লগইন স্ক্রিন ================= -->
+    <!-- ================= ৩. লগইন স্ক্রিন ================= -->
     <div id="login-screen" class="auth-screen">
-        <div class="container px-4 text-center" style="padding-top: 80px;">
-            <i class="fa fa-shield-alt fa-4x text-danger mb-3"></i>
-            <h3 class="fw-bold">BillMove লগইন</h3>
-            <p class="text-muted small mb-4">আপনার সিস্টেমে প্রবেশ করতে এমপ্লয়ী আইডি দিন</p>
+        <div class="container px-4" style="padding-top: 60px;">
+            <div class="d-flex align-items-center mb-4">
+                <button onclick="showAuthPage('welcome')" class="btn p-0 text-muted me-3"><i class="fa fa-arrow-left fs-5"></i></button>
+                <h3 class="fw-bold mb-0">BillMove লগইন</h3>
+            </div>
+            <p class="text-muted small mb-4">আপনার সিকিউর ড্যাশবোর্ডে প্রবেশ করতে আপনার নিবন্ধিত এমপ্লয়ী আইডি দিন।</p>
             
-            <div class="custom-card text-start shadow-sm">
+            <div class="custom-card text-start shadow-sm py-4">
                 <form id="loginForm" onsubmit="handleLogin(event)">
-                    <div class="mb-3">
-                        <label class="small fw-bold text-muted mb-1">এমপ্লয়ী আইডি (ID)</label>
+                    <div class="mb-4">
+                        <label class="small fw-bold text-muted mb-2">এমপ্লয়ী আইডি (Employee ID)</label>
                         <input type="text" id="login_id" class="form-control" placeholder="যেমন: BM-2026" required>
                     </div>
-                    <button type="submit" class="btn btn-pink w-100">লগইন করুন</button>
+                    <button type="submit" class="btn btn-pink w-100 py-2">লগইন করুন</button>
                 </form>
             </div>
-            <p class="small text-muted mt-3">ডিভাইস পরিবর্তন বা ডাটা রিসেট করতে চাইলে নতুন রেজিস্ট্রেশন করুন।</p>
         </div>
     </div>
 
 
-    <!-- ================= ৩. মূল অ্যাপ্লিকেশন লেআউট (লগইন এর পর দেখাবে) ================= -->
+    <!-- ================= ৪. মূল অ্যাপ্লিকেশন লেআউট ================= -->
     <div id="app-layout" style="display: none;">
-        <!-- নিচে ফিক্সড নেভিগেশন বার (ট্যাব সিস্টেম) -->
+        <!-- ফিক্সড নেভিগেশন বার -->
         <div class="bottom-nav no-print">
             <div class="nav-item active" id="tab-dashboard" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
             <div class="nav-item" id="tab-add-bill" onclick="switchTab('add-bill')"><i class="fa fa-plus-circle"></i>বিল এন্ট্রি</div>
@@ -284,8 +309,8 @@
                                 <tr>
                                     <th width="10%"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
                                     <th width="25%">তারিখ</th>
-                                    <th width="45%">এলাকা</th>
-                                    <th width="20%">কি.米.</th>
+                                    <th width="45%">এलाকা</th>
+                                    <th width="20%">কি.মি.</th>
                                 </tr>
                             </thead>
                             <tbody id="bill-list-table"></tbody>
@@ -383,10 +408,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // owner.jpg ইমেজ রেফারেন্স ট্রিক
-        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAQAAwADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAf/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAfbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//2Q==";
+        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAQAAwADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAfbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//2Q==";
 
-        // লোকাল মেমোরি চেক
         if(!localStorage.getItem('bills')) localStorage.setItem('bills', JSON.stringify([]));
         if(!localStorage.getItem('leaves')) localStorage.setItem('leaves', JSON.stringify([]));
 
@@ -396,29 +419,43 @@
             checkAuthFlow();
         };
 
-        // সেশন ও অথেন্টিকেশন গেটওয়ে
+        // স্বাগত স্ক্রিন ও অথেনটিকেশন ফ্লো হ্যান্ডলার
         function checkAuthFlow() {
-            const user = JSON.parse(localStorage.getItem('user_profile'));
             const isLoggedIn = sessionStorage.getItem('isLoggedIn');
 
-            // সব স্ক্রিন আগে হাইড করি
-            document.getElementById('register-screen').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'none';
+            // সব উইন্ডো হাইড করি
+            document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
             document.getElementById('app-layout').style.display = 'none';
 
-            if(!user) {
-                // ইউজার না থাকলে প্রথমবার রেজিস্ট্রেশন ফর্ম
-                document.getElementById('register-screen').classList.add('active-block');
-            } else if(!isLoggedIn) {
-                // রেজিস্টার্ড কিন্তু লগইন করা নাই
-                document.getElementById('login-screen').classList.add('active-block');
-            } else {
-                // সব কমপ্লিট থাকলে অ্যাপ মেইন ড্যাশবোর্ড ওপেন
+            if(isLoggedIn === 'true') {
+                // সফল লগইন থাকলে মূল অ্যাপ
                 document.getElementById('app-layout').style.display = 'block';
-                loadUserProfileData(user);
+                loadUserProfileData(JSON.parse(localStorage.getItem('user_profile')));
                 syncFridayLeaves();
                 autoExpireLeaves();
                 updateDashboardStats();
+            } else {
+                // লগইন না থাকলে ওয়েলকাম স্ক্রিন ওপেন হবে
+                document.getElementById('welcome-screen').style.display = 'block';
+            }
+        }
+
+        // বাটন ক্লিকে পেজ পরিবর্তনের সাব-রুটিন
+        function showAuthPage(pageType) {
+            document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
+            
+            if(pageType === 'welcome') {
+                document.getElementById('welcome-screen').style.display = 'block';
+            } else if(pageType === 'login') {
+                // চেক করি প্রোফাইল বানানো আছে কি না
+                if(!localStorage.getItem('user_profile')) {
+                    Swal.fire('কোনো প্রোফাইল নেই!', 'সিস্টেমে আগে একটি প্রোফাইল রেজিস্ট্রেশন করুন।', 'warning');
+                    document.getElementById('register-screen').style.display = 'block';
+                } else {
+                    document.getElementById('login-screen').style.display = 'block';
+                }
+            } else if(pageType === 'register') {
+                document.getElementById('register-screen').style.display = 'block';
             }
         }
 
@@ -464,14 +501,12 @@
             }
         }
 
-        // ইউজারের প্রোফাইল ডাটা ড্যাশবোর্ডে সেট করা
         function loadUserProfileData(user) {
             document.getElementById('profile-name').innerText = user.full_name;
             document.getElementById('profile-desig').innerText = user.designation;
             document.getElementById('profile-id').innerText = `ID: ${user.employee_id}`;
         }
 
-        // ট্যাব ম্যানেজমেন্ট লজিক
         function switchTab(tabId) {
             document.querySelectorAll('.app-section').forEach(sec => sec.classList.remove('active-block'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -485,14 +520,12 @@
             if(tabId === 'leaves') renderLeavesList();
         }
 
-        // বিল ক্যালকুলেশন
         function calcKm() {
             const outKm = parseFloat(document.getElementById('out_km').value) || 0;
             const inKm = parseFloat(document.getElementById('in_km').value) || 0;
             document.getElementById('total_km').value = inKm >= outKm ? inKm - outKm : 0;
         }
 
-        // বিল সেভ
         function saveBill(e) {
             e.preventDefault();
             let bills = JSON.parse(localStorage.getItem('bills'));
@@ -526,7 +559,6 @@
             });
         }
 
-        // রিপোর্ট মেকার লিস্ট
         function renderBillList() {
             const fromDate = document.getElementById('filter_from').value;
             const toDate = document.getElementById('filter_to').value;
@@ -580,7 +612,6 @@
             });
         }
 
-        // খাতা জেনারেটর
         function renderRegisterView() {
             const month = document.getElementById('register_month').value;
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
@@ -593,7 +624,6 @@
             document.getElementById('register-table-body').innerHTML = html || `<tr><td colspan="5" class="py-3 text-muted">কোনো রেকর্ড নেই</td></tr>`;
         }
 
-        // ছুটি সিঙ্ক
         function syncFridayLeaves() {
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
@@ -631,7 +661,7 @@
         function renderLeavesList() {
             const m = document.getElementById('leave_filter_month').value;
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
-            let filtered = leaves.filter(l => l.duty_date.startsWith(m)).sort((a,b) => new Date(b.duty_date) - new Date(a.duty_date));
+            let filtered = leaves.filter(l => l.duty_date.startsWith(m)).sort((a,b) => new Date(a.duty_date) - new Date(b.duty_date));
 
             let html = "";
             filtered.forEach(l => {
@@ -649,7 +679,6 @@
             renderLeavesList();
         }
 
-        // ড্যাশবোর্ড আপডেট
         function updateDashboardStats() {
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
@@ -660,7 +689,6 @@
             document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
         }
 
-        // ক্লায়েন্ট সাইড কাস্টম প্রিন্ট রিপোর্ট গেটওয়ে
         function triggerReportPrint() {
             const user = JSON.parse(localStorage.getItem('user_profile'));
             const m = document.getElementById('download_month').value;
@@ -688,76 +716,12 @@
                 totalDa += daVal;
                 totalMeals += mealVal;
 
-                rowsHtml += `
-                    <tr>
-                        <td>${b.bill_date}</td>
-                        <td>${b.visited_area}</td>
-                        <td>${b.total_km} KM</td>
-                        <td>${type === 'log_sheet' ? (b.out_time + ' - ' + b.in_time) : (bikeTa.toFixed(0) + ' TK')}</td>
-                        ${type === 'tada_bill' ? `<td>${daVal}</td><td>${mealVal}</td>` : ''}
-                    </tr>`;
+                rowsHtml += `<tr><td>${b.bill_date}</td><td>${b.visited_area}</td><td>${b.total_km} KM</td><td>${type === 'log_sheet' ? (b.out_time + ' - ' + b.in_time) : (bikeTa.toFixed(0) + ' TK')}</td>${type === 'tada_bill' ? `<td>${daVal}</td><td>${mealVal}</td>` : ''}</tr>`;
             });
 
             let netPayable = totalBikeTa + totalDa + totalMeals + (type === 'tada_bill' ? user.bike_allowance : 0);
 
-            let printContent = `
-                <html>
-                <head>
-                    <title>Report_${m}</title>
-                    <style>
-                        body { font-family: sans-serif; font-size:12px; padding:20px; }
-                        .text-center { text-align: center; }
-                        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-                        th, td { border: 1px solid #000; padding: 6px; text-align: center; }
-                        th { background: #f2f2f2; }
-                    </style>
-                </head>
-                <body>
-                    <div class="text-center">
-                        <h2>${user.company_name}</h2>
-                        <h3>${user.branch_name}</h3>
-                        <u><h4>${type === 'log_sheet' ? 'MOTOR BIKE LOG SHEET' : 'TA/DA BILL REPORT'} (${m})</h4></u>
-                    </div>
-                    <p><strong>নাম:</strong> ${user.full_name} | <strong>আইডি:</strong> ${user.employee_id} | <strong>পদবী:</strong> ${user.designation}</p>
-                    <p><strong>গাড়ির নং:</strong> ${user.vehicle_no} | <strong>রুট/লাইন:</strong> ${user.area_line}</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>তারিখ</th>
-                                <th>পরিদর্শন এলাকা</th>
-                                <th>মোট কিমি</th>
-                                <th>${type === 'log_sheet' ? 'সময় (আউট - ইন)' : 'বাইক বিল (TA)'}</th>
-                                ${type === 'tada_bill' ? '<th>ডিএ (DA)</th><th>খাবার (Meals)</th>' : ''}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${rowsHtml}
-                            <tr style="font-weight:bold; background:#fafafa;">
-                                <td colspan="2" style="text-align:right;">সর্বমোট:</td>
-                                <td>${filtered.reduce((s,b)=>s+b.total_km, 0)} KM</td>
-                                <td>${type === 'tada_bill' ? totalBikeTa.toFixed(2) + ' TK' : '-'}</td>
-                                ${type === 'tada_bill' ? `<td>${totalDa} TK</td><td>${totalMeals} TK</td>` : ''}
-                            </tr>
-                        </tbody>
-                    </table>
-                    ${type === 'tada_bill' ? `
-                    <div style="margin-top:15px; width:300px;">
-                        <table style="border:1px solid #000;">
-                            <tr><td>ফিক্সড বাইক এলাউন্স:</td><td>${user.bike_allowance.toFixed(2)} TK</td></tr>
-                            <tr style="font-weight:bold; background:#eee;"><td>মোট প্রদেয় (Net):</td><td>${netPayable.toFixed(2)} TK</td></tr>
-                        </table>
-                    </div>` : ''}
-                    <br><br><br><br>
-                    <table style="border:none; width:100%;">
-                        <tr style="border:none;">
-                            <td style="border:none; text-align:left;">Prepared By</td>
-                            <td style="border:none; text-align:center;">Checked By</td>
-                            <td style="border:none; text-align:right;">Approved By</td>
-                        </tr>
-                    </table>
-                    <script>window.print();<\/script>
-                </body>
-                </html>`;
+            let printContent = `<html><head><title>Report_${m}</title><style>body { font-family: sans-serif; font-size:12px; padding:20px; }.text-center { text-align: center; }table { width: 100%; border-collapse: collapse; margin-top: 15px; }th, td { border: 1px solid #000; padding: 6px; text-align: center; }th { background: #f2f2f2; }</style></head><body><div class="text-center"><h2>${user.company_name}</h2><h3>${user.branch_name}</h3><u><h4>${type === 'log_sheet' ? 'MOTOR BIKE LOG SHEET' : 'TA/DA BILL REPORT'} (${m})</h4></u></div><p><strong>নাম:</strong> ${user.full_name} | <strong>আইডি:</strong> ${user.employee_id} | <strong>পদবী:</strong> ${user.designation}</p><p><strong>গাড়ির নং:</strong> ${user.vehicle_no} | <strong>রুট/লাইন:</strong> ${user.area_line}</p><table><thead><tr><th>তারিখ</th><th>পরিদর্শন এলাকা</th><th>মোট কিমি</th><th>${type === 'log_sheet' ? 'সময় (আউট - ইন)' : 'বাইক বিল (TA)'}</th>${type === 'tada_bill' ? '<th>ডিএ (DA)</th><th>খাবার (Meals)</th>' : ''}</tr></thead><tbody>${rowsHtml}<tr style="font-weight:bold; background:#fafafa;"><td colspan="2" style="text-align:right;">সর্বমোট:</td><td>${filtered.reduce((s,b)=>s+b.total_km, 0)} KM</td><td>${type === 'tada_bill' ? totalBikeTa.toFixed(2) + ' TK' : '-'}</td>${type === 'tada_bill' ? `<td>${totalDa} TK</td><td>${totalMeals} TK</td>` : ''}</tr></tbody></table>${type === 'tada_bill' ? `<div style="margin-top:15px; width:300px;"><table style="border:1px solid #000;"><tr><td>ফিক্সড বাইক এলাউন্স:</td><td>${user.bike_allowance.toFixed(2)} TK</td></tr><tr style="font-weight:bold; background:#eee;"><td>মোট প্রদেয় (Net):</td><td>${netPayable.toFixed(2)} TK</td></tr></table></div>` : ''}<br><br><br><br><table style="border:none; width:100%;"><tr style="border:none;"><td style="border:none; text-align:left;">Prepared By</td><td style="border:none; text-align:center;">Checked By</td><td style="border:none; text-align:right;">Approved By</td></tr></table><script>window.print();<\/script></body></html>`;
 
             pWin.document.write(printContent);
             pWin.document.close();
