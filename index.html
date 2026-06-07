@@ -29,7 +29,13 @@
         /* UI Cards */
         .profile-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-top: 15px; position: relative; }
         .profile-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); box-shadow: 0 4px 10px rgba(226,19,110,0.2); }
-        .stat-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); height: 100%; border-left: 4px solid var(--pink); }
+        
+        /* Professional Dashboard Stat Cards */
+        .stat-card-premium { background: white; border-radius: 16px; padding: 14px 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); height: 100%; transition: transform 0.2s; }
+        .stat-card-premium i { font-size: 20px; margin-bottom: 6px; display: inline-block; }
+        .stat-card-premium h4 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+        .stat-card-premium small { font-size: 11px; color: #757575; font-weight: 500; display: block; }
+        
         .custom-card { border-radius: 15px; border: none; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 15px; margin-bottom: 15px; }
         
         /* Badges */
@@ -179,7 +185,7 @@
             <div class="nav-item" id="tab-download" onclick="switchTab('download')"><i class="fa fa-download"></i>ডাউনলোড</div>
         </div>
 
-        <!-- ড্যাশবোর্ড ট্যাব -->
+        <!-- প্রফেশনাল ড্যাশবোর্ড ট্যাব -->
         <div id="dashboard" class="app-section active-block">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold"><i class="fa fa-rocket me-2"></i>BillMove ড্যাশবোর্ড</h6>
@@ -187,30 +193,37 @@
             </div>
             <div class="container px-3">
                 <div class="profile-card">
-                    <!-- প্রোফাইল এডিট করার বাটন -->
                     <button class="btn btn-sm btn-light text-secondary position-absolute top-0 end-0 m-3 rounded-circle shadow-sm" onclick="openProfileEditModal()" title="প্রোফাইল সংশোধন">
                         <i class="fa fa-user-edit fs-6"></i>
                     </button>
 
-                    <img src="logo (4).png" id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
+                    <img id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
                     <h5 class="fw-bold mb-0" id="profile-name">---</h5>
                     <p class="text-muted small mb-0" id="profile-desig">---</p>
                     <span class="badge bg-dark mt-2" id="profile-id">ID: ---</span>
                 </div>
                 
-                <div class="row g-2 mt-2">
-                    <div class="col-6">
-                        <div class="stat-card">
-                            <i class="fa fa-road text-muted mb-1"></i>
-                            <h4 class="fw-bold text-dark mb-0" id="dash-total-km">0</h4>
-                            <small class="text-muted small" style="font-size: 10px;">চলতি মাসের কি.মি.</small>
+                <!-- প্রফেশনাল ৩টি ৩-কলাম বিশিষ্ট স্ট্যাটাস কার্ড গ্রিড -->
+                <div class="row g-2 mt-3">
+                    <div class="col-4">
+                        <div class="stat-card-premium">
+                            <i class="fa fa-road text-primary"></i>
+                            <h4 class="text-dark mb-0" id="dash-total-km">0</h4>
+                            <small>মোট কি.মি.</small>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="stat-card" style="border-left-color: #2e7d32;">
-                            <i class="fa fa-star text-muted mb-1"></i>
-                            <h4 class="fw-bold text-success mb-0" id="dash-active-leaves">0</h4>
-                            <small class="text-muted small" style="font-size: 10px;">অ্যাভেলেবল ছুটি</small>
+                    <div class="col-4">
+                        <div class="stat-card-premium" style="background: #fff5f8; border-color: rgba(226,19,110,0.15);">
+                            <i class="fa fa-money-bill-wave text-success"></i>
+                            <h4 class="text-success mb-0" id="dash-total-money">0</h4>
+                            <small class="fw-bold text-dark">টোটাল টাকা</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-card-premium">
+                            <i class="fa fa-calendar-alt text-warning"></i>
+                            <h4 class="text-dark mb-0" id="dash-active-leaves">0</h4>
+                            <small>ফ্রি ছুটি</small>
                         </div>
                     </div>
                 </div>
@@ -333,7 +346,7 @@
             </div>
             <div class="container px-2 mt-2">
                 <div class="custom-card no-print py-2 mb-2">
-                    <label class="small fw-bold text-muted mb-1">মাস সিলেক্ট করুন</label>
+                    <label class="small fw-bold text-muted mb-1">Maps সিলেক্ট করুন</label>
                     <input type="month" id="register_month" class="form-control form-control-sm" onchange="renderRegisterView()">
                 </div>
                 <div class="custom-card p-0 overflow-hidden">
@@ -479,7 +492,7 @@
         </div>
     </div>
 
-    <!-- ================= ৬. ইউজার প্রোফাইল এডিট করার নতুন মোডাল ================= -->
+    <!-- ================= ৬. ইউজার প্রোফাইল এডিট করার মোডাল ================= -->
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-scrollable">
             <div class="modal-content" style="border-radius: 15px;">
@@ -654,7 +667,6 @@
             }
         }
 
-        /* প্রোফাইল এডিট মোডাল ওপেন করার ফাংশন */
         function openProfileEditModal() {
             const user = JSON.parse(localStorage.getItem('user_profile'));
             if(user) {
@@ -675,14 +687,13 @@
             }
         }
 
-        /* প্রোফাইল ডাটা আপডেট করার ফাংশন */
         function updateProfileData(e) {
             e.preventDefault();
             const currentUser = JSON.parse(localStorage.getItem('user_profile'));
             
             const updatedProfile = {
                 full_name: document.getElementById('edit_prof_name').value,
-                employee_id: currentUser.employee_id, // আইডি পরিবর্তনযোগ্য নয়
+                employee_id: currentUser.employee_id,
                 designation: document.getElementById('edit_prof_desig').value,
                 phone_no: document.getElementById('edit_prof_phone').value,
                 company_name: document.getElementById('edit_prof_company').value,
@@ -698,6 +709,7 @@
             localStorage.setItem('user_profile', JSON.stringify(updatedProfile));
             loadUserProfileData(updatedProfile);
             editProfileModalObj.hide();
+            updateDashboardStats();
 
             Swal.fire('সফল', 'আপনার প্রোফাইল তথ্য সফলভাবে আপডেট করা হয়েছে!', 'success');
         }
@@ -953,13 +965,37 @@
             renderLeavesList();
         }
 
+        /* প্রফেশনাল ড্যাশবোর্ড ক্যালকুলেশন (রানিং মাসের কিলোমিটার এবং টোটাল টাকার হিসাব) */
         function updateDashboardStats() {
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            let user = JSON.parse(localStorage.getItem('user_profile'));
             const currentMonth = new Date().toISOString().substring(0, 7);
 
-            let km = bills.filter(b => b.bill_date.startsWith(currentMonth)).reduce((s, b) => s + b.total_km, 0);
-            document.getElementById('dash-total-km').innerText = km.toFixed(1);
+            // ১. চলতি মাসের কিলোমিটার ক্যালকুলেশন
+            let monthlyBills = bills.filter(b => b.bill_date.startsWith(currentMonth));
+            let totalKm = monthlyBills.reduce((sum, b) => sum + b.total_km, 0);
+            
+            // ২. চলতি মাসের সর্বমোট টাকা (TA + DA + Meals + Fixed Allowance) ক্যালকুলেশন
+            let totalMoney = 0;
+            if(user) {
+                let kmRate = user.per_km_rate || 5.00;
+                let fixedBikeAllowance = user.bike_allowance || 1100;
+                
+                let taCost = totalKm * kmRate; // মোট কিলোমিটার বিল
+                
+                let daAndMeals = monthlyBills.reduce((sum, b) => {
+                    let currentDa = (b.custom_da !== undefined) ? b.custom_da : (user.da_rate || 190);
+                    let mealsCost = (b.breakfast || 0) + (b.lunch || 0) + (b.dinner || 0);
+                    return sum + currentDa + mealsCost;
+                }, 0);
+                
+                // সর্বমোট টাকা = কিলোমিটার বিল + ডিএ ও মিলস + ফিক্সড বাইক এলাউন্স
+                totalMoney = taCost + daAndMeals + fixedBikeAllowance;
+            }
+
+            document.getElementById('dash-total-km').innerText = totalKm.toFixed(1);
+            document.getElementById('dash-total-money').innerText = `৳${Math.round(totalMoney).toLocaleString('en-IN')}`;
             document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
         }
 
