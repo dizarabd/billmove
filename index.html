@@ -4,13 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BillMove - Complete Offline Suite</title>
+    
+    <!-- PWA Meta Tags for Mobile App Experience -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="BillMove">
+    <meta name="theme-color" content="#e2136e">
+    
+    <!-- Favicon Integration -->
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluent/48/000000/wallet.png">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluent/192/000000/wallet.png">
+    
+    <!-- Web Manifest for Mobile App Download -->
+    <link rel="manifest" id="pwa-manifest">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     
     <style>
         :root { --pink: #e2136e; --dark-pink: #b00d54; --bg: #f8f9fa; }
-        body { background-color: var(--bg); font-family: 'Segoe UI', Roboto, sans-serif; padding-bottom: 70px; }
+        body { background-color: var(--bg); font-family: 'Segoe UI', Roboto, sans-serif; padding-bottom: 70px; user-select: none; }
         
         /* Navigation & Tabs */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 1050; display: flex; justify-content: space-around; padding: 8px 0; }
@@ -26,14 +40,16 @@
         /* Header */
         .header-pink { background: linear-gradient(135deg, var(--pink), var(--dark-pink)); color: white; padding: 15px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 0 0 20px 20px; }
         
-        /* UI Cards */
+        /* UI Cards & Profile Pic Upload Wrapper */
         .profile-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-top: 15px; position: relative; }
-        .profile-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); box-shadow: 0 4px 10px rgba(226,19,110,0.2); }
+        .avatar-wrapper { position: relative; width: 95px; height: 95px; margin: 0 auto 10px auto; }
+        .profile-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); box-shadow: 0 4px 10px rgba(226,19,110,0.2); background: #eee; }
+        .avatar-edit-btn { position: absolute; bottom: 0; end: 0; background: var(--pink); color: white; border: 2px solid white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         
         /* Professional Dashboard Stat Cards */
         .stat-card-premium { background: white; border-radius: 16px; padding: 14px 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); height: 100%; transition: transform 0.2s; }
         .stat-card-premium i { font-size: 20px; margin-bottom: 6px; display: inline-block; }
-        .stat-card-premium h4 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+        .stat-card-premium h4 { font-size: 16px; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .stat-card-premium small { font-size: 11px; color: #757575; font-weight: 500; display: block; }
         
         .custom-card { border-radius: 15px; border: none; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 15px; margin-bottom: 15px; }
@@ -57,6 +73,13 @@
     </style>
 </head>
 <body>
+
+    <!-- PWA Install Prompt (Top Banner Component) -->
+    <div id="pwa-install-banner" class="bg-dark text-white p-2 text-center fixed-top no-print" style="display:none; z-index:2000; top:0; font-size:13px;">
+        <span>BillMove অ্যাপটি মোবাইলে ডাউনলোড করুন!</span>
+        <button class="btn btn-sm btn-pink ms-2 py-1 px-3" onclick="triggerPWAInstallation()">ডাউনলোড</button>
+        <button class="btn btn-sm btn-link text-white p-0 ms-2 text-decoration-none" onclick="document.getElementById('pwa-install-banner').style.display='none'">✕</button>
+    </div>
 
     <!-- ================= ১. প্রথম স্বাগত স্ক্রিন ================= -->
     <div id="welcome-screen" class="auth-screen">
@@ -197,13 +220,21 @@
                         <i class="fa fa-user-edit fs-6"></i>
                     </button>
 
-                    <img id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
+                    <!-- Profile Avatar Block with Dynamic Upload Feature -->
+                    <div class="avatar-wrapper">
+                        <img id="user-avatar" class="profile-img" src="https://img.icons8.com/color/96/000000/user-female-circle.png" alt="Owner Profile">
+                        <label for="avatar-input" class="avatar-edit-btn" title="ছবি আপলোড করুন">
+                            <i class="fa fa-camera"></i>
+                        </label>
+                        <input type="file" id="avatar-input" accept="image/*" style="display:none;" onchange="uploadAvatarImage(this)">
+                    </div>
+
                     <h5 class="fw-bold mb-0" id="profile-name">---</h5>
                     <p class="text-muted small mb-0" id="profile-desig">---</p>
                     <span class="badge bg-dark mt-2" id="profile-id">ID: ---</span>
                 </div>
                 
-                <!-- প্রফেশনাল ৩টি ৩-কলাম বিশিষ্ট স্ট্যাটাস কার্ড গ্রিড -->
+                <!-- প্রফেশনাল ৩টি ৩-কলাম বিশিষ্ট স্ট্যাটাসカード গ্রিড -->
                 <div class="row g-2 mt-3">
                     <div class="col-4">
                         <div class="stat-card-premium">
@@ -215,7 +246,7 @@
                     <div class="col-4">
                         <div class="stat-card-premium" style="background: #fff5f8; border-color: rgba(226,19,110,0.15);">
                             <i class="fa fa-money-bill-wave text-success"></i>
-                            <h4 class="text-success mb-0" id="dash-total-money">0</h4>
+                            <h4 class="text-success mb-0" id="dash-total-money">৳০</h4>
                             <small class="fw-bold text-dark">টোটাল টাকা</small>
                         </div>
                     </div>
@@ -571,7 +602,59 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAQAAwADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAfbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//2Q==";
+        // PWA Installation Setup
+        let deferredPrompt = null;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-install-banner').style.display = 'block';
+        });
+
+        function triggerPWAInstallation() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    document.getElementById('pwa-install-banner').style.display = 'none';
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // Inline Web Manifest and Service Worker Generator
+        (function injectPWASuite() {
+            const manifestObj = {
+                "name": "BillMove Suite",
+                "short_name": "BillMove",
+                "start_url": window.location.href,
+                "display": "standalone",
+                "background_color": "#f8f9fa",
+                "theme_color": "#e2136e",
+                "icons": [
+                    { "src": "https://img.icons8.com/fluent/192/000000/wallet.png", "sizes": "192x192", "type": "image/png" },
+                    { "src": "https://img.icons8.com/fluent/512/000000/wallet.png", "sizes": "512x512", "type": "image/png" }
+                ]
+            };
+            const stringManifest = JSON.stringify(manifestObj);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            document.getElementById('pwa-manifest').setAttribute('href', URL.createObjectURL(blob));
+
+            // Offline Service Worker Code Block
+            const swCode = `
+                const CACHE_NAME = 'billmove-v2';
+                self.addEventListener('install', e => self.skipWaiting());
+                self.addEventListener('fetch', e => {
+                    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+                });
+            `;
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.log(err));
+            }
+        })();
 
         if(!localStorage.getItem('bills')) localStorage.setItem('bills', JSON.stringify([]));
         if(!localStorage.getItem('leaves')) localStorage.setItem('leaves', JSON.stringify([]));
@@ -580,12 +663,31 @@
         let editProfileModalObj = null;
 
         window.onload = function() {
-            document.getElementById('user-avatar').src = ownerImageBase64;
+            // Load saved profile image from localStorage or set default illustration
+            const savedAvatar = localStorage.getItem('user_avatar_base64');
+            if(savedAvatar) {
+                document.getElementById('user-avatar').src = savedAvatar;
+            }
+            
             editModalObj = new bootstrap.Modal(document.getElementById('editBillModal'));
             editProfileModalObj = new bootstrap.Modal(document.getElementById('editProfileModal'));
             initDates();
             checkAuthFlow();
         };
+
+        // Profile Avatar Upload Handler
+        function uploadAvatarImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Img = e.target.result;
+                    document.getElementById('user-avatar').src = base64Img;
+                    localStorage.setItem('user_avatar_base64', base64Img);
+                    Swal.fire('সফল!', 'আপনার প্রোফাইল ছবি সফলভাবে সেট করা হয়েছে।', 'success');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
         function checkAuthFlow() {
             const isLoggedIn = sessionStorage.getItem('isLoggedIn');
@@ -768,7 +870,7 @@
             localStorage.setItem('bills', JSON.stringify(bills));
             syncFridayLeaves();
             
-            Swal.fire('সফল', 'বিল记录 সেভ হয়েছে!', 'success').then(() => {
+            Swal.fire('সফল', 'বিল রেকর্ড সেভ হয়েছে!', 'success').then(() => {
                 document.getElementById('billForm').reset();
                 switchTab('view-bills');
             });
@@ -866,7 +968,7 @@
                 syncFridayLeaves();
                 editModalObj.hide();
                 
-                Swal.fire('সফল', 'বিল ও DA can করা হয়েছে!', 'success').then(() => {
+                Swal.fire('সফল', 'বিল ও DA আপডেট করা হয়েছে!', 'success').then(() => {
                     renderBillList();
                 });
             }
@@ -965,24 +1067,20 @@
             renderLeavesList();
         }
 
-        /* প্রফেশনাল ড্যাশবোর্ড ক্যালকুলেশন (রানিং মাসের কিলোমিটার এবং টোটাল টাকার হিসাব) */
         function updateDashboardStats() {
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
             let user = JSON.parse(localStorage.getItem('user_profile'));
             const currentMonth = new Date().toISOString().substring(0, 7);
 
-            // ১. চলতি মাসের কিলোমিটার ক্যালকুলেশন
             let monthlyBills = bills.filter(b => b.bill_date.startsWith(currentMonth));
             let totalKm = monthlyBills.reduce((sum, b) => sum + b.total_km, 0);
             
-            // ২. চলতি মাসের সর্বমোট টাকা (TA + DA + Meals + Fixed Allowance) ক্যালকুলেশন
             let totalMoney = 0;
             if(user) {
                 let kmRate = user.per_km_rate || 5.00;
                 let fixedBikeAllowance = user.bike_allowance || 1100;
-                
-                let taCost = totalKm * kmRate; // মোট কিলোমিটার বিল
+                let taCost = totalKm * kmRate;
                 
                 let daAndMeals = monthlyBills.reduce((sum, b) => {
                     let currentDa = (b.custom_da !== undefined) ? b.custom_da : (user.da_rate || 190);
@@ -990,7 +1088,6 @@
                     return sum + currentDa + mealsCost;
                 }, 0);
                 
-                // সর্বমোট টাকা = কিলোমিটার বিল + ডিএ ও মিলস + ফিক্সড বাইক এলাউন্স
                 totalMoney = taCost + daAndMeals + fixedBikeAllowance;
             }
 
@@ -1003,7 +1100,6 @@
             const user = JSON.parse(localStorage.getItem('user_profile'));
             const selectMonth = document.getElementById('download_month').value; 
             const type = document.getElementById('download_report_type').value;
-            
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             
             const year = parseInt(selectMonth.split("-")[0]);
@@ -1048,7 +1144,6 @@
                 else if (type === 'tada_bill') {
                     if (matchedBill) {
                         let bikeCost = matchedBill.total_km * user.per_km_rate;
-                        
                         let currentDa = user ? user.da_rate : 190;
                         if (matchedBill.custom_da !== undefined) {
                             currentDa = matchedBill.custom_da;
@@ -1086,7 +1181,6 @@
             }
 
             let pWin = window.open('', '_blank');
-            
             let headerTemplate = `
                 <div style="text-align: center; font-family: Arial, sans-serif;">
                     <h2 style="margin: 0; font-size: 16px; font-weight: bold; letter-spacing: 0.5px;">${user.company_name}</h2>
@@ -1189,7 +1283,6 @@
                         </tr>
                     </tbody>
                 </table>
-                
                 <div style="margin-top: 10px; width: 260px; font-family: Arial; font-size: 11px; float: left;">
                     <table style="border: 1px solid #000; width: 100%; margin-top: 2px;">
                         <tr>
@@ -1222,8 +1315,7 @@
                         <td style="border:none; width: 17%;"></td>
                         <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 3px;">Approved By</td>
                     </tr>
-                </table>
-            `;
+                </table>`;
 
             let fullLayout = `
             <html>
@@ -1247,9 +1339,7 @@
                 ${metaTableTemplate}
                 ${mainTableHtml}
                 ${footerTemplate}
-                <script>
-                    window.onload = function() { window.print(); }
-                <\/script>
+                <script>window.onload = function() { window.print(); }<\/script>
             </body>
             </html>`;
 
