@@ -27,7 +27,7 @@
         .header-pink { background: linear-gradient(135deg, var(--pink), var(--dark-pink)); color: white; padding: 15px; position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 0 0 20px 20px; }
         
         /* UI Cards */
-        .profile-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-top: 15px; }
+        .profile-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-top: 15px; position: relative; }
         .profile-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); box-shadow: 0 4px 10px rgba(226,19,110,0.2); }
         .stat-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02); height: 100%; border-left: 4px solid var(--pink); }
         .custom-card { border-radius: 15px; border: none; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 15px; margin-bottom: 15px; }
@@ -52,6 +52,7 @@
 </head>
 <body>
 
+    <!-- ================= ১. প্রথম স্বাগত স্ক্রিন ================= -->
     <div id="welcome-screen" class="auth-screen">
         <div class="container px-4 text-center" style="padding-top: 100px;">
             <div class="mb-4">
@@ -72,6 +73,7 @@
         </div>
     </div>
 
+    <!-- ================= ২. রেজিস্ট্রেশন স্ক্রিন ================= -->
     <div id="register-screen" class="auth-screen">
         <div class="container px-4">
             <div class="d-flex align-items-center mb-3">
@@ -144,6 +146,7 @@
         </div>
     </div>
 
+    <!-- ================= ৩. লগইন স্ক্রিন ================= -->
     <div id="login-screen" class="auth-screen">
         <div class="container px-4" style="padding-top: 60px;">
             <div class="d-flex align-items-center mb-4">
@@ -165,6 +168,7 @@
     </div>
 
 
+    <!-- ================= ৪. মূল অ্যাপ্লিকেশন লেআউট ================= -->
     <div id="app-layout" style="display: none;">
         <div class="bottom-nav no-print">
             <div class="nav-item active" id="tab-dashboard" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
@@ -175,6 +179,7 @@
             <div class="nav-item" id="tab-download" onclick="switchTab('download')"><i class="fa fa-download"></i>ডাউনলোড</div>
         </div>
 
+        <!-- ড্যাশবোর্ড ট্যাব -->
         <div id="dashboard" class="app-section active-block">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold"><i class="fa fa-rocket me-2"></i>BillMove ড্যাশবোর্ড</h6>
@@ -182,6 +187,11 @@
             </div>
             <div class="container px-3">
                 <div class="profile-card">
+                    <!-- প্রোফাইল এডিট করার বাটন -->
+                    <button class="btn btn-sm btn-light text-secondary position-absolute top-0 end-0 m-3 rounded-circle shadow-sm" onclick="openProfileEditModal()" title="প্রোফাইল সংশোধন">
+                        <i class="fa fa-user-edit fs-6"></i>
+                    </button>
+
                     <img id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
                     <h5 class="fw-bold mb-0" id="profile-name">---</h5>
                     <p class="text-muted small mb-0" id="profile-desig">---</p>
@@ -207,6 +217,7 @@
             </div>
         </div>
 
+        <!-- বিল এন্ট্রি ট্যাব -->
         <div id="add-bill" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">নতুন বিল যুক্ত করুন</h6></div>
             <div class="container px-3 mt-3">
@@ -264,6 +275,7 @@
             </div>
         </div>
 
+        <!-- বিল রিপোর্ট ও ফিল্টার ট্যাব -->
         <div id="view-bills" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট ও ফিল্টার</h6></div>
             <div class="container px-3 mt-2">
@@ -313,6 +325,7 @@
             </div>
         </div>
 
+        <!-- রেজিস্টার ভিউ ট্যাব -->
         <div id="register" class="app-section">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold">রেজিস্টার ভিউ (খাতা)</h6>
@@ -336,6 +349,7 @@
             </div>
         </div>
 
+        <!-- ছুটি ম্যানেজমেন্ট ট্যাব -->
         <div id="leaves" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">রিপ্লেস ছুটি ম্যানেজমেন্ট</h6></div>
             <div class="container px-3 mt-2">
@@ -367,6 +381,7 @@
             </div>
         </div>
 
+        <!-- ডাউনলোড ট্যাব -->
         <div id="download" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট জেনারেট</h6></div>
             <div class="container px-3 mt-3">
@@ -394,6 +409,7 @@
         </div>
     </div>
 
+    <!-- ================= ৫. বিল এডিট করার বুটস্ট্র্যাপ মোডাল ================= -->
     <div class="modal fade" id="editBillModal" tabindex="-1" aria-labelledby="editBillModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 15px;">
@@ -435,7 +451,7 @@
                             </div>
                             <div class="col-6">
                                 <label class="small fw-bold text-danger mb-1">Allowance (DA) টাকা</label>
-                                <input type="number" id="edit_da_rate" class="form-control form-control-sm fw-bold border-danger" placeholder="0 করলে DA বাদ যাবে">
+                                <input type="number" id="edit_da_rate" class="form-control form-control-sm fw-bold border-danger">
                             </div>
                         </div>
                         <div class="mb-2">
@@ -463,8 +479,763 @@
         </div>
     </div>
 
+    <!-- ================= ৬. ইউজার প্রোফাইল এডিট করার নতুন মোডাল ================= -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-scrollable">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header bg-light" style="border-radius: 15px 15px 0 0;">
+                    <h6 class="modal-title fw-bold" id="editProfileModalLabel"><i class="fa fa-user-cog text-primary me-2"></i>আপনার প্রোফাইল পরিবর্তন করুন</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfileForm" onsubmit="updateProfileData(event)">
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">পূর্ণ নাম</label>
+                                <input type="text" id="edit_prof_name" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">এমপ্লয়ী আইডি</label>
+                                <input type="text" id="edit_prof_emp_id" class="form-control form-control-sm" readonly disabled>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">পদবী</label>
+                                <input type="text" id="edit_prof_desig" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">মোবাইল নম্বর</label>
+                                <input type="tel" id="edit_prof_phone" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="small fw-bold text-muted">কোম্পানির নাম</label>
+                            <input type="text" id="edit_prof_company" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">শাখার নাম</label>
+                                <input type="text" id="edit_prof_branch" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">এরিয়া/লাইন</label>
+                                <input type="text" id="edit_prof_area" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">গাড়ির নম্বর</label>
+                                <input type="text" id="edit_prof_veh_no" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted">লাইসেন্স নম্বর</label>
+                                <input type="text" id="edit_prof_lic_no" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-4">
+                            <div class="col-4">
+                                <label class="small fw-bold text-muted">প্রতি কিমি রেট</label>
+                                <input type="number" step="0.01" id="edit_prof_km_rate" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="small fw-bold text-muted">ডিএ (DA) রেট</label>
+                                <input type="number" id="edit_prof_da_rate" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="small fw-bold text-muted">বাইক এলাউন্স</label>
+                                <input type="number" id="edit_prof_bike_allw" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 rounded-pill fw-bold">সংরক্ষণ করুন</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGB
+        const ownerImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAQAAwADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usld3xA7uqFfW1deXubebd3X156oaXbi5uVm5v9VAfbYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH//2Q==";
+
+        if(!localStorage.getItem('bills')) localStorage.setItem('bills', JSON.stringify([]));
+        if(!localStorage.getItem('leaves')) localStorage.setItem('leaves', JSON.stringify([]));
+
+        let editModalObj = null;
+        let editProfileModalObj = null;
+
+        window.onload = function() {
+            document.getElementById('user-avatar').src = ownerImageBase64;
+            editModalObj = new bootstrap.Modal(document.getElementById('editBillModal'));
+            editProfileModalObj = new bootstrap.Modal(document.getElementById('editProfileModal'));
+            initDates();
+            checkAuthFlow();
+        };
+
+        function checkAuthFlow() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
+            document.getElementById('app-layout').style.display = 'none';
+
+            if(isLoggedIn === 'true') {
+                document.getElementById('app-layout').style.display = 'block';
+                loadUserProfileData(JSON.parse(localStorage.getItem('user_profile')));
+                syncFridayLeaves();
+                autoExpireLeaves();
+                updateDashboardStats();
+            } else {
+                document.getElementById('welcome-screen').style.display = 'block';
+            }
+        }
+
+        function showAuthPage(pageType) {
+            document.querySelectorAll('.auth-screen').forEach(s => s.style.display = 'none');
+            if(pageType === 'welcome') {
+                document.getElementById('welcome-screen').style.display = 'block';
+            } else if(pageType === 'login') {
+                if(!localStorage.getItem('user_profile')) {
+                    Swal.fire('কোনো প্রোফাইল নেই!', 'সিস্টেমে আগে একটি প্রোফাইল রেজিস্ট্রেশন করুন।', 'warning');
+                    document.getElementById('register-screen').style.display = 'block';
+                } else {
+                    document.getElementById('login-screen').style.display = 'block';
+                }
+            } else if(pageType === 'register') {
+                document.getElementById('register-screen').style.display = 'block';
+            }
+        }
+
+        function handleRegistration(e) {
+            e.preventDefault();
+            const profile = {
+                full_name: document.getElementById('reg_name').value,
+                employee_id: document.getElementById('reg_emp_id').value,
+                designation: document.getElementById('reg_desig').value,
+                phone_no: document.getElementById('reg_phone').value,
+                company_name: document.getElementById('reg_company').value,
+                branch_name: document.getElementById('reg_branch').value,
+                area_line: document.getElementById('reg_area').value,
+                vehicle_no: document.getElementById('reg_veh_no').value,
+                license_no: document.getElementById('reg_lic_no').value,
+                per_km_rate: parseFloat(document.getElementById('reg_km_rate').value) || 5.00,
+                da_rate: parseFloat(document.getElementById('reg_da_rate').value) || 190,
+                bike_allowance: parseFloat(document.getElementById('reg_bike_allw').value) || 1100
+            };
+
+            localStorage.setItem('user_profile', JSON.stringify(profile));
+            sessionStorage.setItem('isLoggedIn', 'true');
+            
+            Swal.fire('রেজিস্ট্রেশন সফল', 'আপনার তথ্যের প্রোফাইল সাকসেসফুলি তৈরি হয়েছে!', 'success').then(() => {
+                checkAuthFlow();
+            });
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = JSON.parse(localStorage.getItem('user_profile'));
+            const inputId = document.getElementById('login_id').value;
+
+            if(user && user.employee_id === inputId) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                Swal.fire('স্বাগতম', 'লগইন সফল হয়েছে!', 'success').then(() => {
+                    checkAuthFlow();
+                });
+            } else {
+                Swal.fire('ভুল আইডি', 'প্রদত্ত এমপ্লয়ী আইডিটি ম্যাচ করেনি!', 'error');
+            }
+        }
+
+        function loadUserProfileData(user) {
+            if(user) {
+                document.getElementById('profile-name').innerText = user.full_name;
+                document.getElementById('profile-desig').innerText = user.designation;
+                document.getElementById('profile-id').innerText = `ID: ${user.employee_id}`;
+            }
+        }
+
+        /* প্রোফাইল এডিট মোডাল ওপেন করার ফাংশন */
+        function openProfileEditModal() {
+            const user = JSON.parse(localStorage.getItem('user_profile'));
+            if(user) {
+                document.getElementById('edit_prof_name').value = user.full_name || '';
+                document.getElementById('edit_prof_emp_id').value = user.employee_id || '';
+                document.getElementById('edit_prof_desig').value = user.designation || '';
+                document.getElementById('edit_prof_phone').value = user.phone_no || '';
+                document.getElementById('edit_prof_company').value = user.company_name || '';
+                document.getElementById('edit_prof_branch').value = user.branch_name || '';
+                document.getElementById('edit_prof_area').value = user.area_line || '';
+                document.getElementById('edit_prof_veh_no').value = user.vehicle_no || '';
+                document.getElementById('edit_prof_lic_no').value = user.license_no || '';
+                document.getElementById('edit_prof_km_rate').value = user.per_km_rate || 5.00;
+                document.getElementById('edit_prof_da_rate').value = user.da_rate || 190;
+                document.getElementById('edit_prof_bike_allw').value = user.bike_allowance || 1100;
+                
+                editProfileModalObj.show();
+            }
+        }
+
+        /* প্রোফাইল ডাটা আপডেট করার ফাংশন */
+        function updateProfileData(e) {
+            e.preventDefault();
+            const currentUser = JSON.parse(localStorage.getItem('user_profile'));
+            
+            const updatedProfile = {
+                full_name: document.getElementById('edit_prof_name').value,
+                employee_id: currentUser.employee_id, // আইডি পরিবর্তনযোগ্য নয়
+                designation: document.getElementById('edit_prof_desig').value,
+                phone_no: document.getElementById('edit_prof_phone').value,
+                company_name: document.getElementById('edit_prof_company').value,
+                branch_name: document.getElementById('edit_prof_branch').value,
+                area_line: document.getElementById('edit_prof_area').value,
+                vehicle_no: document.getElementById('edit_prof_veh_no').value,
+                license_no: document.getElementById('edit_prof_lic_no').value,
+                per_km_rate: parseFloat(document.getElementById('edit_prof_km_rate').value) || 5.00,
+                da_rate: parseFloat(document.getElementById('edit_prof_da_rate').value) || 190,
+                bike_allowance: parseFloat(document.getElementById('edit_prof_bike_allw').value) || 1100
+            };
+
+            localStorage.setItem('user_profile', JSON.stringify(updatedProfile));
+            loadUserProfileData(updatedProfile);
+            editProfileModalObj.hide();
+
+            Swal.fire('সফল', 'আপনার প্রোফাইল তথ্য সফলভাবে আপডেট করা হয়েছে!', 'success');
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.app-section').forEach(sec => sec.classList.remove('active-block'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active-block');
+            document.getElementById('tab-' + tabId).classList.add('active');
+
+            if(tabId === 'dashboard') updateDashboardStats();
+            if(tabId === 'view-bills') renderBillList();
+            if(tabId === 'register') renderRegisterView();
+            if(tabId === 'leaves') renderLeavesList();
+        }
+
+        function calcKm() {
+            const outKm = parseFloat(document.getElementById('out_km').value) || 0;
+            const inKm = parseFloat(document.getElementById('in_km').value) || 0;
+            document.getElementById('total_km').value = inKm >= outKm ? inKm - outKm : 0;
+        }
+
+        function calcEditKm() {
+            const outKm = parseFloat(document.getElementById('edit_out_km').value) || 0;
+            const inKm = parseFloat(document.getElementById('edit_in_km').value) || 0;
+            document.getElementById('edit_total_km').value = inKm >= outKm ? inKm - outKm : 0;
+        }
+
+        function saveBill(e) {
+            e.preventDefault();
+            let bills = JSON.parse(localStorage.getItem('bills'));
+            let user = JSON.parse(localStorage.getItem('user_profile'));
+            
+            const newBill = {
+                id: Date.now(),
+                bill_date: document.getElementById('bill_date').value,
+                out_time: document.getElementById('out_time').value,
+                in_time: document.getElementById('in_time').value,
+                out_km: parseFloat(document.getElementById('out_km').value) || 0,
+                in_km: parseFloat(document.getElementById('in_km').value) || 0,
+                total_km: parseFloat(document.getElementById('total_km').value) || 0,
+                visited_area: document.getElementById('visited_area').value,
+                breakfast: parseFloat(document.getElementById('breakfast').value) || 0,
+                lunch: parseFloat(document.getElementById('lunch').value) || 0,
+                dinner: parseFloat(document.getElementById('dinner').value) || 0,
+                custom_da: user ? user.da_rate : 190
+            };
+
+            if(bills.some(b => b.bill_date === newBill.bill_date)) {
+                Swal.fire('দুঃখিত', 'এই তারিখের বিল ইতিমধ্যে এন্ট্রি করা আছে!', 'warning');
+                return;
+            }
+
+            bills.push(newBill);
+            localStorage.setItem('bills', JSON.stringify(bills));
+            syncFridayLeaves();
+            
+            Swal.fire('সফল', 'বিল记录 সেভ হয়েছে!', 'success').then(() => {
+                document.getElementById('billForm').reset();
+                switchTab('view-bills');
+            });
+        }
+
+        function renderBillList() {
+            const fromDate = document.getElementById('filter_from').value;
+            const toDate = document.getElementById('filter_to').value;
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            
+            let filtered = bills.filter(b => b.bill_date >= fromDate && b.bill_date <= toDate);
+            filtered.sort((a,b) => new Date(b.bill_date) - new Date(a.bill_date));
+
+            let totalKm = 0;
+            let html = "";
+            
+            filtered.forEach(b => {
+                totalKm += b.total_km;
+                html += `
+                    <tr>
+                        <td><input type="checkbox" name="bill_ids" value="${b.id}" class="form-check-input"></td>
+                        <td><strong>${b.bill_date}</strong></td>
+                        <td>${b.visited_area}</td>
+                        <td class="fw-bold text-primary">${b.total_km}</td>
+                        <td class="text-center">
+                            <button class="btn btn-xs btn-outline-pink btn-sm py-1 px-2" style="font-size:10px;" onclick="openEditModal(${b.id})">
+                                <i class="fa fa-edit"></i> এডিট
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('bill-list-table').innerHTML = html || `<tr><td colspan="5" class="text-center py-3 text-muted">কোনো বিল পাওয়া যায়নি</td></tr>`;
+            document.getElementById('report-grand-km').innerText = totalKm.toFixed(1);
+        }
+
+        function openEditModal(billId) {
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            let target = bills.find(b => b.id === billId);
+            let user = JSON.parse(localStorage.getItem('user_profile'));
+            
+            if(target) {
+                document.getElementById('edit_bill_id').value = target.id;
+                document.getElementById('edit_bill_date').value = target.bill_date;
+                document.getElementById('edit_out_time').value = target.out_time || '04:30 pm';
+                document.getElementById('edit_in_time').value = target.in_time || '11:30 pm';
+                document.getElementById('edit_out_km').value = target.out_km || 0;
+                document.getElementById('edit_in_km').value = target.in_km || 0;
+                document.getElementById('edit_total_km').value = target.total_km || 0;
+                document.getElementById('edit_visited_area').value = target.visited_area || '';
+                document.getElementById('edit_breakfast').value = target.breakfast || 0;
+                document.getElementById('edit_lunch').value = target.lunch || 0;
+                document.getElementById('edit_dinner').value = target.dinner || 0;
+                
+                if(target.custom_da !== undefined) {
+                    document.getElementById('edit_da_rate').value = target.custom_da;
+                } else {
+                    document.getElementById('edit_da_rate').value = user ? user.da_rate : 190;
+                }
+                
+                editModalObj.show();
+            }
+        }
+
+        function updateBillData(e) {
+            e.preventDefault();
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            let id = parseFloat(document.getElementById('edit_bill_id').value);
+            
+            let index = bills.findIndex(b => b.id === id);
+            if(index !== -1) {
+                let newDate = document.getElementById('edit_bill_date').value;
+                if(bills.some((b, idx) => b.bill_date === newDate && idx !== index)) {
+                    Swal.fire('দুঃখিত', 'এই তারিখের আরেকটি বিল অলরেডি সিস্টেমে আছে!', 'warning');
+                    return;
+                }
+
+                bills[index] = {
+                    id: id,
+                    bill_date: newDate,
+                    out_time: document.getElementById('edit_out_time').value,
+                    in_time: document.getElementById('edit_in_time').value,
+                    out_km: parseFloat(document.getElementById('edit_out_km').value) || 0,
+                    in_km: parseFloat(document.getElementById('edit_in_km').value) || 0,
+                    total_km: parseFloat(document.getElementById('edit_total_km').value) || 0,
+                    visited_area: document.getElementById('edit_visited_area').value,
+                    breakfast: parseFloat(document.getElementById('edit_breakfast').value) || 0,
+                    lunch: parseFloat(document.getElementById('edit_lunch').value) || 0,
+                    dinner: parseFloat(document.getElementById('edit_dinner').value) || 0,
+                    custom_da: parseFloat(document.getElementById('edit_da_rate').value)
+                };
+
+                localStorage.setItem('bills', JSON.stringify(bills));
+                syncFridayLeaves();
+                editModalObj.hide();
+                
+                Swal.fire('সফল', 'বিল ও DA can করা হয়েছে!', 'success').then(() => {
+                    renderBillList();
+                });
+            }
+        }
+
+        function toggleSelectAll(master) {
+            document.getElementsByName('bill_ids').forEach(cb => cb.checked = master.checked);
+        }
+
+        function deleteSelectedBills() {
+            let checkedBoxes = document.querySelectorAll('input[name="bill_ids"]:checked');
+            if(checkedBoxes.length === 0) return;
+
+            Swal.fire({
+                title: 'ডিলিট করতে চান?',
+                text: "নির্বাচিত বিলগুলো স্থায়ীভাবে মুছে যাবে!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e2136e',
+                confirmButtonText: 'হ্যাঁ'
+            }).then((res) => {
+                if(res.isConfirmed) {
+                    let bills = JSON.parse(localStorage.getItem('bills'));
+                    let ids = Array.from(checkedBoxes).map(cb => parseFloat(cb.value));
+                    bills = bills.filter(b => !ids.includes(b.id));
+                    localStorage.setItem('bills', JSON.stringify(bills));
+                    renderBillList();
+                }
+            });
+        }
+
+        function renderRegisterView() {
+            const month = document.getElementById('register_month').value;
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            let filtered = bills.filter(b => b.bill_date.startsWith(month)).sort((a,b) => new Date(a.bill_date) - new Date(b.bill_date));
+
+            let html = "";
+            filtered.forEach(b => {
+                html += `<tr><td>${b.bill_date}</td><td>${b.out_km}</td><td>${b.in_km}</td><td class="text-danger fw-bold">${b.total_km}</td><td>${b.visited_area}</td></tr>`;
+            });
+            document.getElementById('register-table-body').innerHTML = html || `<tr><td colspan="5" class="py-3 text-muted">কোনো রেকর্ড নেই</td></tr>`;
+        }
+
+        function syncFridayLeaves() {
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+
+            bills.forEach(b => {
+                if(new Date(b.bill_date).getDay() === 5 && !leaves.some(l => l.duty_date === b.bill_date)) {
+                    let exp = new Date(b.bill_date);
+                    exp.setMonth(exp.getMonth() + 3);
+                    leaves.push({ id: Date.now() + Math.random(), duty_date: b.bill_date, expiry_date: exp.toISOString().substring(0, 10), status: 'Available', used_date: '' });
+                }
+            });
+            localStorage.setItem('leaves', JSON.stringify(leaves));
+        }
+
+        function autoExpireLeaves() {
+            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            const today = new Date().toISOString().substring(0, 10);
+            leaves.forEach(l => { if(l.status === 'Available' && l.expiry_date < today) l.status = 'Expired'; });
+            localStorage.setItem('leaves', JSON.stringify(leaves));
+        }
+
+        function addManualLeave(e) {
+            e.preventDefault();
+            const date = document.getElementById('manual_leave_date').value;
+            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            if(leaves.some(l => l.duty_date === date)) return;
+
+            let exp = new Date(date);
+            exp.setMonth(exp.getMonth() + 3);
+            leaves.push({ id: Date.now(), duty_date: date, expiry_date: exp.toISOString().substring(0, 10), status: 'Available', used_date: '' });
+            localStorage.setItem('leaves', JSON.stringify(leaves));
+            renderLeavesList();
+        }
+
+        function renderLeavesList() {
+            const m = document.getElementById('leave_filter_month').value;
+            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            let filtered = leaves.filter(l => l.duty_date.startsWith(m)).sort((a,b) => new Date(a.duty_date) - new Date(b.duty_date));
+
+            let html = "";
+            filtered.forEach(l => {
+                let btn = l.status === 'Available' ? `<button class="btn btn-xs btn-outline-success btn-sm" onclick="useLeave(${l.id})">কাটান</button>` : `<small>${l.used_date || '-'}</small>`;
+                html += `<tr><td><strong>${l.duty_date}</strong><br><small class="text-muted">Expiry: ${l.expiry_date}</small></td><td><span class="status-badge ${l.status.toLowerCase()}">${l.status}</span></td><td class="text-end">${btn}</td></tr>`;
+            });
+            document.getElementById('leaves-table-body').innerHTML = html || `<tr><td colspan="3" class="text-center py-3">কোনো ছুটির ডাটা নেই</td></tr>`;
+        }
+
+        function useLeave(id) {
+            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            let leave = leaves.find(l => l.id === id);
+            if(leave) { leave.status = 'Used'; leave.used_date = new Date().toISOString().substring(0, 10); }
+            localStorage.setItem('leaves', JSON.stringify(leaves));
+            renderLeavesList();
+        }
+
+        function updateDashboardStats() {
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            let leaves = JSON.parse(localStorage.getItem('leaves')) || [];
+            const currentMonth = new Date().toISOString().substring(0, 7);
+
+            let km = bills.filter(b => b.bill_date.startsWith(currentMonth)).reduce((s, b) => s + b.total_km, 0);
+            document.getElementById('dash-total-km').innerText = km.toFixed(1);
+            document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
+        }
+
+        function triggerReportPrint() {
+            const user = JSON.parse(localStorage.getItem('user_profile'));
+            const selectMonth = document.getElementById('download_month').value; 
+            const type = document.getElementById('download_report_type').value;
+            
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            
+            const year = parseInt(selectMonth.split("-")[0]);
+            const monthIdx = parseInt(selectMonth.split("-")[1]) - 1;
+            const totalDaysInMonth = new Date(year, monthIdx + 1, 0).getDate();
+            
+            const dateObj = new Date(year, monthIdx, 1);
+            const monthName = dateObj.toLocaleString('en-US', { month: 'long' }) + "-" + year;
+            const shortMonthName = dateObj.toLocaleString('en-US', { month: 'short' });
+
+            let totalKmSum = 0;
+            let totalBikeTa = 0;
+            let totalDa = 0;
+            let totalMeals = 0;
+            let rowsHtml = "";
+
+            for (let day = 1; day <= totalDaysInMonth; day++) {
+                let dayStr = day < 10 ? '0' + day : day;
+                let currentLoopDate = `${selectMonth}-${dayStr}`;
+                let matchedBill = bills.find(b => b.bill_date === currentLoopDate);
+                let currentDayName = new Date(currentLoopDate).toLocaleString('en-US', { weekday: 'short' });
+                let displayDate = `${dayStr}-${shortMonthName}-${String(year).substring(2)}`;
+
+                if (type === 'log_sheet') {
+                    if (matchedBill) {
+                        totalKmSum += matchedBill.total_km;
+                        rowsHtml += `
+                            <tr>
+                                <td>${displayDate}</td>
+                                <td>${matchedBill.out_time || ''}</td>
+                                <td>${matchedBill.in_time || ''}</td>
+                                <td>${matchedBill.out_km || ''}</td>
+                                <td>${matchedBill.in_km || ''}</td>
+                                <td style="font-weight: bold;">${matchedBill.total_km || ''}</td>
+                                <td style="text-align: left; padding-left: 5px;">${matchedBill.visited_area || ''}</td>
+                                <td></td>
+                            </tr>`;
+                    } else {
+                        rowsHtml += `<tr><td>${displayDate}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+                    }
+                } 
+                else if (type === 'tada_bill') {
+                    if (matchedBill) {
+                        let bikeCost = matchedBill.total_km * user.per_km_rate;
+                        
+                        let currentDa = user ? user.da_rate : 190;
+                        if (matchedBill.custom_da !== undefined) {
+                            currentDa = matchedBill.custom_da;
+                        } else if (!(matchedBill.total_km > 0 || matchedBill.visited_area)) {
+                            currentDa = 0;
+                        }
+
+                        let currentMeals = (matchedBill.breakfast || 0) + (matchedBill.lunch || 0) + (matchedBill.dinner || 0);
+                        let dayTotal = bikeCost + currentDa + currentMeals;
+
+                        totalBikeTa += bikeCost;
+                        totalDa += currentDa;
+                        totalMeals += currentMeals;
+
+                        rowsHtml += `
+                            <tr>
+                                <td>${displayDate}</td>
+                                <td>${currentDayName}</td>
+                                <td>Office</td>
+                                <td style="text-align: left; padding-left: 5px;">${matchedBill.visited_area}</td>
+                                <td>${bikeCost.toFixed(0)}</td>
+                                <td>${currentDa > 0 ? currentDa : '0'}</td>
+                                <td>${currentMeals > 0 ? currentMeals : ''}</td>
+                                <td style="font-weight: bold;">${dayTotal.toFixed(0)}</td>
+                            </tr>`;
+                    } else {
+                        rowsHtml += `
+                            <tr>
+                                <td>${displayDate}</td>
+                                <td>${currentDayName}</td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>`;
+                    }
+                }
+            }
+
+            let pWin = window.open('', '_blank');
+            
+            let headerTemplate = `
+                <div style="text-align: center; font-family: Arial, sans-serif;">
+                    <h2 style="margin: 0; font-size: 16px; font-weight: bold; letter-spacing: 0.5px;">${user.company_name}</h2>
+                    <h3 style="margin: 1px 0; font-size: 12px; font-weight: normal;">${user.branch_name}</h3>
+                    <h4 style="margin: 4px 0 8px 0; font-size: 13px; font-weight: bold; text-decoration: underline;">
+                        ${type === 'log_sheet' ? 'MOTOR BIKE LOG SHEET' : `TA/DA BILL (${monthName})`}
+                    </h4>
+                </div>
+            `;
+
+            let metaTableTemplate = "";
+            if (type === 'log_sheet') {
+                metaTableTemplate = `
+                <table style="width:100%; font-family:Arial; font-size:11px; margin-bottom:5px; border:none;">
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; width:50%; padding: 1px 0;"><strong>Drived By:</strong> ${user.full_name}</td>
+                        <td style="border:none; text-align:left; width:50%; padding: 1px 0;"><strong>Designation:</strong> ${user.designation}</td>
+                    </tr>
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; padding: 1px 0;"><strong>Vehicle No:</strong> ${user.vehicle_no}</td>
+                        <td style="border:none; text-align:left; padding: 1px 0;"><strong>Area/Line:</strong> ${user.area_line}</td>
+                    </tr>
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; padding: 1px 0;"><strong>Dv Li:</strong> ${user.license_no}</td>
+                        <td style="border:none; text-align:left; padding: 1px 0;"><strong>Month:</strong> ${monthName}</td>
+                    </tr>
+                </table>`;
+            } else {
+                metaTableTemplate = `
+                <table style="width:100%; font-family:Arial; font-size:11px; margin-bottom:5px; border:none;">
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; width:60%; padding: 1px 0;"><strong>Name:</strong> ${user.full_name}</td>
+                        <td style="border:none; text-align:right; width:40%; padding: 1px 0;"><strong>Fixed Bike Allowance:</strong> ${user.bike_allowance} Tk</td>
+                    </tr>
+                    <tr style="border:none;">
+                        <td style="border:none; text-align:left; padding: 1px 0;"><strong>Designation:</strong> ${user.designation}</td>
+                        <td style="border:none; text-align:right; padding: 1px 0;"><strong>Phone:</strong> ${user.phone_no}</td>
+                    </tr>
+                </table>`;
+            }
+
+            let mainTableHtml = "";
+            if (type === 'log_sheet') {
+                mainTableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="12%">Date</th>
+                            <th colspan="2" width="18%">Time</th>
+                            <th colspan="3" width="22%">Mileage (KM)</th>
+                            <th rowspan="2" width="38%">Visited Area</th>
+                            <th rowspan="2" width="10%">Remarks</th>
+                        </tr>
+                        <tr>
+                            <th>Out</th>
+                            <th>In</th>
+                            <th>Out</th>
+                            <th>In</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                        <tr style="font-weight: bold; background-color: #f9f9f9;">
+                            <td colspan="3"></td>
+                            <td colspan="2" style="text-align: right; padding-right: 10px;">Total Mileage</td>
+                            <td>${totalKmSum}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>`;
+            } else {
+                let netPayableAmount = totalBikeTa + totalDa + totalMeals + user.bike_allowance;
+                mainTableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="12%">Date</th>
+                            <th rowspan="2" width="8%">Day</th>
+                            <th colspan="2" width="35%">Visited Area</th>
+                            <th rowspan="2" width="12%">Bike (TA)</th>
+                            <th rowspan="2" width="11%">Allowance (DA)</th>
+                            <th rowspan="2" width="11%">Meals</th>
+                            <th rowspan="2" width="11%">Total</th>
+                        </tr>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                        <tr style="font-weight: bold; background-color: #f2f2f2;">
+                            <td colspan="4" style="text-align: center;">Monthly Total</td>
+                            <td>${totalBikeTa.toLocaleString('en-IN')}</td>
+                            <td>${totalDa.toLocaleString('en-IN')}</td>
+                            <td>${totalMeals > 0 ? totalMeals.toLocaleString('en-IN') : '0'}</td>
+                            <td>${(totalBikeTa + totalDa + totalMeals).toLocaleString('en-IN')}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 10px; width: 260px; font-family: Arial; font-size: 11px; float: left;">
+                    <table style="border: 1px solid #000; width: 100%; margin-top: 2px;">
+                        <tr>
+                            <td style="text-align: left; padding: 3px; border: 1px solid #000; width: 60%;">Total Motor Bike (TA):</td>
+                            <td style="text-align: right; padding: 3px; border: 1px solid #000; font-weight: bold;">${totalBikeTa.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; padding: 3px; border: 1px solid #000;">Total DA & Meals:</td>
+                            <td style="text-align: right; padding: 3px; border: 1px solid #000; font-weight: bold;">${(totalDa + totalMeals).toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left; padding: 3px; border: 1px solid #000;">Fixed Bike Allowance:</td>
+                            <td style="text-align: right; padding: 3px; border: 1px solid #000; font-weight: bold;">${user.bike_allowance.toFixed(2)}</td>
+                        </tr>
+                        <tr style="background-color: #e6e6e6; font-weight: bold;">
+                            <td style="text-align: left; padding: 3px; border: 1px solid #000;">Net Payable:</td>
+                            <td style="text-align: right; padding: 3px; border: 1px solid #000;">${netPayableAmount.toFixed(2)} TK</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="clear: both;"></div>`;
+            }
+
+            let footerTemplate = `
+                <table style="width:100%; border:none; margin-top: 35px; font-family:Arial; font-size:11px;">
+                    <tr style="border:none;">
+                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 3px;">Prepared By</td>
+                        <td style="border:none; width: 17%;"></td>
+                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 3px;">Checked By</td>
+                        <td style="border:none; width: 17%;"></td>
+                        <td style="border:none; border-top: 1px solid #000; text-align:center; width:22%; padding-top: 3px;">Approved By</td>
+                    </tr>
+                </table>
+            `;
+
+            let fullLayout = `
+            <html>
+            <head>
+                <title>${type === 'log_sheet' ? 'Log_Sheet_' : 'TA_DA_Bill_'}${selectMonth}</title>
+                <style>
+                    body { padding: 5px 15px; background: #ffffff; color: #000; margin: 0; font-family: Arial, sans-serif; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 2px; font-size: 10px; }
+                    th, td { border: 1px solid #000; padding: 3px 2px; text-align: center; line-height: 1.1; }
+                    th { font-weight: bold; background-color: #ffffff; }
+                    @media print {
+                        body { padding: 0; margin: 0; }
+                        table { font-size: 9.5px; }
+                        th, td { padding: 2px 1px; }
+                        @page { size: A4 portrait; margin: 0.8cm 0.6cm; }
+                    }
+                </style>
+            </head>
+            <body>
+                ${headerTemplate}
+                ${metaTableTemplate}
+                ${mainTableHtml}
+                ${footerTemplate}
+                <script>
+                    window.onload = function() { window.print(); }
+                <\/script>
+            </body>
+            </html>`;
+
+            pWin.document.write(fullLayout);
+            pWin.document.close();
+        }
+
+        function initDates() {
+            const today = new Date();
+            const ym = today.toISOString().substring(0, 7);
+            document.getElementById('bill_date').value = today.toISOString().substring(0, 10);
+            document.getElementById('filter_from').value = ym + "-01";
+            document.getElementById('filter_to').value = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().substring(0, 10);
+            document.getElementById('register_month').value = ym;
+            document.getElementById('leave_filter_month').value = ym;
+            document.getElementById('download_month').value = ym;
+        }
+
+        function logout() {
+            sessionStorage.removeItem('isLoggedIn');
+            Swal.fire('লগআউট', 'আপনার অফলাইন সেশনটি নিরাপদে বন্ধ করা হয়েছে!', 'success').then(() => { checkAuthFlow(); });
+        }
+    </script>
+</body>
+</html>
