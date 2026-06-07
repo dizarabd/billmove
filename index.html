@@ -52,6 +52,7 @@
 </head>
 <body>
 
+    <!-- ================= ১. প্রথম স্বাগত স্ক্রিন ================= -->
     <div id="welcome-screen" class="auth-screen">
         <div class="container px-4 text-center" style="padding-top: 100px;">
             <div class="mb-4">
@@ -72,6 +73,7 @@
         </div>
     </div>
 
+    <!-- ================= ২. রেজিস্ট্রেশন স্ক্রিন ================= -->
     <div id="register-screen" class="auth-screen">
         <div class="container px-4">
             <div class="d-flex align-items-center mb-3">
@@ -144,6 +146,7 @@
         </div>
     </div>
 
+    <!-- ================= ৩. লগইন স্ক্রিন ================= -->
     <div id="login-screen" class="auth-screen">
         <div class="container px-4" style="padding-top: 60px;">
             <div class="d-flex align-items-center mb-4">
@@ -165,6 +168,7 @@
     </div>
 
 
+    <!-- ================= ৪. মূল অ্যাপ্লিকেশন লেআউট ================= -->
     <div id="app-layout" style="display: none;">
         <div class="bottom-nav no-print">
             <div class="nav-item active" id="tab-dashboard" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
@@ -175,6 +179,7 @@
             <div class="nav-item" id="tab-download" onclick="switchTab('download')"><i class="fa fa-download"></i>ডাউনলোড</div>
         </div>
 
+        <!-- ড্যাশবোর্ড ট্যাব -->
         <div id="dashboard" class="app-section active-block">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold"><i class="fa fa-rocket me-2"></i>BillMove ড্যাশবোর্ড</h6>
@@ -182,7 +187,7 @@
             </div>
             <div class="container px-3">
                 <div class="profile-card">
-                    <img src="owner.jpg" id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
+                    <img id="user-avatar" class="profile-img mb-2" alt="Owner Profile">
                     <h5 class="fw-bold mb-0" id="profile-name">---</h5>
                     <p class="text-muted small mb-0" id="profile-desig">---</p>
                     <span class="badge bg-dark mt-2" id="profile-id">ID: ---</span>
@@ -207,6 +212,7 @@
             </div>
         </div>
 
+        <!-- বিল এন্ট্রি ট্যাব -->
         <div id="add-bill" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">নতুন বিল যুক্ত করুন</h6></div>
             <div class="container px-3 mt-3">
@@ -264,6 +270,7 @@
             </div>
         </div>
 
+        <!-- বিল রিপোর্ট ট্যাব (এখানে এডিট অপশন যুক্ত করা হয়েছে) -->
         <div id="view-bills" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট ও ফিল্টার</h6></div>
             <div class="container px-3 mt-2">
@@ -296,13 +303,14 @@
 
                 <div class="custom-card p-0 overflow-hidden">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0 align-middle" style="font-size: 12px;">
+                        <table class="table table-hover mb-0 align-middle" style="font-size: 11px;">
                             <thead class="table-light">
                                 <tr>
-                                    <th width="10%"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
-                                    <th width="25%">তারিখ</th>
-                                    <th width="45%">এলাকা</th>
-                                    <th width="20%">কি.মি.</th>
+                                    <th width="8%"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
+                                    <th width="22%">তারিখ</th>
+                                    <th width="35%">এলাকা</th>
+                                    <th width="15%">কি.মি.</th>
+                                    <th width="20%" class="text-center">অ্যাকশন</th>
                                 </tr>
                             </thead>
                             <tbody id="bill-list-table"></tbody>
@@ -312,6 +320,7 @@
             </div>
         </div>
 
+        <!-- রেজিস্টার ভিউ ট্যাব -->
         <div id="register" class="app-section">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold">রেজিস্টার ভিউ (খাতা)</h6>
@@ -335,6 +344,7 @@
             </div>
         </div>
 
+        <!-- ছুটি ম্যানেজমেন্ট ট্যাব -->
         <div id="leaves" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">রিপ্লেস ছুটি ম্যানেজমেন্ট</h6></div>
             <div class="container px-3 mt-2">
@@ -366,6 +376,7 @@
             </div>
         </div>
 
+        <!-- ডাউনলোড ট্যাব -->
         <div id="download" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট জেনারেট</h6></div>
             <div class="container px-3 mt-3">
@@ -393,6 +404,70 @@
         </div>
     </div>
 
+    <!-- ================= ৫. বিল এডিট করার বুটস্ট্র্যাপ মোডাল ================= -->
+    <div class="modal fade" id="editBillModal" tabindex="-1" aria-labelledby="editBillModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header bg-light" style="border-radius: 15px 15px 0 0;">
+                    <h6 class="modal-title fw-bold" id="editBillModalLabel"><i class="fa fa-edit text-danger me-2"></i>বিল তথ্য সংশোধন করুন</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editBillForm" onsubmit="updateBillData(event)">
+                        <input type="hidden" id="edit_bill_id">
+                        <div class="mb-2">
+                            <label class="small fw-bold text-muted mb-1">তারিখ</label>
+                            <input type="date" id="edit_bill_date" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">আউট টাইম</label>
+                                <input type="text" id="edit_out_time" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">ইন টাইম</label>
+                                <input type="text" id="edit_in_time" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">শুরু KM</label>
+                                <input type="number" id="edit_out_km" class="form-control form-control-sm" oninput="calcEditKm()">
+                            </div>
+                            <div class="col-6">
+                                <label class="small fw-bold text-muted mb-1">শেষ KM</label>
+                                <input type="number" id="edit_in_km" class="form-control form-control-sm" oninput="calcEditKm()">
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="small fw-bold text-muted mb-1">মোট কিলোমিটার</label>
+                            <input type="number" id="edit_total_km" class="form-control form-control-sm" readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="small fw-bold text-muted mb-1">পরিদর্শন এলাকা</label>
+                            <input type="text" id="edit_visited_area" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <label class="small text-muted" style="font-size:10px;">Breakfast</label>
+                                <input type="number" id="edit_breakfast" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-4">
+                                <label class="small text-muted" style="font-size:10px;">Lunch</label>
+                                <input type="number" id="edit_lunch" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-4">
+                                <label class="small text-muted" style="font-size:10px;">Dinner</label>
+                                <input type="number" id="edit_dinner" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-pink w-100 py-2">আপডেট করুন</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -402,8 +477,11 @@
         if(!localStorage.getItem('bills')) localStorage.setItem('bills', JSON.stringify([]));
         if(!localStorage.getItem('leaves')) localStorage.setItem('leaves', JSON.stringify([]));
 
+        let editModalObj = null;
+
         window.onload = function() {
             document.getElementById('user-avatar').src = ownerImageBase64;
+            editModalObj = new bootstrap.Modal(document.getElementById('editBillModal'));
             initDates();
             checkAuthFlow();
         };
@@ -505,6 +583,12 @@
             document.getElementById('total_km').value = inKm >= outKm ? inKm - outKm : 0;
         }
 
+        function calcEditKm() {
+            const outKm = parseFloat(document.getElementById('edit_out_km').value) || 0;
+            const inKm = parseFloat(document.getElementById('edit_in_km').value) || 0;
+            document.getElementById('edit_total_km').value = inKm >= outKm ? inKm - outKm : 0;
+        }
+
         function saveBill(e) {
             e.preventDefault();
             let bills = JSON.parse(localStorage.getItem('bills'));
@@ -557,12 +641,78 @@
                         <td><strong>${b.bill_date}</strong></td>
                         <td>${b.visited_area}</td>
                         <td class="fw-bold text-primary">${b.total_km}</td>
+                        <td class="text-center">
+                            <button class="btn btn-xs btn-outline-pink btn-sm py-1 px-2" style="font-size:10px;" onclick="openEditModal(${b.id})">
+                                <i class="fa fa-edit"></i> এডিট
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
 
-            document.getElementById('bill-list-table').innerHTML = html || `<tr><td colspan="4" class="text-center py-3 text-muted">কোনো বিল পাওয়া যায়নি</td></tr>`;
+            document.getElementById('bill-list-table').innerHTML = html || `<tr><td colspan="5" class="text-center py-3 text-muted">কোনো বিল পাওয়া যায়নি</td></tr>`;
             document.getElementById('report-grand-km').innerText = totalKm.toFixed(1);
+        }
+
+        // এডিট মোডাল ওপেন এবং ডাটা পুশ করা
+        function openEditModal(billId) {
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            let target = bills.find(b => b.id === billId);
+            
+            if(target) {
+                document.getElementById('edit_bill_id').value = target.id;
+                document.getElementById('edit_bill_date').value = target.bill_date;
+                document.getElementById('edit_out_time').value = target.out_time || '04:30 pm';
+                document.getElementById('edit_in_time').value = target.in_time || '11:30 pm';
+                document.getElementById('edit_out_km').value = target.out_km || 0;
+                document.getElementById('edit_in_km').value = target.in_km || 0;
+                document.getElementById('edit_total_km').value = target.total_km || 0;
+                document.getElementById('edit_visited_area').value = target.visited_area || '';
+                document.getElementById('edit_breakfast').value = target.breakfast || 0;
+                document.getElementById('edit_lunch').value = target.lunch || 0;
+                document.getElementById('edit_dinner').value = target.dinner || 0;
+                
+                editModalObj.show();
+            }
+        }
+
+        // এডিট করা ডাটা লোকালস্টোরেজে আপডেট করা
+        function updateBillData(e) {
+            e.preventDefault();
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            let id = parseFloat(document.getElementById('edit_bill_id').value);
+            
+            let index = bills.findIndex(b => b.id === id);
+            if(index !== -1) {
+                // ডুপ্লিকেট ডেট চেক (নিজে ছাড়া অন্য কোনো বিলে এই ডেট আছে কিনা)
+                let newDate = document.getElementById('edit_bill_date').value;
+                if(bills.some((b, idx) => b.bill_date === newDate && idx !== index)) {
+                    Swal.fire('দুঃখিত', 'এই তারিখের আরেকটি বিল অলরেডি সিস্টেমে আছে!', 'warning');
+                    return;
+                }
+
+                bills[index] = {
+                    id: id,
+                    bill_date: newDate,
+                    out_time: document.getElementById('edit_out_time').value,
+                    in_time: document.getElementById('edit_in_time').value,
+                    out_km: parseFloat(document.getElementById('edit_out_km').value) || 0,
+                    in_km: parseFloat(document.getElementById('edit_in_km').value) || 0,
+                    total_km: parseFloat(document.getElementById('edit_total_km').value) || 0,
+                    visited_area: document.getElementById('edit_visited_area').value,
+                    breakfast: parseFloat(document.getElementById('edit_breakfast').value) || 0,
+                    lunch: parseFloat(document.getElementById('edit_lunch').value) || 0,
+                    dinner: parseFloat(document.getElementById('edit_dinner').value) || 0
+                };
+
+                localStorage.setItem('bills', JSON.stringify(bills));
+                syncFridayLeaves();
+                editModalObj.hide();
+                
+                Swal.fire('সফল', 'বিলটির তথ্য আপডেট করা হয়েছে!', 'success').then(() => {
+                    renderBillList();
+                });
+            }
         }
 
         function toggleSelectAll(master) {
@@ -668,7 +818,7 @@
             document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
         }
 
-        // ================= ডাইনামিক এবং ১ পেজে ফিট হওয়া প্রিন্ট জেনারেটর =================
+        // ================= প্রিন্ট জেনারেটর =================
         function triggerReportPrint() {
             const user = JSON.parse(localStorage.getItem('user_profile'));
             const selectMonth = document.getElementById('download_month').value; 
