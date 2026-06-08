@@ -12,8 +12,8 @@
     <meta name="theme-color" content="#e2136e">
     
     <!-- Favicon Integration -->
-    <link rel="icon" type="image/png" href="logo (4).png">
-    <link rel="apple-touch-icon" href="owner.jpg">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluent/48/000000/wallet.png">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluent/192/000000/wallet.png">
     
     <!-- Web Manifest for Mobile App Download -->
     <link rel="manifest" id="pwa-manifest">
@@ -69,6 +69,10 @@
         .btn-outline-pink { border: 2px solid var(--pink); color: var(--pink); border-radius: 50px; font-weight: bold; background: transparent; transition: 0.2s; padding: 12px; }
         .btn-outline-pink:hover { background: var(--pink); color: white; }
         
+        /* Helper Suggestion Style */
+        .km-hint { font-size: 11px; color: #6c757d; cursor: pointer; display: inline-block; margin-top: 4px; padding: 2px 6px; background-color: #f1f3f5; border-radius: 4px; border: 1px dashed #ced4da; }
+        .km-hint:hover { background-color: #e9ecef; color: var(--pink); }
+
         @media print { .no-print { display: none !important; } body { padding: 0; background: white; } .app-section.active-block { display: block; padding-top: 0; } .custom-card { box-shadow: none; border: 1px solid #eee; } }
     </style>
 </head>
@@ -98,7 +102,7 @@
                     <i class="fa fa-user-plus me-2"></i> নতুন রেজিস্ট্রেশন
                 </button>
             </div>
-            <p class="small text-muted mt-5">সিস্টেম ভার্সন ২.০.২৬ (Abdul Zabbar)</p>
+            <p class="small text-muted mt-5">সিস্টেম ভার্সন ২.০.২৬ (সম্পূর্ণ অফলাইন ও নিরাপদ)</p>
         </div>
     </div>
 
@@ -274,17 +278,21 @@
                         <div class="row g-2 mb-2">
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">আউট টাইম</label>
-                                <input type="text" id="out_time" class="form-control form-control-sm" value="04:30 pm" placeholder="যেমন: 4:30 pm">
+                                <!-- Updated to Time Type for Clock GUI -->
+                                <input type="time" id="out_time" class="form-control form-control-sm" value="16:30" required>
                             </div>
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">ইন টাইম</label>
-                                <input type="text" id="in_time" class="form-control form-control-sm" value="11:30 pm" placeholder="যেমন: 11:30 pm">
+                                <!-- Updated to Time Type for Clock GUI -->
+                                <input type="time" id="in_time" class="form-control form-control-sm" value="23:30" required>
                             </div>
                         </div>
                         <div class="row g-2 mb-2">
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">শুরু KM (Mileage Out)</label>
                                 <input type="number" id="out_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
+                                <!-- Dynamic Auto Suggestion Hint for Last Saved KM -->
+                                <div id="last-km-hint" class="km-hint" onclick="fillLastKm()">সর্বশেষ শেষ KM: ০</div>
                             </div>
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">শেষ KM (Mileage In)</label>
@@ -471,11 +479,11 @@
                         <div class="row g-2 mb-2">
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">আউট টাইম</label>
-                                <input type="text" id="edit_out_time" class="form-control form-control-sm" required>
+                                <input type="time" id="edit_out_time" class="form-control form-control-sm" required>
                             </div>
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">ইন টাইম</label>
-                                <input type="text" id="edit_in_time" class="form-control form-control-sm" required>
+                                <input type="time" id="edit_in_time" class="form-control form-control-sm" required>
                             </div>
                         </div>
                         <div class="row g-2 mb-2">
@@ -661,9 +669,9 @@
 
         let editModalObj = null;
         let editProfileModalObj = null;
+        let lastInKmValue = 0; // global memory holder for fast tracking mileage out
 
         window.onload = function() {
-            // Load saved profile image from localStorage or set default illustration
             const savedAvatar = localStorage.getItem('user_avatar_base64');
             if(savedAvatar) {
                 document.getElementById('user-avatar').src = savedAvatar;
@@ -673,7 +681,26 @@
             editProfileModalObj = new bootstrap.Modal(document.getElementById('editProfileModal'));
             initDates();
             checkAuthFlow();
+            updateLastKmHint();
         };
+
+        // UI Auto Fetch & Paste Last End KM Mechanisim 
+        function updateLastKmHint() {
+            let bills = JSON.parse(localStorage.getItem('bills')) || [];
+            if(bills.length > 0) {
+                // Sorting to get latest entry by date
+                bills.sort((a, b) => new Date(b.bill_date) - new Date(a.bill_date));
+                lastInKmValue = parseFloat(bills[0].in_km) || 0;
+            } else {
+                lastInKmValue = 0;
+            }
+            document.getElementById('last-km-hint').innerText = `সর্বশেষ শেষ KM: ${lastInKmValue}`;
+        }
+
+        function fillLastKm() {
+            document.getElementById('out_km').value = lastInKmValue;
+            calcKm();
+        }
 
         // Profile Avatar Upload Handler
         function uploadAvatarImage(input) {
@@ -700,6 +727,7 @@
                 syncFridayLeaves();
                 autoExpireLeaves();
                 updateDashboardStats();
+                updateLastKmHint();
             } else {
                 document.getElementById('welcome-screen').style.display = 'block';
             }
@@ -824,6 +852,7 @@
             document.getElementById('tab-' + tabId).classList.add('active');
 
             if(tabId === 'dashboard') updateDashboardStats();
+            if(tabId === 'add-bill') updateLastKmHint();
             if(tabId === 'view-bills') renderBillList();
             if(tabId === 'register') renderRegisterView();
             if(tabId === 'leaves') renderLeavesList();
@@ -833,6 +862,31 @@
             const outKm = parseFloat(document.getElementById('out_km').value) || 0;
             const inKm = parseFloat(document.getElementById('in_km').value) || 0;
             document.getElementById('total_km').value = inKm >= outKm ? inKm - outKm : 0;
+        }
+
+        // Helper Time Converter for 12 hours display layout
+        function convert24To12HourFormat(time24) {
+            if(!time24) return "";
+            let [hours, minutes] = time24.split(':');
+            hours = parseInt(hours);
+            let ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            let strHours = hours < 10 ? '0'+hours : hours;
+            return `${strHours}:${minutes} ${ampm}`;
+        }
+
+        function convert12To24HourFormat(time12) {
+            if(!time12) return "12:00";
+            let val = time12.toLowerCase().trim();
+            let ampm = val.includes('pm') ? 'pm' : 'am';
+            val = val.replace('am','').replace('pm','').trim();
+            let [hours, minutes] = val.split(':');
+            hours = parseInt(hours);
+            if(ampm === 'pm' && hours < 12) hours += 12;
+            if(ampm === 'am' && hours === 12) hours = 0;
+            let sH = hours < 10 ? '0'+hours : hours;
+            return `${sH}:${minutes}`;
         }
 
         function calcEditKm() {
@@ -846,11 +900,15 @@
             let bills = JSON.parse(localStorage.getItem('bills'));
             let user = JSON.parse(localStorage.getItem('user_profile'));
             
+            // Converting 24hr input format to required professional print layout 12hr format
+            let timeOutRaw = document.getElementById('out_time').value;
+            let timeInRaw = document.getElementById('in_time').value;
+
             const newBill = {
                 id: Date.now(),
                 bill_date: document.getElementById('bill_date').value,
-                out_time: document.getElementById('out_time').value,
-                in_time: document.getElementById('in_time').value,
+                out_time: convert24To12HourFormat(timeOutRaw),
+                in_time: convert24To12HourFormat(timeInRaw),
                 out_km: parseFloat(document.getElementById('out_km').value) || 0,
                 in_km: parseFloat(document.getElementById('in_km').value) || 0,
                 total_km: parseFloat(document.getElementById('total_km').value) || 0,
@@ -869,9 +927,11 @@
             bills.push(newBill);
             localStorage.setItem('bills', JSON.stringify(bills));
             syncFridayLeaves();
+            updateLastKmHint();
             
-            Swal.fire('সফল', 'বিল রেকর্ড সেভ হয়েছে!', 'success').then(() => {
+            Swal.fire('সফল', 'বিল记录 সেভ হয়েছে!', 'success').then(() => {
                 document.getElementById('billForm').reset();
+                initDates();
                 switchTab('view-bills');
             });
         }
@@ -916,8 +976,11 @@
             if(target) {
                 document.getElementById('edit_bill_id').value = target.id;
                 document.getElementById('edit_bill_date').value = target.bill_date;
-                document.getElementById('edit_out_time').value = target.out_time || '04:30 pm';
-                document.getElementById('edit_in_time').value = target.in_time || '11:30 pm';
+                
+                // Binding internal values back to HTML Time Input Format 24H
+                document.getElementById('edit_out_time').value = convert12To24HourFormat(target.out_time);
+                document.getElementById('edit_in_time').value = convert12To24HourFormat(target.in_time);
+                
                 document.getElementById('edit_out_km').value = target.out_km || 0;
                 document.getElementById('edit_in_km').value = target.in_km || 0;
                 document.getElementById('edit_total_km').value = target.total_km || 0;
@@ -952,8 +1015,8 @@
                 bills[index] = {
                     id: id,
                     bill_date: newDate,
-                    out_time: document.getElementById('edit_out_time').value,
-                    in_time: document.getElementById('edit_in_time').value,
+                    out_time: convert24To12HourFormat(document.getElementById('edit_out_time').value),
+                    in_time: convert24To12HourFormat(document.getElementById('edit_in_time').value),
                     out_km: parseFloat(document.getElementById('edit_out_km').value) || 0,
                     in_km: parseFloat(document.getElementById('edit_in_km').value) || 0,
                     total_km: parseFloat(document.getElementById('edit_total_km').value) || 0,
@@ -966,6 +1029,7 @@
 
                 localStorage.setItem('bills', JSON.stringify(bills));
                 syncFridayLeaves();
+                updateLastKmHint();
                 editModalObj.hide();
                 
                 Swal.fire('সফল', 'বিল ও DA আপডেট করা হয়েছে!', 'success').then(() => {
@@ -995,6 +1059,7 @@
                     let ids = Array.from(checkedBoxes).map(cb => parseFloat(cb.value));
                     bills = bills.filter(b => !ids.includes(b.id));
                     localStorage.setItem('bills', JSON.stringify(bills));
+                    updateLastKmHint();
                     renderBillList();
                 }
             });
