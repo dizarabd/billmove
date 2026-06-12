@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BillMove - Complete Offline Suite</title>
     
-    <!-- PWA Meta Tags for Mobile App Experience -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="BillMove">
     <meta name="theme-color" content="#e2136e">
     
-    <!-- Favicon Integration -->
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluent/48/000000/wallet.png">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluent/192/000000/wallet.png">
     
-    <!-- Web Manifest for Mobile App Download -->
     <link rel="manifest" id="pwa-manifest">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -78,16 +75,16 @@
 </head>
 <body>
 
-    <!-- PWA Install Prompt (Top Banner Component) -->
+    <input type="file" id="backup-file-picker" accept=".json" style="display:none;" onchange="handleImportBackup(this)">
+
     <div id="pwa-install-banner" class="bg-dark text-white p-2 text-center fixed-top no-print" style="display:none; z-index:2000; top:0; font-size:13px;">
         <span>BillMove অ্যাপটি মোবাইলে ডাউনলোড করুন!</span>
         <button class="btn btn-sm btn-pink ms-2 py-1 px-3" onclick="triggerPWAInstallation()">ডাউনলোড</button>
         <button class="btn btn-sm btn-link text-white p-0 ms-2 text-decoration-none" onclick="document.getElementById('pwa-install-banner').style.display='none'">✕</button>
     </div>
 
-    <!-- ================= ১. প্রথম স্বাগত স্ক্রিন ================= -->
     <div id="welcome-screen" class="auth-screen">
-        <div class="container px-4 text-center" style="padding-top: 100px;">
+        <div class="container px-4 text-center" style="padding-top: 80px;">
             <div class="mb-4">
                 <i class="fa fa-wallet fa-4x text-danger mb-3"></i>
                 <h2 class="fw-bold text-dark">BillMove Suite</h2>
@@ -101,12 +98,14 @@
                 <button onclick="showAuthPage('register')" class="btn btn-outline-pink py-3">
                     <i class="fa fa-user-plus me-2"></i> নতুন রেজিস্ট্রেশন
                 </button>
+                <button onclick="triggerBackupFileSelection()" class="btn btn-secondary py-3 text-white">
+                    <i class="fa fa-upload me-2"></i> ডাটা রিস্টোর করুন (পুরানো ব্যাকআপ ফাইল)
+                </button>
             </div>
-            <p class="small text-muted mt-5">সিস্টেম ভার্সন ২.০.২৬ @Copyright by Abdul Zabbar</p>
+            <p class="small text-muted mt-5">সিস্টেম ভার্সন ২.১.০০ (সম্পূর্ণ অফলাইন ও নিরাপদ)</p>
         </div>
     </div>
 
-    <!-- ================= ২. রেজিস্ট্রেশন স্ক্রিন ================= -->
     <div id="register-screen" class="auth-screen">
         <div class="container px-4">
             <div class="d-flex align-items-center mb-3">
@@ -123,22 +122,22 @@
                     </div>
                     <div class="col-6">
                         <label class="small fw-bold text-muted">এমপ্লয়ী আইডি</label>
-                        <input type="text" id="reg_emp_id" class="form-control" placeholder="230****" required>
+                        <input type="text" id="reg_emp_id" class="form-control" placeholder="2309617" required>
                     </div>
                 </div>
                 <div class="row g-2 mb-2">
                     <div class="col-6">
                         <label class="small fw-bold text-muted">পদবী</label>
-                        <input type="text" id="reg_desig" class="form-control" placeholder="পদবী" required>
+                        <input type="text" id="reg_desig" class="form-control" placeholder="Weaving Scale Assistant" required>
                     </div>
                     <div class="col-6">
                         <label class="small fw-bold text-muted">মোবাইল নম্বর</label>
-                        <input type="tel" id="reg_phone" class="form-control" placeholder="01*********" required>
+                        <input type="tel" id="reg_phone" class="form-control" placeholder="01329743512" required>
                     </div>
                 </div>
                 <div class="mb-2">
                     <label class="small fw-bold text-muted">কোম্পানির নাম</label>
-                    <input type="text" id="reg_company" class="form-control" placeholder="KAZI FARMS LTD." required>
+                    <input type="text" id="reg_company" class="form-control" placeholder="KAZI FARMS GROUP" required>
                 </div>
                 <div class="row g-2 mb-2">
                     <div class="col-6">
@@ -153,11 +152,11 @@
                 <div class="row g-2 mb-2">
                     <div class="col-6">
                         <label class="small fw-bold text-muted">গাড়ির নম্বর</label>
-                        <input type="text" id="reg_veh_no" class="form-control" placeholder="Dhaka METRO-HA-**-****" required>
+                        <input type="text" id="reg_veh_no" class="form-control" placeholder="Dhaka METRO-HA-55-2362" required>
                     </div>
                     <div class="col-6">
                         <label class="small fw-bold text-muted">লাইসেন্স নম্বর</label>
-                        <input type="text" id="reg_lic_no" class="form-control" placeholder="DK11001*********" required>
+                        <input type="text" id="reg_lic_no" class="form-control" placeholder="DK11001875CL0001" required>
                     </div>
                 </div>
                 <div class="row g-2 mb-4">
@@ -179,7 +178,6 @@
         </div>
     </div>
 
-    <!-- ================= ৩. লগইন স্ক্রিন ================= -->
     <div id="login-screen" class="auth-screen">
         <div class="container px-4" style="padding-top: 60px;">
             <div class="d-flex align-items-center mb-4">
@@ -192,7 +190,7 @@
                 <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="mb-4">
                         <label class="small fw-bold text-muted mb-2">এমপ্লয়ী আইডি (Employee ID)</label>
-                        <input type="text" id="login_id" class="form-control" placeholder="যেমন: 230****" required>
+                        <input type="text" id="login_id" class="form-control" placeholder="যেমন: 2309617" required>
                     </div>
                     <button type="submit" class="btn btn-pink w-100 py-2">লগইন করুন</button>
                 </form>
@@ -201,7 +199,6 @@
     </div>
 
 
-    <!-- ================= ৪. মূল অ্যাপ্লিকেশন লেআউট ================= -->
     <div id="app-layout" style="display: none;">
         <div class="bottom-nav no-print">
             <div class="nav-item active" id="tab-dashboard" onclick="switchTab('dashboard')"><i class="fa fa-home"></i>হোম</div>
@@ -212,7 +209,6 @@
             <div class="nav-item" id="tab-download" onclick="switchTab('download')"><i class="fa fa-download"></i>ডাউনলোড</div>
         </div>
 
-        <!-- প্রফেশনাল ড্যাশবোর্ড ট্যাব -->
         <div id="dashboard" class="app-section active-block">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold"><i class="fa fa-rocket me-2"></i>BillMove ড্যাশবোর্ড</h6>
@@ -224,7 +220,6 @@
                         <i class="fa fa-user-edit fs-6"></i>
                     </button>
 
-                    <!-- Profile Avatar Block with Dynamic Upload Feature -->
                     <div class="avatar-wrapper">
                         <img id="user-avatar" class="profile-img" src="https://img.icons8.com/color/96/000000/user-female-circle.png" alt="Owner Profile">
                         <label for="avatar-input" class="avatar-edit-btn" title="ছবি আপলোড করুন">
@@ -236,9 +231,14 @@
                     <h5 class="fw-bold mb-0" id="profile-name">---</h5>
                     <p class="text-muted small mb-0" id="profile-desig">---</p>
                     <span class="badge bg-dark mt-2" id="profile-id">ID: ---</span>
+                    
+                    <div class="mt-3">
+                        <button onclick="triggerBackupFileSelection()" class="btn btn-xs btn-outline-secondary py-1 px-3 style-none" style="font-size:11px;">
+                           <i class="fa fa-upload me-1"></i> ডাটা ফাইল ইনপুট/রিস্টোর করুন
+                        </button>
+                    </div>
                 </div>
                 
-                <!-- প্রফেশনাল ৩টি ৩-কলাম বিশিষ্ট স্ট্যাটাসカード গ্রিড -->
                 <div class="row g-2 mt-3">
                     <div class="col-4">
                         <div class="stat-card-premium">
@@ -265,7 +265,6 @@
             </div>
         </div>
 
-        <!-- বিল এন্ট্রি ট্যাব -->
         <div id="add-bill" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">নতুন বিল যুক্ত করুন</h6></div>
             <div class="container px-3 mt-3">
@@ -278,12 +277,10 @@
                         <div class="row g-2 mb-2">
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">আউট টাইম</label>
-                                <!-- Updated to Time Type for Clock GUI -->
                                 <input type="time" id="out_time" class="form-control form-control-sm" value="16:30" required>
                             </div>
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">ইন টাইম</label>
-                                <!-- Updated to Time Type for Clock GUI -->
                                 <input type="time" id="in_time" class="form-control form-control-sm" value="23:30" required>
                             </div>
                         </div>
@@ -291,7 +288,6 @@
                             <div class="col-6">
                                 <label class="small fw-bold text-muted mb-1">শুরু KM (Mileage Out)</label>
                                 <input type="number" id="out_km" class="form-control form-control-sm" oninput="calcKm()" value="0">
-                                <!-- Dynamic Auto Suggestion Hint for Last Saved KM -->
                                 <div id="last-km-hint" class="km-hint" onclick="fillLastKm()">সর্বশেষ শেষ KM: ০</div>
                             </div>
                             <div class="col-6">
@@ -327,7 +323,6 @@
             </div>
         </div>
 
-        <!-- বিল রিপোর্ট ও ফিল্টার ট্যাব -->
         <div id="view-bills" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট ও ফিল্টার</h6></div>
             <div class="container px-3 mt-2">
@@ -377,7 +372,6 @@
             </div>
         </div>
 
-        <!-- রেজিস্টার ভিউ ট্যাব -->
         <div id="register" class="app-section">
             <div class="header-pink d-flex align-items-center justify-content-between">
                 <h6 class="mb-0 fw-bold">রেজিস্টার ভিউ (খাতা)</h6>
@@ -401,7 +395,6 @@
             </div>
         </div>
 
-        <!-- ছুটি ম্যানেজমেন্ট ট্যাব -->
         <div id="leaves" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">রিপ্লেস ছুটি ম্যানেজমেন্ট</h6></div>
             <div class="container px-3 mt-2">
@@ -433,35 +426,41 @@
             </div>
         </div>
 
-        <!-- ডাউনলোড ট্যাব -->
         <div id="download" class="app-section">
             <div class="header-pink"><h6 class="mb-0 fw-bold">বিল রিপোর্ট জেনারেট</h6></div>
             <div class="container px-3 mt-3">
-                <div class="custom-card text-center py-4">
-                    <i class="fa fa-file-pdf fa-4x text-danger mb-3"></i>
-                    <h6 class="fw-bold">অফলাইন রিপোর্ট প্রিন্ট করুন</h6>
-                    <p class="text-muted small">সরাসরি কোম্পানির কাস্টম ফরম্যাটে প্রিন্ট লেআউট তৈরি করুন</p>
+                <div class="custom-card text-center py-3">
+                    <i class="fa fa-file-pdf fa-3x text-danger mb-2"></i>
+                    <h6 class="fw-bold mb-1">অফলাইন রিপোর্ট প্রিন্ট করুন</h6>
                     
-                    <div class="text-start mb-3">
-                        <label class="form-label small fw-bold text-muted">মাস নির্বাচন করুন</label>
-                        <input type="month" id="download_month" class="form-control">
+                    <div class="text-start mb-2">
+                        <label class="form-label small fw-bold text-muted mb-1">মাস নির্বাচন করুন</label>
+                        <input type="month" id="download_month" class="form-control form-control-sm">
                     </div>
-                    <div class="text-start mb-4">
-                        <label class="form-label small fw-bold text-muted">রিপোর্টের ধরন</label>
-                        <select id="download_report_type" class="form-select">
+                    <div class="text-start mb-3">
+                        <label class="form-label small fw-bold text-muted mb-1">রিপোর্টের ধরন</label>
+                        <select id="download_report_type" class="form-select form-select-sm">
                             <option value="log_sheet">Motor Bike Log Sheet</option>
                             <option value="tada_bill">TA / DA Bill Report</option>
                         </select>
                     </div>
-                    <button class="btn btn-pink w-100 py-3" onclick="triggerReportPrint()">
+                    <button class="btn btn-pink w-100 py-2 btn-sm" onclick="triggerReportPrint()">
                         <i class="fa fa-print me-2"></i> রিপোর্ট ভিউ ও প্রিন্ট করুন
+                    </button>
+                </div>
+
+                <div class="custom-card text-center py-3 border border-dashed border-primary" style="background: #f4f9ff;">
+                    <i class="fa fa-exchange-alt fa-2x text-primary mb-2"></i>
+                    <h6 class="fw-bold mb-1 text-primary">ডিভাইস পরিবর্তন ব্যাকআপ ফাইল</h6>
+                    <p class="text-muted" style="font-size: 11px;">মোবাইল পরিবর্তন করলে আপনার প্রোফাইল ছবি, সমস্ত বিল ও ডাটা ফাইল ডাউনলোড করে নতুন ফোনে রিস্টোর করুন।</p>
+                    <button class="btn btn-primary w-100 py-2 btn-sm rounded-pill fw-bold" onclick="handleExportBackup()">
+                        <i class="fa fa-download me-1"></i> ব্যাকআপ ফাইল ডাউনলোড করুন
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= ৫. বিল এডিট করার বুটস্ট্র্যাপ মোডাল ================= -->
     <div class="modal fade" id="editBillModal" tabindex="-1" aria-labelledby="editBillModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 15px;">
@@ -531,7 +530,6 @@
         </div>
     </div>
 
-    <!-- ================= ৬. ইউজার প্রোফাইল এডিট করার মোডাল ================= -->
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-scrollable">
             <div class="modal-content" style="border-radius: 15px;">
@@ -652,7 +650,7 @@
 
             // Offline Service Worker Code Block
             const swCode = `
-                const CACHE_NAME = 'billmove-v2';
+                const CACHE_NAME = 'billmove-v3';
                 self.addEventListener('install', e => self.skipWaiting());
                 self.addEventListener('fetch', e => {
                     e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
@@ -669,14 +667,10 @@
 
         let editModalObj = null;
         let editProfileModalObj = null;
-        let lastInKmValue = 0; // global memory holder for fast tracking mileage out
+        let lastInKmValue = 0;
 
         window.onload = function() {
-            const savedAvatar = localStorage.getItem('user_avatar_base64');
-            if(savedAvatar) {
-                document.getElementById('user-avatar').src = savedAvatar;
-            }
-            
+            refreshAvatarUI();
             editModalObj = new bootstrap.Modal(document.getElementById('editBillModal'));
             editProfileModalObj = new bootstrap.Modal(document.getElementById('editProfileModal'));
             initDates();
@@ -684,17 +678,89 @@
             updateLastKmHint();
         };
 
-        // UI Auto Fetch & Paste Last End KM Mechanisim 
+        function refreshAvatarUI() {
+            const savedAvatar = localStorage.getItem('user_avatar_base64');
+            if(savedAvatar) {
+                document.getElementById('user-avatar').src = savedAvatar;
+            } else {
+                document.getElementById('user-avatar').src = "https://img.icons8.com/color/96/000000/user-female-circle.png";
+            }
+        }
+
+        // ================= NEW FEATURE: BACKUP DATA SUITE =================
+        function handleExportBackup() {
+            const backupData = {
+                user_profile: JSON.parse(localStorage.getItem('user_profile')),
+                bills: JSON.parse(localStorage.getItem('bills')) || [],
+                leaves: JSON.parse(localStorage.getItem('leaves')) || [],
+                user_avatar_base64: localStorage.getItem('user_avatar_base64') || ""
+            };
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            const todayDate = new Date().toISOString().substring(0, 10);
+            
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `BillMove_Backup_${todayDate}.json`);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+
+            Swal.fire('ডাউনলোড সফল!', 'আপনার ব্যাকআপ ডাটা ফাইলটি সেভ হয়েছে। ডিভাইস পরিবর্তন করলে এই ফাইলটি ইনপুট করতে পারবেন।', 'success');
+        }
+
+        function triggerBackupFileSelection() {
+            document.getElementById('backup-file-picker').click();
+        }
+
+        function handleImportBackup(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const parsedData = JSON.parse(e.target.result);
+                        
+                        if (parsedData.user_profile && Array.isArray(parsedData.bills)) {
+                            localStorage.setItem('user_profile', JSON.stringify(parsedData.user_profile));
+                            localStorage.setItem('bills', JSON.stringify(parsedData.bills));
+                            localStorage.setItem('leaves', JSON.stringify(parsedData.leaves || []));
+                            
+                            if (parsedData.user_avatar_base64) {
+                                localStorage.setItem('user_avatar_base64', parsedData.user_avatar_base64);
+                            } else {
+                                localStorage.removeItem('user_avatar_base64');
+                            }
+
+                            sessionStorage.setItem('isLoggedIn', 'true');
+                            refreshAvatarUI();
+                            checkAuthFlow();
+                            switchTab('dashboard');
+
+                            Swal.fire('ডাটা ইনপুট সফল!', 'আপনার পুরানো ডিভাইসের সকল ডাটা, প্রোফাইল ছবি এবং বিল সাকসেসফুলি রিস্টোর হয়েছে!', 'success');
+                        } else {
+                            Swal.fire('ভুল ফাইল', 'ফাইলটি BillMove এর সঠিক ব্যাকআপ ফরম্যাট নয়!', 'error');
+                        }
+                    } catch (err) {
+                        Swal.fire('ত্রুটি!', 'ফাইলটি পড়তে সমস্যা হয়েছে বা ফাইলটি নষ্ট।', 'error');
+                    }
+                    input.value = ""; // reset picker
+                };
+                reader.readAsText(input.files[0]);
+            }
+        }
+        // ===================================================================
+
         function updateLastKmHint() {
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             if(bills.length > 0) {
-                // Sorting to get latest entry by date
                 bills.sort((a, b) => new Date(b.bill_date) - new Date(a.bill_date));
                 lastInKmValue = parseFloat(bills[0].in_km) || 0;
             } else {
                 lastInKmValue = 0;
             }
-            document.getElementById('last-km-hint').innerText = `সর্বশেষ শেষ KM: ${lastInKmValue}`;
+            if(document.getElementById('last-km-hint')) {
+                document.getElementById('last-km-hint').innerText = `সর্বশেষ শেষ KM: ${lastInKmValue}`;
+            }
         }
 
         function fillLastKm() {
@@ -702,7 +768,6 @@
             calcKm();
         }
 
-        // Profile Avatar Upload Handler
         function uploadAvatarImage(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -739,7 +804,7 @@
                 document.getElementById('welcome-screen').style.display = 'block';
             } else if(pageType === 'login') {
                 if(!localStorage.getItem('user_profile')) {
-                    Swal.fire('কোনো প্রোফাইল নেই!', 'সিস্টেমে আগে একটি প্রোফাইল রেজিস্ট্রেশন করুন।', 'warning');
+                    Swal.fire('কোনো প্রোফাইল নেই!', 'সিস্টেমে আগে একটি প্রোফাইল রেজিস্ট্রেশন করুন বা ফাইল রিস্টোর করুন।', 'warning');
                     document.getElementById('register-screen').style.display = 'block';
                 } else {
                     document.getElementById('login-screen').style.display = 'block';
@@ -791,9 +856,9 @@
 
         function loadUserProfileData(user) {
             if(user) {
-                document.getElementById('profile-name').innerText = user.full_name;
-                document.getElementById('profile-desig').innerText = user.designation;
-                document.getElementById('profile-id').innerText = `ID: ${user.employee_id}`;
+                if(document.getElementById('profile-name')) document.getElementById('profile-name').innerText = user.full_name;
+                if(document.getElementById('profile-desig')) document.getElementById('profile-desig').innerText = user.designation;
+                if(document.getElementById('profile-id')) document.getElementById('profile-id').innerText = `ID: ${user.employee_id}`;
             }
         }
 
@@ -864,14 +929,13 @@
             document.getElementById('total_km').value = inKm >= outKm ? inKm - outKm : 0;
         }
 
-        // Helper Time Converter for 12 hours display layout
         function convert24To12HourFormat(time24) {
             if(!time24) return "";
             let [hours, minutes] = time24.split(':');
             hours = parseInt(hours);
             let ampm = hours >= 12 ? 'pm' : 'am';
             hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
+            hours = hours ? hours : 12;
             let strHours = hours < 10 ? '0'+hours : hours;
             return `${strHours}:${minutes} ${ampm}`;
         }
@@ -900,7 +964,6 @@
             let bills = JSON.parse(localStorage.getItem('bills'));
             let user = JSON.parse(localStorage.getItem('user_profile'));
             
-            // Converting 24hr input format to required professional print layout 12hr format
             let timeOutRaw = document.getElementById('out_time').value;
             let timeInRaw = document.getElementById('in_time').value;
 
@@ -929,7 +992,7 @@
             syncFridayLeaves();
             updateLastKmHint();
             
-            Swal.fire('সফল', 'বিল সেভ হয়েছে!', 'success').then(() => {
+            Swal.fire('সফল', 'বিল记录 সেভ হয়েছে!', 'success').then(() => {
                 document.getElementById('billForm').reset();
                 initDates();
                 switchTab('view-bills');
@@ -977,7 +1040,6 @@
                 document.getElementById('edit_bill_id').value = target.id;
                 document.getElementById('edit_bill_date').value = target.bill_date;
                 
-                // Binding internal values back to HTML Time Input Format 24H
                 document.getElementById('edit_out_time').value = convert12To24HourFormat(target.out_time);
                 document.getElementById('edit_in_time').value = convert12To24HourFormat(target.in_time);
                 
@@ -1156,9 +1218,9 @@
                 totalMoney = taCost + daAndMeals + fixedBikeAllowance;
             }
 
-            document.getElementById('dash-total-km').innerText = totalKm.toFixed(1);
-            document.getElementById('dash-total-money').innerText = `৳${Math.round(totalMoney).toLocaleString('en-IN')}`;
-            document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
+            if(document.getElementById('dash-total-km')) document.getElementById('dash-total-km').innerText = totalKm.toFixed(1);
+            if(document.getElementById('dash-total-money')) document.getElementById('dash-total-money').innerText = `৳${Math.round(totalMoney).toLocaleString('en-IN')}`;
+            if(document.getElementById('dash-active-leaves')) document.getElementById('dash-active-leaves').innerText = leaves.filter(l => l.status === 'Available').length;
         }
 
         function triggerReportPrint() {
